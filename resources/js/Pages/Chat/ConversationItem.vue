@@ -5,7 +5,7 @@
         class="cursor-pointer hover:opacity-80"
     >
         <div
-            class="justify-between p-2 transition ease-in-out delay-25 mx-2 flex my-1 bg-slate-400 hover:scale-105 hover:bg-slate-400 duration-30 rounded-md"
+            class="justify-between p-2 transition ease-in-out delay-25 mx-2 flex my-1 bg-gray-400 hover:scale-105 hover:bg-gray-400 duration-30 rounded-md"
         >
             <div
                 class="overflow-hidden relative w-7 h-7 bg-gray-100 rounded-full dark:bg-gray-600"

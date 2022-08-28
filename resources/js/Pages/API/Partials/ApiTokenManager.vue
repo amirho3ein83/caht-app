@@ -76,9 +76,7 @@ const deleteApiToken = () => {
     <div>
         <!-- Generate API Token -->
         <JetFormSection @submitted="createApiToken">
-            <template #title>
-                Create API Token
-            </template>
+
 
             <template #description>
                 API tokens allow third-party services to authenticate with our application on your behalf.
@@ -86,7 +84,7 @@ const deleteApiToken = () => {
 
             <template #form>
                 <!-- Token Name -->
-                <div class="col-span-6 sm:col-span-4">
+                <div class="col-span-6 sm:col-span-4 mt-2">
                     <JetLabel for="name" value="Name" />
                     <JetInput
                         id="name"
@@ -130,9 +128,7 @@ const deleteApiToken = () => {
             <!-- Manage API Tokens -->
             <div class="mt-10 sm:mt-0">
                 <JetActionSection>
-                    <template #title>
-                        Manage API Tokens
-                    </template>
+
 
                     <template #description>
                         You may delete any of your existing tokens if they are no longer needed.
@@ -172,9 +168,7 @@ const deleteApiToken = () => {
 
         <!-- Token Value Modal -->
         <JetDialogModal :show="displayingToken" @close="displayingToken = false">
-            <template #title>
-                API Token
-            </template>
+
 
             <template #content>
                 <div>
@@ -195,9 +189,6 @@ const deleteApiToken = () => {
 
         <!-- API Token Permissions Modal -->
         <JetDialogModal :show="managingPermissionsFor != null" @close="managingPermissionsFor = null">
-            <template #title>
-                API Token Permissions
-            </template>
 
             <template #content>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -228,9 +219,7 @@ const deleteApiToken = () => {
 
         <!-- Delete Token Confirmation Modal -->
         <JetConfirmationModal :show="apiTokenBeingDeleted != null" @close="apiTokenBeingDeleted = null">
-            <template #title>
-                Delete API Token
-            </template>
+
 
             <template #content>
                 Are you sure you would like to delete this API token?

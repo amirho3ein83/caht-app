@@ -21,8 +21,10 @@
         "vue": "^3.2.31"
     },
     "dependencies": {
+        "@dvuckovic/vue3-bootstrap-icons": "^1.0.5",
+        "bootstrap-icons": "^1.9.1",
         "laravel-echo": "^1.13.1",
-        "pusher-js": "4.3`",
+        "pusher-js": "^7.4.0",
         "vuejs-paginate-next": "^1.0.2"
     }
 }

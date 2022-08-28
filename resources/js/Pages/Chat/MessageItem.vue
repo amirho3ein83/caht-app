@@ -1,6 +1,5 @@
 <template>
-    <div v-if="message.from != $page.props.user" class="chat-message">
-        <div class="flex items-end">
+        <div v-if="message.from != $page.props.user.id"  class="flex items-end">
             <div
                 class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start"
             >
@@ -20,18 +19,15 @@
                 alt="My profile"
                 class="w-6 h-6 rounded-full order-1"
             />
-        </div>
     </div>
-
     <!-- another style for contract -->
-    <div v-else>
-        <div class="flex items-end justify-end">
+        <div v-else class="flex items-end justify-end">
             <div
-                class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end"
+                class="flex flex-col  text-xs max-w-xs mx-2 order-1 items-end"
             >
                 <div>
                     <p
-                        class="px-4 py-2 rounded-lg inline-block rounded-br-none bg-gray-500 text-gray-200"
+                        class=" px-4 py-2 rounded-lg inline-block rounded-br-none bg-gray-500 text-gray-200"
                     >
                         {{ message.text }}
                         <!-- <span
@@ -45,7 +41,6 @@
                 alt="My profile"
                 class="w-6 h-6 rounded-full order-2"
             />
-        </div>
     </div>
 </template>
 

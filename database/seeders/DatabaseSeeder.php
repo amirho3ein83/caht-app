@@ -51,10 +51,9 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         DB::table('messages')->insert([
-            'from' => 6,
+            'from' => 12,
             'to' => 2,
-            'text' => 'afdegbdrnhhn/',
-            'contact_id' => 2,
+            'text' => '!!!!!!!!!!!!!!!!!!',
             'conversation_id' => 1,
         ]);
     }

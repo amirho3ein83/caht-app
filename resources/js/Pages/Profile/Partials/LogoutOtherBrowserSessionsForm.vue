@@ -44,9 +44,7 @@ const closeModal = () => {
 
 <template>
     <JetActionSection>
-        <template #title>
-            Browser Sessions
-        </template>
+
 
         <template #description>
             Manage and log out your active sessions on other browsers and devices.
@@ -124,9 +122,7 @@ const closeModal = () => {
 
             <!-- Log Out Other Devices Confirmation Modal -->
             <JetDialogModal :show="confirmingLogout" @close="closeModal">
-                <template #title>
-                    Log Out Other Browser Sessions
-                </template>
+
 
                 <template #content>
                     Please enter your password to confirm you would like to log out of your other browser sessions across all of your devices.

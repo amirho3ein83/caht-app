@@ -10,9 +10,10 @@ class Message extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['from', 'text', 'conversation_id'];
+    protected $fillable = ['from', 'text', 'conversation_id','to'];
     protected $dates = ['sent_datetime'];
 
+    public $timestamps = false;
     // protected function sentDatetime(): Attribute
     // {
     //     return Attribute::make(

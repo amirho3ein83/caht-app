@@ -78,17 +78,12 @@ const clearPhotoFileInput = () => {
 
 <template>
     <JetFormSection @submitted="updateProfileInformation">
-        <template #title>
-            Profile Information
-        </template>
 
-        <template #description>
-            Update your account's profile information and email address.
-        </template>
+
 
         <template #form>
             <!-- Profile Photo -->
-            <div v-if="$page.props.jetstream.managesProfilePhotos" class="col-span-6 sm:col-span-4">
+            <div v-if="$page.props.jetstream.managesProfilePhotos" >
                 <!-- Profile Photo File Input -->
                 <input
                     ref="photoInput"
@@ -101,11 +96,11 @@ const clearPhotoFileInput = () => {
 
                 <!-- Current Profile Photo -->
                 <div v-show="! photoPreview" class="mt-2">
-                    <img :src="user.profile_photo_url" :alt="user.name" class="rounded-full h-20 w-20 object-cover">
+                    <img :src="user.profile_photo_url" :alt="user.name" class="rounded-full h-17 w-17 object-cover">
                 </div>
 
                 <!-- New Profile Photo Preview -->
-                <div v-show="photoPreview" class="mt-2">
+                <div v-show="photoPreview" class="mt-2 text-center">
                     <span
                         class="block rounded-full w-20 h-20 bg-cover bg-no-repeat bg-center"
                         :style="'background-image: url(\'' + photoPreview + '\');'"
@@ -129,7 +124,7 @@ const clearPhotoFileInput = () => {
             </div>
 
             <!-- Name -->
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-4 mt-2">
                 <JetLabel for="name" value="Name" />
                 <JetInput
                     id="name"
@@ -142,7 +137,7 @@ const clearPhotoFileInput = () => {
             </div>
 
             <!-- Email -->
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-4 mt-2">
                 <JetLabel for="email" value="Email" />
                 <JetInput
                     id="email"

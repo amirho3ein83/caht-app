@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\NewMessage;
+use App\Events\NewChatMessage;
 use App\Models\Message;
 use App\Models\Conversation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ChatController extends Controller
 {
@@ -23,14 +24,15 @@ class ChatController extends Controller
     }
     public function newMessage(Request $request, $id)
     {
-        $newMessage = Message::create([
-            'from' => Auth::user()->email,
-            'to' => $request->contact_mobile,
-            'text' => $request->text,
-            'contact_id' => $request->contact_id,
-            'conversation_id' => $request->conversation_id,
-        ]);
-        broadcast(new NewMessage($newMessage))->toOthers();
+            $newMessage = Message::create([
+                'from' => Auth::id(),
+                'to' => 2,
+                'text' => $request->text,
+                'conversation_id' => $id
+            ]);
+
+
+        broadcast(new NewChatMessage($newMessage))->toOthers();
         return $newMessage;
     }
 }

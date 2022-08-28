@@ -39,16 +39,14 @@ const updatePassword = () => {
 
 <template>
     <JetFormSection @submitted="updatePassword">
-        <template #title>
-            Update Password
-        </template>
+
 
         <template #description>
             Ensure your account is using a long, random password to stay secure.
         </template>
 
         <template #form>
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-4 mt-2">
                 <JetLabel for="current_password" value="Current Password" />
                 <JetInput
                     id="current_password"
@@ -61,7 +59,7 @@ const updatePassword = () => {
                 <JetInputError :message="form.errors.current_password" class="mt-2" />
             </div>
 
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-4 mt-2">
                 <JetLabel for="password" value="New Password" />
                 <JetInput
                     id="password"
@@ -74,7 +72,7 @@ const updatePassword = () => {
                 <JetInputError :message="form.errors.password" class="mt-2" />
             </div>
 
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-4 mt-2">
                 <JetLabel for="password_confirmation" value="Confirm Password" />
                 <JetInput
                     id="password_confirmation"

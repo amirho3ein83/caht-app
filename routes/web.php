@@ -25,13 +25,11 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    $visits = Redis::incr('visits');
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
-        'visits' => $visits,
     ]);
 });
 
@@ -44,8 +42,9 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
     Route::get('/chat', function () {
-        return Inertia::render('Chat/Container',['user' => Auth::id()]);
+        return Inertia::render('Chat/Container',['user' => Auth::user()]);
     })->name('chat');
 
 

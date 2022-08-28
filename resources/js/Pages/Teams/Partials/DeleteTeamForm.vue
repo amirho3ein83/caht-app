@@ -26,9 +26,7 @@ const deleteTeam = () => {
 
 <template>
     <JetActionSection>
-        <template #title>
-            Delete Team
-        </template>
+
 
         <template #description>
             Permanently delete this team.
@@ -47,9 +45,7 @@ const deleteTeam = () => {
 
             <!-- Delete Team Confirmation Modal -->
             <JetConfirmationModal :show="confirmingTeamDeletion" @close="confirmingTeamDeletion = false">
-                <template #title>
-                    Delete Team
-                </template>
+
 
                 <template #content>
                     Are you sure you want to delete this team? Once a team is deleted, all of its resources and data will be permanently deleted.

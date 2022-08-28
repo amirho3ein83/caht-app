@@ -3,6 +3,7 @@
         <input
             v-model="message"
             @keyup.enter="sendMessage()"
+            @keyup="enableButton()"
             type="text"
             placeholder="..."
             class="w-72 focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-md py-2"
@@ -12,7 +13,9 @@
             @click="sendMessage()"
             prevent-scroll
             type="button"
-            class="inline-flex items-center justify-center rounded-lg px-3 py-2 transition duration-500 ease-in-out text-white bg-gray-500 hover:bg-gray-400 focus:outline-none ml-1"
+            :disabled="isDisabled"
+           :class="{ 'hover:bg-gray-600' : !isDisabled }"
+           class="inline-flex items-center justify-center rounded-lg px-3 py-2 transition duration-500 ease-in-out text-white bg-gray-500  focus:outline-none ml-1"
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -40,6 +43,7 @@ export default {
     data: function () {
         return {
             message: "",
+            isDisabled: true,
         };
     },
     props: ["conversation"],
@@ -52,8 +56,7 @@ export default {
                 .post(
                     "/chat/conversation/" + this.conversation.id + "/message",
                     {
-                        message: this.message,
-                        conversation_id: this.conversation.id,
+                        text: this.message,
                     }
                 )
                 .then((response) => {
@@ -66,6 +69,9 @@ export default {
                     console.log(error.messaage);
                 });
         },
+        enableButton(){
+            this.isDisabled = false
+        }
     },
 };
 </script>

@@ -8,6 +8,7 @@ import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
 import axios from "axios";
 import Echo from "laravel-echo";
+import 'bootstrap-icons/font/bootstrap-icons.css'
 
 const appName =
     window.document.getElementsByTagName("title")[0]?.innerText || "Laravel";

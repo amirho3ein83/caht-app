@@ -98,9 +98,7 @@ const displayableRole = (role) => {
 
             <!-- Add Team Member -->
             <JetFormSection @submitted="addTeamMember">
-                <template #title>
-                    Add Team Member
-                </template>
+
 
                 <template #description>
                     Add a new team member to your team, allowing them to collaborate with you.
@@ -114,7 +112,7 @@ const displayableRole = (role) => {
                     </div>
 
                     <!-- Member Email -->
-                    <div class="col-span-6 sm:col-span-4">
+                    <div class="col-span-6 sm:col-span-4 mt-2">
                         <JetLabel for="email" value="Email" />
                         <JetInput
                             id="email"
@@ -185,9 +183,7 @@ const displayableRole = (role) => {
 
             <!-- Team Member Invitations -->
             <JetActionSection class="mt-10 sm:mt-0">
-                <template #title>
-                    Pending Team Invitations
-                </template>
+
 
                 <template #description>
                     These people have been invited to your team and have been sent an invitation email. They may join the team by accepting the email invitation.
@@ -222,9 +218,7 @@ const displayableRole = (role) => {
 
             <!-- Manage Team Members -->
             <JetActionSection class="mt-10 sm:mt-0">
-                <template #title>
-                    Team Members
-                </template>
+ 
 
                 <template #description>
                     All of the people that are part of this team.
@@ -281,9 +275,7 @@ const displayableRole = (role) => {
 
         <!-- Role Management Modal -->
         <JetDialogModal :show="currentlyManagingRole" @close="currentlyManagingRole = false">
-            <template #title>
-                Manage Role
-            </template>
+
 
             <template #content>
                 <div v-if="managingRoleFor">
@@ -343,9 +335,7 @@ const displayableRole = (role) => {
 
         <!-- Leave Team Confirmation Modal -->
         <JetConfirmationModal :show="confirmingLeavingTeam" @close="confirmingLeavingTeam = false">
-            <template #title>
-                Leave Team
-            </template>
+
 
             <template #content>
                 Are you sure you would like to leave this team?
@@ -369,9 +359,7 @@ const displayableRole = (role) => {
 
         <!-- Remove Team Member Confirmation Modal -->
         <JetConfirmationModal :show="teamMemberBeingRemoved" @close="teamMemberBeingRemoved = null">
-            <template #title>
-                Remove Team Member
-            </template>
+
 
             <template #content>
                 Are you sure you would like to remove this person from the team?

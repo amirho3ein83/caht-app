@@ -20,9 +20,7 @@ const createTeam = () => {
 
 <template>
     <JetFormSection @submitted="createTeam">
-        <template #title>
-            Team Details
-        </template>
+
 
         <template #description>
             Create a new team to collaborate with others on projects.
@@ -44,7 +42,7 @@ const createTeam = () => {
                 </div>
             </div>
 
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-4 mt-2">
                 <JetLabel for="name" value="Team Name" />
                 <JetInput
                     id="name"

@@ -77,9 +77,7 @@ const closeModal = () => {
         </span>
 
         <JetDialogModal :show="confirmingPassword" @close="closeModal">
-            <template #title>
-                {{ title }}
-            </template>
+
 
             <template #content>
                 {{ content }}

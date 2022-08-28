@@ -26,9 +26,7 @@ const updateTeamName = () => {
 
 <template>
     <JetFormSection @submitted="updateTeamName">
-        <template #title>
-            Team Name
-        </template>
+
 
         <template #description>
             The team's name and owner information.
@@ -52,7 +50,7 @@ const updateTeamName = () => {
             </div>
 
             <!-- Team Name -->
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-4 mt-2">
                 <JetLabel for="name" value="Team Name" />
 
                 <JetInput
