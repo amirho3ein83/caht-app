@@ -21,7 +21,7 @@
             <div class="flex flex-col leading-tight">
                 <div class="text-2xl mt-1 flex items-center">
                     <span class="text-gray-100 mr-3"
-                        >{{ second_contact }}
+                        >{{ second_contact.name }}
                     </span>
                 </div>
                 <span v-if="second_contact.status" class="text-sm text-gray-100"

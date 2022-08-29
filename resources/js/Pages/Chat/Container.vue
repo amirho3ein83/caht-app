@@ -17,7 +17,7 @@
                 class="bg-gradient-to-b from-gray-700 to-gray-600 py-5 w-60 my-0 flex-col align-center"
             >
                 <UserInfo />
-                <ContactSearchbox />
+                <ContactSearchbox v-on:filter="getConversations($event)"/>
 
                 <ConversationItem
                     v-for="conversation in conversations"
@@ -92,9 +92,9 @@ export default {
         disconenct(conversation) {
             window.Echo.leave("chat." + conversation.id);
         },
-        getConversations() {
+        getConversations(filter) {
             axios
-                .get(route("conversations"))
+                .get(route("conversations",{search:filter}))
                 .then((response) => {
                     this.conversations = response.data;
                     this.setConversation(response.data[0]);
@@ -127,7 +127,7 @@ export default {
                 : this.currentConversation.group_members[1];
 
             if (
-                (this.current_contact =
+                (this.current_contact ==
                     this.currentConversation.group_members[0])
             ) {
                 this.second_contact = this.currentConversation.group_members[1] ?? this.currentConversation.name;

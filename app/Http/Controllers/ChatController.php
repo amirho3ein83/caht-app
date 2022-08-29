@@ -12,9 +12,13 @@ use Illuminate\Support\Facades\Log;
 
 class ChatController extends Controller
 {
-    public function conversations()
+    public function conversations(Request $request)
     {
-        return Conversation::with(['messages', 'groupMembers'])->get();
+        $conversation = Conversation::query()->when($request->search, function ($q, $search) {
+            $q->where('name', 'like', "{$search}%");
+        })
+            ->with(['messages', 'groupMembers'])->get();
+        return $conversation;
     }
 
     public function messages(Request $request, $id)
@@ -27,7 +31,7 @@ class ChatController extends Controller
     {
         Log::info($id);
         return Contact::where('id', $id)
-        ->get();
+            ->get();
     }
     public function newMessage(Request $request, $id)
     {

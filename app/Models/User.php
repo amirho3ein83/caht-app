@@ -67,6 +67,6 @@ class User extends Authenticatable
 
     public function getProfileAttribute()
     {
-        return url('storage/ss.jpg');
+        return url('storage/profile-photos/ss.jpg');
     }
 }

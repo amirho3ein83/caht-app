@@ -1,7 +1,7 @@
 <template>
-        <div v-if="message.from != $page.props.user.id"  class="flex items-end">
+        <div v-if="message.from != $page.props.user.id"  class="flex items-end m-2">
             <div
-                class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start"
+                class=" flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start"
             >
                 <div>
                     <p
@@ -21,7 +21,7 @@
             />
     </div>
     <!-- another style for contract -->
-        <div v-else class="flex items-end justify-end">
+        <div v-else class="flex items-end justify-end m-2">
             <div
                 class="flex flex-col  text-xs max-w-xs mx-2 order-1 items-end"
             >

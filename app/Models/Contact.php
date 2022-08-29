@@ -9,7 +9,7 @@ class Contact extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id','name'];
+    protected $fillable = ['user_id', 'name'];
 
     protected $appends = [
         'profile',
@@ -22,6 +22,6 @@ class Contact extends Model
 
     public function getProfileAttribute()
     {
-        return url('storage/ss.jpg');
+        return url('storage/profile-photos/ss.jpg');
     }
 }
