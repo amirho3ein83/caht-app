@@ -20,7 +20,8 @@
             </svg>
         </div>
         <input
-            type="search"
+        @keyup="filter()"
+            v-model="search"
             id="default-search"
             class="block p-2 mb-4 pl-10 w-full text-sm text-gray-900 bg-gray-100 border border-gray-300 focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500"
             placeholder="Search Contacts"
@@ -32,7 +33,17 @@
 <script>
 
 
-export default {
 
+export default {
+    data: function () {
+        return {
+            search: [],
+        };
+    },
+    methods:{
+        filter(){
+            this.$emit('filter',this.search)
+        }
+    }
 };
 </script>

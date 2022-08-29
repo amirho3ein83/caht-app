@@ -105,6 +105,9 @@ export default {
     DropdownLink,
     
 },
-
+methods: {
+        logout() {
+            axios.post(route("logout"));
+        }}
 };
 </script>
