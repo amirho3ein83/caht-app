@@ -11,26 +11,26 @@ import { Inertia } from "@inertiajs/inertia";
 let props = defineProps({});
 
 const form = useForm({
-    'name':'',
-    'email':'',
-    'password':''
-})
+    name: "",
+    email: "",
+    password: "",
+});
 
-const createUser = ()=>{
-    form.post(route('users.store', {
-        errorBag: 'createTeam',
-        preserveScroll: true,
-    }))
-}
-
+const createUser = () => {
+    form.post(
+        route("users.store", {
+            errorBag: "createTeam",
+            preserveScroll: true,
+        })
+    );
+};
 </script>
 <template>
     <AppLayout title="users">
-
-
         <div class="w-full max-w-xs mx-auto my-6">
-            <form class="bg-white shadow-md rounded-2xl px-8 pt-6 pb-8 mb-4" 
-            @submitted="createUser"
+            <form
+                class="bg-gradient-to-b from-gray-300 via-gray-400 to-gray-500shadow-md rounded-2xl px-8 pt-6 pb-8 mb-4"
+                @submitted="createUser"
             >
                 <div class="mb-4">
                     <label
@@ -40,7 +40,7 @@ const createUser = ()=>{
                         name
                     </label>
                     <input
-                        class=" rounded w-full py-2 px-3 text-gray-700 border-none"
+                        class="rounded w-full py-2 px-3 text-gray-700 border-none"
                         id="name"
                         type="text"
                     />
@@ -53,7 +53,7 @@ const createUser = ()=>{
                         email
                     </label>
                     <input
-                        class=" rounded w-full py-2 px-3 text-gray-700 border-none"
+                        class="rounded w-full py-2 px-3 text-gray-700 border-none"
                         id="email"
                         type="email"
                     />
@@ -79,7 +79,7 @@ const createUser = ()=>{
                         Sign In
                     </button>
                     <a
-                        class="transition ease-in delay-25 hover:scale-105 "
+                        class="transition ease-in delay-25 hover:scale-105"
                         href="#"
                     >
                         Forgot Password?

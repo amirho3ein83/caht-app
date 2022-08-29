@@ -6,7 +6,7 @@
             @keyup="enableButton()"
             type="text"
             placeholder="..."
-            class="w-72 focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-md py-2"
+            class="w-72 focus:outline-none  text-gray-600 0 pl-12 bg-gray-200 focus:ring focus:ring-gray-600 rounded-md py-2"
         />
 
         <button

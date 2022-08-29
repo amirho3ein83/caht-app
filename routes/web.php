@@ -50,14 +50,15 @@ Route::middleware([
 
     Route::get('/chat/conversations', [ChatController::class, 'conversations'])->name('conversations');
 
+    Route::get('/contact/{id}', [ChatController::class, 'getContact'])->name('getContact');
     Route::get('/chat/conversation/{id}/messages', [ChatController::class, 'messages'])->name('conversation.messages');
     Route::post('/chat/conversation/{id}/message', [ChatController::class, 'newMessage'])->name('sendMessage');
 });
 
 
 Route::resource('users', UserController::class);
-// Route::get('ooo', function(){
-//     return Inertia::render('ooo', [
-//         'message' => 'adfdc',
-//     ]);
-// });
+Route::get('ooo', function(){
+    return view('ooo', [
+        'your_user_profile' => 'adfdc',
+    ]);
+});

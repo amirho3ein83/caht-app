@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\NewChatMessage;
+use App\Models\Contact;
 use App\Models\Message;
 use App\Models\Conversation;
 use Illuminate\Http\Request;
@@ -22,14 +23,20 @@ class ChatController extends Controller
             ->latest('sent_datetime')
             ->get();
     }
+    public function getContact($id)
+    {
+        Log::info($id);
+        return Contact::where('id', $id)
+        ->get();
+    }
     public function newMessage(Request $request, $id)
     {
-            $newMessage = Message::create([
-                'from' => Auth::id(),
-                'to' => 2,
-                'text' => $request->text,
-                'conversation_id' => $id
-            ]);
+        $newMessage = Message::create([
+            'from' => Auth::id(),
+            'to' => 2,
+            'text' => $request->text,
+            'conversation_id' => $id
+        ]);
 
 
         broadcast(new NewChatMessage($newMessage))->toOthers();
