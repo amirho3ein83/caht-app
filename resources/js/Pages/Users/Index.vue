@@ -7,8 +7,8 @@ import NavLink from "../../../../vendor/laravel/jetstream/stubs/inertia/resource
 import { ref } from "@vue/reactivity";
 import { watch } from "@vue/runtime-core";
 import { Inertia } from "@inertiajs/inertia";
-import debounce from 'lodash/debounce'
-import throttle from 'lodash/throttle'
+import debounce from "lodash/debounce";
+import throttle from "lodash/throttle";
 
 let props = defineProps({
     users: Object,
@@ -17,20 +17,23 @@ let props = defineProps({
 
 let search = ref(props.filters.search);
 
-watch(search, throttle(function(value) {
-    Inertia.get(route("users.index"),
-     { search: value },
-     {
-        preserveState:true,
-        replace:true
-        });
-},300));
+watch(
+    search,
+    throttle(function (value) {
+        Inertia.get(
+            route("users.index"),
+            { search: value },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
+    }, 300)
+);
 </script>
 <template>
     <AppLayout title="users">
-
-
-        <div class="py-12 mx-3 ">
+        <div class="py-12 mx-3">
             <form>
                 <div class="justify-end relative">
                     <input
@@ -74,7 +77,7 @@ watch(search, throttle(function(value) {
                                     <tr
                                         v-for="user in users.data"
                                         :key="user.id"
-                                        class="bg-white border-b"
+                                        class="bg-gradient-to-b from-gray-300 via-gray-400 to-gray-500border-b"
                                     >
                                         <td
                                             v-text="user.name"
@@ -95,7 +98,7 @@ watch(search, throttle(function(value) {
                 <!-- <NavLink
                     :href="users.prev_page_url"
                     preserve-scroll
-                    class="mr-3 inline-flex items-center py-1 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-300 hover:bg-gray-300 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                    class="mr-3 inline-flex items-center py-1 px-3 text-sm font-medium text-gray-500 bg-gradient-to-b from-gray-300 via-gray-400 to-gray-500rounded-lg border border-gray-300 hover:bg-gray-300 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                     Previous
                 </NavLink>
@@ -108,7 +111,7 @@ watch(search, throttle(function(value) {
                 <NavLink
                     :href="users.next_page_url"
                     preserve-scroll
-                    class="inline-flex items-center py-1 px-3 ml-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-300 hover:bg-gray-300 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                    class="inline-flex items-center py-1 px-3 ml-3 text-sm font-medium text-gray-500 bg-gradient-to-b from-gray-300 via-gray-400 to-gray-500rounded-lg border border-gray-300 hover:bg-gray-300 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                     Next
                 </NavLink> -->

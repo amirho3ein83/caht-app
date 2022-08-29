@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('group_members', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('status');
             $table->foreignId('contact_id')->nullable()->constrained();
             $table->foreignId('conversation_id')->nullable()->constrained();
             $table->timestamp('joined_datetime')->nullable();

@@ -4,7 +4,9 @@ import JetApplicationLogo from "@/Components/ApplicationLogo.vue";
 
 <template>
     <div>
-        <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
+        <div
+            class="p-6 sm:px-20 bg-gradient-to-b from-gray-300 via-gray-400 to-gray-500border-b border-gray-200"
+        >
             <div>
                 <JetApplicationLogo class="block h-12 w-auto" />
             </div>

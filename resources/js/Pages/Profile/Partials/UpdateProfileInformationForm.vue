@@ -92,11 +92,10 @@ const clearPhotoFileInput = () => {
                     @change="updatePhotoPreview"
                 >
 
-                <JetLabel for="photo" value="Photo" />
 
                 <!-- Current Profile Photo -->
-                <div v-show="! photoPreview" class="mt-2">
-                    <img :src="user.profile_photo_url" :alt="user.name" class="rounded-full h-17 w-17 object-cover">
+                <div v-show="! photoPreview" class="mt-2 flex justify-center ">
+                    <img :src="user.profile_photo_url" :alt="user.name" class="rounded-full h-20 w-20 object-cover">
                 </div>
 
                 <!-- New Profile Photo Preview -->
@@ -107,7 +106,7 @@ const clearPhotoFileInput = () => {
                     />
                 </div>
 
-                <JetSecondaryButton class="mt-2 mr-2" type="button" @click.prevent="selectNewPhoto">
+                <JetSecondaryButton class="mt-2 mr-2 mb-5" type="button" @click.prevent="selectNewPhoto">
                     Select A New Photo
                 </JetSecondaryButton>
 

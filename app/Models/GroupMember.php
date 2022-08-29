@@ -9,6 +9,12 @@ class GroupMember extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['contact_id', 'conversation_id', 'joined_datetime', 'left_datetime'];
+    protected $fillable = ['status','contact_id','name', 'conversation_id', 'joined_datetime', 'left_datetime'];
     protected $dates = ['joined_datetime', 'left_datetime'];
+
+
+    public function contact()
+    {
+        return $this->hasOne(Contact::class);
+    }
 }

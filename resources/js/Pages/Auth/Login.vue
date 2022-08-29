@@ -74,7 +74,7 @@ const submit = () => {
                         v-model:checked="form.remember"
                         name="remember"
                     />
-                    <span class="ml-2 text-sm text-gray-600">Remember me</span>
+                    <span class="ml-2 text-sm text-gray-200">Remember me</span>
                 </label>
             </div>
 
@@ -83,21 +83,21 @@ const submit = () => {
                     <Link
                         v-if="canResetPassword"
                         :href="route('password.request')"
-                        class="underline text-sm text-gray-600 hover:text-gray-900"
+                        class="underline text-sm text-gray-300 hover:text-gray-100"
                     >
                         Forgot your password?
                     </Link>
                     <Link
                         v-if="canResetPassword"
                         :href="route('register')"
-                        class="underline text-sm text-gray-600 hover:text-gray-900"
+                        class="underline text-sm text-gray-300 hover:text-gray-100"
                     >
                         haven't registered yet?
                     </Link>
                 </div>
-                <div>
+                <div class="flex justify-center">
                     <JetButton
-                        class="ml-4"
+                        class="m-4"
                         :class="{ 'opacity-25': form.processing }"
                         :disabled="form.processing"
                     >
