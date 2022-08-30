@@ -11,9 +11,7 @@
     </div>
 
 </div>
-<div v-if="currentConversation.length === 0" class="mx-auto mb-5">
-           <h3 class="text-slate-900">Please choose one conversation</h3>
-</div>
+
 
 
 </template>
