@@ -5,8 +5,7 @@
                 class="p:2 sm:py-4 justify-between flex flex-col h-screen max-w-2xl my-0 bg-gradient-to-b from-gray-400 via-gray-500 to-gray-600"
             >
                 <ContactDetails :second_contact="second_contact" />
-
-                <MessageContainer :messages="messages" />
+                <MessageContainer :currentConversation="currentConversation" :messages="messages" />
                 <InputMessage
                     :conversation="currentConversation"
                     v-on:messagesent="getMessages()"
@@ -23,7 +22,6 @@
                     v-for="conversation in conversations"
                     :key="conversation"
                     :conversation="conversation"
-                    :currentConversation="currentConversation"
                     v-on:roomChanged="setConversation($event)"
                 />
             </div>
@@ -42,6 +40,7 @@ import ContactDetails from "./ContactDetails.vue";
 import MessageContainer from "./MessageContainer.vue";
 import UserInfo from "./UserInfo.vue";
 import ContactSearchbox from "./ContactSearchbox.vue";
+import AddContactForm from "./AddContactForm.vue";
 
 export default {
     props: ["user"],
@@ -54,7 +53,8 @@ export default {
     Link,
     ContactDetails,
     UserInfo,
-    ContactSearchbox
+    ContactSearchbox,
+    AddContactForm,
 },
     data: function () {
         return {
@@ -97,7 +97,7 @@ export default {
                 .get(route("conversations",{search:filter}))
                 .then((response) => {
                     this.conversations = response.data;
-                    this.setConversation(response.data[0]);
+                    // this.setConversation(response.data[0]);
                 })
                 .catch((error) => {
                     console.log(error);

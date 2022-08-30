@@ -27,6 +27,15 @@ class ChatController extends Controller
             ->latest('sent_datetime')
             ->get();
     }
+
+    public function addContact(Request $request)
+    {
+        Contact::create([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+    }
+
     public function getContact($id)
     {
         Log::info($id);
