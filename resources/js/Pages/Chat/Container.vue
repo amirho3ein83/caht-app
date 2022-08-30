@@ -2,28 +2,21 @@
     <AppLayout title="Chat">
         <div class="flex mx-auto justify-center">
             <div
-                class="p:2 sm:py-4 justify-between flex flex-col h-screen max-w-2xl my-0 bg-gradient-to-b from-gray-400 via-gray-500 to-gray-600"
-            >
-                <ContactDetails :second_contact="second_contact" />
+                class="p:2 sm:py-4 justify-between flex flex-col h-screen max-w-2xl my-0 bg-gradient-to-b from-gray-400 via-gray-500 to-gray-600">
+                <ContactDetails :second_contact="second_contact" v-if="second_contact.length !== 0" />
+                <div v-else class="mx-auto mb-5">
+                    <h3 class="text-slate-900">Please choose one conversation</h3>
+                </div>
                 <MessageContainer :currentConversation="currentConversation" :messages="messages" />
-                <InputMessage
-                    :conversation="currentConversation"
-                    v-on:messagesent="getMessages()"
-                />
+                <InputMessage :conversation="currentConversation" v-on:messagesent="getMessages()" />
             </div>
             <div></div>
-            <div
-                class="bg-gradient-to-b from-gray-700 to-gray-600 py-5 w-60 my-0 flex-col align-center"
-            >
+            <div class="bg-gradient-to-b from-gray-700 to-gray-600 py-5 w-60 my-0 flex-col align-center">
                 <UserInfo />
-                <ContactSearchbox v-on:filter="getConversations($event)"/>
+                <ContactSearchbox v-on:filter="getConversations($event)" />
 
-                <ConversationItem
-                    v-for="conversation in conversations"
-                    :key="conversation"
-                    :conversation="conversation"
-                    v-on:roomChanged="setConversation($event)"
-                />
+                <ConversationItem v-for="conversation in conversations" :key="conversation" :conversation="conversation"
+                    v-on:roomChanged="setConversation($event)" />
             </div>
         </div>
     </AppLayout>
@@ -45,17 +38,17 @@ import AddContactForm from "./AddContactForm.vue";
 export default {
     props: ["user"],
     components: {
-    AppLayout,
-    MessageContainer,
-    ConversationItem,
-    InputMessage,
-    MessageItem,
-    Link,
-    ContactDetails,
-    UserInfo,
-    ContactSearchbox,
-    AddContactForm,
-},
+        AppLayout,
+        MessageContainer,
+        ConversationItem,
+        InputMessage,
+        MessageItem,
+        Link,
+        ContactDetails,
+        UserInfo,
+        ContactSearchbox,
+        AddContactForm,
+    },
     data: function () {
         return {
             conversations: [],
@@ -94,7 +87,7 @@ export default {
         },
         getConversations(filter) {
             axios
-                .get(route("conversations",{search:filter}))
+                .get(route("conversations", { search: filter }))
                 .then((response) => {
                     this.conversations = response.data;
                     // this.setConversation(response.data[0]);
@@ -110,8 +103,8 @@ export default {
             axios
                 .get(
                     "/chat/conversation/" +
-                        this.currentConversation.id +
-                        "/messages"
+                    this.currentConversation.id +
+                    "/messages"
                 )
                 .then((response) => {
                     this.messages = response.data;
