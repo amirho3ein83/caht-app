@@ -53,6 +53,8 @@ Route::middleware([
     Route::get('/contact/{id}', [ChatController::class, 'getContact'])->name('getContact');
     Route::get('/chat/conversation/{id}/messages', [ChatController::class, 'messages'])->name('conversation.messages');
     Route::post('/chat/conversation/{id}/message', [ChatController::class, 'newMessage'])->name('sendMessage');
+
+    Route::post('/contact', [ChatController::class, 'addContact'])->name('addContact');
 });
 
 

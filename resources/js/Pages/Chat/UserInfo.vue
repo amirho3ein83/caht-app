@@ -2,12 +2,8 @@
     <div
         class="pb-3 justify-around relative flex flex-col items-center space-x-4"
     >
-        <!-- <div class="flex leading-tight">
-                        <i
-                            class="text-slate-50 bi bi-person-lines-fill"
-                            style="font-size: 25px"
-                        ></i>
-                    </div> -->
+        <AddContactForm v-if="showContactForm" v-on:modalClosed="toggleModal()"/>
+
         <!-- Settings Dropdown -->
         <div class="ml-3 relative">
             <Dropdown align="right" width="48">
@@ -55,7 +51,7 @@
                                 </div> -->
 
                     <DropdownLink :href="route('profile.show')">
-                        <div class="flex justify-around">
+                        <div class="flex justify-between">
                             Profile
                             <i
                                 class="bi bi-person-circle"
@@ -63,6 +59,19 @@
                             ></i>
                         </div>
                     </DropdownLink>
+
+                    <button
+                        @click="toggleModal()"
+                        class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 text-left hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition"
+                    >
+                        <div class="flex justify-between">
+                            Add Contact
+                            <i
+                                style="font-size: 22px"
+                                class="bi bi-person-plus-fill"
+                            ></i>
+                        </div>
+                    </button>
 
                     <DropdownLink
                         v-if="$page.props.jetstream.hasApiFeatures"
@@ -76,7 +85,7 @@
                     <!-- Authentication -->
                     <form @submit="logout">
                         <DropdownLink as="button">
-                            <div class="flex justify-around">
+                            <div class="flex justify-between">
                                 Logout
                                 <i
                                     class="text-red-600 bi bi-box-arrow-right"
@@ -95,19 +104,28 @@
 </template>
 
 <script>
-
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
+import AddContactForm from "./AddContactForm.vue";
 
 export default {
+    data() {
+        return {
+            showContactForm: false,
+        };
+    },
     components: {
-    Dropdown,
-    DropdownLink,
-    
-},
-methods: {
+        Dropdown,
+        DropdownLink,
+        AddContactForm,
+    },
+    methods: {
         logout() {
             axios.post(route("logout"));
-        }}
+        },
+        toggleModal() {
+            this.showContactForm = !this.showContactForm;
+        },
+    },
 };
 </script>

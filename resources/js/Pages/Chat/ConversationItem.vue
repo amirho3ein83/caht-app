@@ -1,7 +1,6 @@
 <template>
     <a
         @click="$emit('roomChanged', conversation)"
-        :class="{ 'bg-gray-300': currentConversation == conversation }"
         class="cursor-pointer hover:opacity-80"
     >
         <div
@@ -25,6 +24,6 @@
 
 <script>
 export default {
-    props: ["conversation", "currentConversation"],
+    props: ["conversation"],
 };
 </script>
