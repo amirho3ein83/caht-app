@@ -2,7 +2,7 @@
     <div
         class="pb-3 justify-around relative flex flex-col items-center space-x-4"
     >
-        <AddContactForm v-if="showContactForm" v-on:modalClosed="toggleModal()"/>
+        <AddContactForm :userId="userId" v-if="showContactForm" v-on:modalClosed="toggleModal()"/>
 
         <!-- Settings Dropdown -->
         <div class="ml-3 relative">
@@ -112,6 +112,7 @@ export default {
     data() {
         return {
             showContactForm: false,
+            userId: this.$page.props.user.id,
         };
     },
     components: {

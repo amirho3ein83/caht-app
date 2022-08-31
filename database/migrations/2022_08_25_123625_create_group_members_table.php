@@ -16,11 +16,12 @@ return new class extends Migration
         Schema::create('group_members', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('status');
+            $table->boolean('is_online')->default(0);
             $table->foreignId('contact_id')->nullable()->constrained();
             $table->foreignId('conversation_id')->nullable()->constrained();
-            $table->timestamp('joined_datetime')->nullable();
-            $table->timestamp('left_datetime')->nullable();
+            $table->timestamp('last_status_at')->nullable();
+            // $table->timestamp('joined_datetime')->nullable();
+            // $table->timestamp('left_datetime')->nullable();
         });
     }
 

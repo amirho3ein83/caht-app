@@ -32,11 +32,3 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
      forceTLS: true
  });
 
-//  window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: import.meta.env.VITE_PUSHER_APP_KEY,
-//     wsHost: window.location.hostname,
-//     wsPort: 6001,
-//     disableStats: true,
-//     forceTLS: false // Critical if you want to use a non-secure WebSocket connection
-// });

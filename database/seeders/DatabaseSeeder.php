@@ -6,7 +6,9 @@ namespace Database\Seeders;
 
 use App\Models\Contact;
 use App\Models\Conversation;
+use App\Models\GroupMember;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -21,62 +23,89 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\User::factory(5)->create();
-
-        \App\Models\User::factory()->create([
-            'name' => 'Amirhossein',
-            'email' => 'amir@gmail.com',
-            'password' => Hash::make('11111111'),
-        ]);
-        // \App\Models\User::factory()->create([
-        //     'name' => 'mamad',
-        //     'email' => 'mamad@example.com',
-        // ]);
-        // \App\Models\User::factory()->create([
-        //     'name' => 'reza',
-        //     'email' => 'reza@example.com',
-        // ]);
-
         // $this->call([
-            // ConversationSeeder::class,
-            // ContactSeeder::class,
-            // MessageSeeder::class,
+        // ConversationSeeder::class,
+        // ContactSeeder::class,
+        // MessageSeeder::class,
         // ]);
 
-        $statuses = ['online', 'offline'];
-        $names = ['julia', 'Katy','Sasan', 'John','Sina','Hana'];
-        for ($i = 1; $i < 6; $i++){
+        //         \App\Models\User::factory()->create([
+        //     'name' => 'Amirhossein',
+        //     'email' => 'amir@gmail.com',
+        //     'password' => Hash::make('11111111'),
+        // ]);
+
+        // $user = User::factory()->create();
+
+        // $contact = Contact::create([
+        //     'user_id' => $user->id,
+        //     'name' => $user->name
+        // ]);
 
 
-            $contact = Contact::factory()->create([
-                'user_id' => $i,
-                'name' => $names[$i]
-            ]);
-
-            $conversation = Conversation::factory()->create([
-                'name' => $contact->name
-            ]);
 
 
-            $group_members = DB::table('group_members')->insert([
-                'contact_id' => $contact->id,
-                'name' => $contact->name,
-                'status' => $statuses[rand(0, 1)],
-                'conversation_id' => $conversation->id,
-            ]);
 
-            Message::factory()->create([
-                'from' =>rand(1,5),
-                'to' => 6,
-                'text' => Str::random(11),
-                'conversation_id' => $conversation->id,
-            ]);
-            Message::factory()->create([
-                'from' =>6,
-                'to' => rand(1,5),
-                'text' => Str::random(24),
-                'conversation_id' => $conversation->id,
-            ]);
-        }
-    }
+
+        // GroupMember::create([
+        //     'contact_id' => $contact->id,
+        //     'name' => $contact->name,
+        //     'is_online' => rand(0, 1),
+        //     'conversation_id' => 1,
+        // ]);
+        // for ($i = 0; $i < 5; $i++) {
+        //     Message::factory()->create([
+        //         'from' => rand(2, 9),
+        //         'to' => 1,
+        //         'text' => Str::random(11),
+        //         'conversation_id' => 1,
+        //     ]);
+        // }
+
+
+//         \App\Models\User::factory()->create([
+//             'name' => 'Amirhossein',
+//             'email' => 'amir@gmail.com',
+//             'password' => Hash::make('11111111'),
+//         ]);
+//         Contact::create([
+//             'user_id' => 1,
+//             'name' => 'Amirhossein'
+//         ]);
+
+//         for ($i = 2; $i < 12; $i++) {
+
+//             $user = User::factory()->create();
+
+
+//             $contact = Contact::create([
+//                 'user_id' => $user->id,
+//                 'name' => $user->name
+//             ]);
+
+
+//             $conversation = Conversation::create([
+//                 'name' => $contact->name
+//             ]);
+
+
+
+//             $group_member = $conversation->groupMembers()->create([
+//                 'contact_id' => $contact->id,
+//                 'name' => $contact->name,
+//                 'is_online' => rand(0, 1),
+//                 'conversation_id' => $conversation->id,
+//             ]);
+//             for ($i = 0; $i < 5; $i++) {
+//                 Message::factory()->create([
+//                     'from' => $group_member->id,
+//                     'to' => 1,
+//                     'text' => Str::random(11),
+//                     'conversation_id' => $conversation->id,
+//                 ]);
+//             }
+
+
+//         }
+//     }
 }

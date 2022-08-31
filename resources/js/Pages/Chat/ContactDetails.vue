@@ -9,11 +9,11 @@
                     />
 
                     <div
-                        v-if="second_contact.status == `online`"
+                        v-if="second_contact.is_online "
                         class="absolute button-0 right-0 -mr-0 -mt-4 w-4 h-4 rounded-full bg-green-400 animate-ping"
                     ></div>
                     <div
-                        v-if="second_contact.status == `online`"
+                        v-if="second_contact.is_online "
                         class="absolute button-0 right-0 -mr-0 -mt-4 w-4 h-4 rounded-full bg-green-400"
                     ></div>
                 </div>
@@ -24,8 +24,8 @@
                         >{{ second_contact.name }}
                     </span>
                 </div>
-                <span v-if="second_contact.status" class="text-sm text-gray-100"
-                    >{{ second_contact.status }}
+                <span v-if="second_contact.is_online" class="text-sm text-gray-100"
+                    >online
                 </span>
             </div>
         </div>

@@ -20,6 +20,16 @@ class Contact extends Model
         return $this->hasOne(User::class);
     }
 
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+
+    public function conversations()
+    {
+        return $this->hasMany(Conversation::class);
+    }
+
     public function getProfileAttribute()
     {
         return url('storage/profile-photos/ss.jpg');
