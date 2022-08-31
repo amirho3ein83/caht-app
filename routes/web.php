@@ -55,6 +55,9 @@ Route::middleware([
     Route::post('/chat/conversation/{id}/message', [ChatController::class, 'newMessage'])->name('sendMessage');
 
     Route::post('/contact', [ChatController::class, 'addContact'])->name('addContact');
+
+    Route::post('/member/{id}/online', [ChatController::class, 'onlineContact'])->name('onlineContact');
+    Route::post('/member/{id}/offline', [ChatController::class, 'offlineContact'])->name('offlineContact');
 });
 
 

@@ -21,7 +21,8 @@ return new class extends Migration
             $table->string('from');
             $table->string('to');
             $table->mediumText('text');
-            $table->foreignId('conversation_id')->constrained();
+            $table->foreignId('conversation_id')->nullable()->constrained();
+            $table->foreignId('contact_id')->nullable()->constrained();
             $table->timestamp('sent_datetime')->useCurrent();
         });
     }
