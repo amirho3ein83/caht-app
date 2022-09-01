@@ -80,20 +80,25 @@
 </template>
 
 <script>
-import { Inertia } from '@inertiajs/inertia';
+import { Inertia } from "@inertiajs/inertia";
 
 export default {
     data() {
         return {
-            email:'',
-            name:'',
-            userId:[],
+            email: "",
+            name: "",
+            userId: [],
         };
     },
     methods: {
         addContact(filter) {
-            Inertia
-                .post(route("addContact",{email:this.email,name:this.name},{preserveState:true}))
+            Inertia.post(
+                route(
+                    "addContact",
+                    { email: this.email, name: this.name },
+                    { preserveState: true }
+                )
+            )
                 .then((response) => {
                     // this.conversations = response.data;
                     // this.setConversation(response.data[0]);
