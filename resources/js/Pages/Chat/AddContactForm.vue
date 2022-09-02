@@ -1,3 +1,20 @@
+<script setup>
+import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
+import JetInputError from "@/Components/InputError.vue";
+
+
+const form = useForm({
+    name: "",
+    email: "",
+});
+
+const submit = () => {
+    form.post(route("addContact"), {
+        onFinish: () => console.log('done'),
+    });
+};
+</script>
+
 <template>
     <!-- Main modal -->
     <div
@@ -36,7 +53,7 @@
                     >
                         Add a new contact
                     </h3>
-                    <form class="space-y-6" @submit="addContact()">
+                    <form class="space-y-6" @submit="submit">
                         <div>
                             <label
                                 for="email"
@@ -46,9 +63,13 @@
                             <input
                                 type="email"
                                 name="email"
-                                v-model="email"
+                                v-model="form.email"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                 required=""
+                            />
+                            <JetInputError
+                                class="mt-2"
+                                :message="form.errors.email"
                             />
                         </div>
                         <div>
@@ -60,15 +81,19 @@
                             <input
                                 type="text"
                                 name="name"
-                                v-model="name"
+                                v-model="form.name"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                 required=""
+                            />
+                            <JetInputError
+                                class="mt-2"
+                                :message="form.errors.name"
                             />
                         </div>
 
                         <button
                             type="submit"
-                            class="w-1/3 mx-auto text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
+                            class="w-1/3 mx-auto text-white bg-gray-100 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-400 dark:hover:bg-gray-500 dark:focus:ring-gray-800"
                         >
                             Add
                         </button>
@@ -78,35 +103,3 @@
         </div>
     </div>
 </template>
-
-<script>
-import { Inertia } from "@inertiajs/inertia";
-
-export default {
-    data() {
-        return {
-            email: "",
-            name: "",
-            userId: [],
-        };
-    },
-    methods: {
-        addContact(filter) {
-            Inertia.post(
-                route(
-                    "addContact",
-                    { email: this.email, name: this.name },
-                    { preserveState: true }
-                )
-            )
-                .then((response) => {
-                    // this.conversations = response.data;
-                    // this.setConversation(response.data[0]);
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        },
-    },
-};
-</script>

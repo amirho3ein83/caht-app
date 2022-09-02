@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-between px-4 pt-4 mb-2 sm:mb-0">
+    <div class=" flex justify-between px-4 pt-4 mb-2 sm:mb-0">
         <input
             v-model="message"
             @keyup.enter="sendMessage()"
@@ -34,6 +34,7 @@
 <script>
 import JetInput from "@/Components/Input.vue";
 import JetButton from "@/Components/Button.vue";
+import { Inertia } from "@inertiajs/inertia";
 
 export default {
     components: {
@@ -60,13 +61,30 @@ export default {
                     }
                 )
                 .then((response) => {
-                    if (response.status == 201) {
-                        this.message = "";
+                    console.log(this.message);
+                    axios
+                        .post(
+                            "/chat/conversation/" +
+                                this.conversation.id +
+                                "/last-message",
+                            {
+                                last_message:
+                                this.message
+                            }
+                        )
+                        .then((response) => {
+                            this.message = "";
                         this.$emit("messagesent");
-                    }
+                            console.log('last message set after sending message');
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+
+
                 })
                 .catch((error) => {
-                    console.log(error.messaage);
+                    console.log(error);
                 });
         },
         enableButton(){

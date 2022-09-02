@@ -1,45 +1,3 @@
-<template>
-    <AppLayout title="Chat">
-        <div class="flex mx-auto justify-center">
-            <div
-                class="p:2 sm:py-4 justify-between flex flex-col h-screen max-w-2xl my-0 bg-gradient-to-b from-gray-400 via-gray-500 to-gray-600"
-            >
-                <ContactDetails
-                    :second_contact="second_contact"
-                    v-if="second_contact.length !== 0"
-                />
-                <div v-else class="mx-auto mb-5">
-                    <h3 class="text-slate-900">
-                        Please choose one conversation
-                    </h3>
-                </div>
-                <MessageContainer
-                    :currentConversation="currentConversation"
-                    :messages="messages"
-                />
-                <InputMessage
-                    :conversation="currentConversation"
-                    v-on:messagesent="getMessages()"
-                />
-            </div>
-            <div></div>
-            <div
-                class="bg-gradient-to-b from-gray-700 to-gray-600 py-5 w-60 my-0 flex-col align-center"
-            >
-                <UserInfo />
-                <ContactSearchbox v-on:filter="getConversations($event)" />
-
-                <ConversationItem
-                    v-for="conversation in conversations"
-                    :key="conversation"
-                    :conversation="conversation"
-                    v-on:roomChanged="setConversation($event)"
-                />
-            </div>
-        </div>
-    </AppLayout>
-</template>
-
 <script>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import ConversationItem from "./ConversationItem.vue";
@@ -101,17 +59,15 @@ export default {
         disconenct(conversation) {
             window.Echo.leave("chat." + conversation.id);
         },
-        getConversations(filter) {
+         getConversations() {
             axios
-                .get(
+                .post(
                     route("conversations", {
-                        search: filter,
-                        userId: this.$page.props.user.id,
+                        memberId: this.$page.props.user.id,
                     })
                 )
                 .then((response) => {
                     this.conversations = response.data;
-                    // this.setConversation(response.data[0]);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -119,6 +75,9 @@ export default {
         },
         userProfile() {
             axios.get("user/profile");
+        },
+        IsThereConversation() {
+            return this.conversations.length  0 ? true : false
         },
         getMessages() {
             axios
@@ -135,6 +94,14 @@ export default {
                 });
         },
         setConversation(conversation) {
+            // offline user hiself
+            axios
+                .post("/member/" + this.current_contact.id + "/offline")
+                .then((response) => {})
+                .catch((error) => {
+                    console.log(error);
+                });
+
             this.currentConversation = conversation;
             this.current_contact = this.currentConversation.group_members[0]
                 ? this.$page.props.user
@@ -162,27 +129,71 @@ export default {
     },
     created() {
         this.getConversations();
-        console.log('user is online');
-
-        // online user hiself
-        axios
-            .post("/member/" + this.$page.props.user.id + "/online")
-            .then((response) => {})
-            .catch((error) => {
-                console.log(error);
-            });
     },
 
     // offline user when left app
-    // unmounted() {
-    //     console.log('user left');
-    //     // offline user hiself
-    //     axios
-    //         .post("/member/" + this.$page.props.user.id + "/offline")
-    //         .then((response) => {})
-    //         .catch((error) => {
-    //             console.log(error);
-    //         });
-    // },
+    mounted() {
+        console.log(`the component is now mounted.`);
+    },
+
 };
 </script>
+
+<template>
+    <AppLayout title="Chat">
+        <div class="flex mx-auto justify-center">
+            <div
+                class="p:2 sm:py-4 justify-between flex flex-col h-screen max-w-2xl my-0 bg-gradient-to-b from-gray-400 via-gray-500 to-gray-600"
+            >
+                <ContactDetails
+                    :second_contact="second_contact"
+                    v-if="second_contact.length !== 0"
+                />
+                <div v-else class="mx-auto mb-5">
+                    <h3 class="text-slate-900">
+                        Please choose one conversation
+                    </h3>
+                </div>
+                <MessageContainer
+                    :currentConversation="currentConversation"
+                    :messages="messages"
+                />
+            </div>
+            <div></div>
+            <div
+                class="bg-gradient-to-b from-gray-700 to-gray-600 py-5 w-60 my-0 flex-col align-center"
+            >
+                <UserInfo />
+                <ContactSearchbox />
+
+                <div
+                    style="height: 500px"
+                    class="flex flex-1 flex-end flex-col space-y-4 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
+                >
+                    <div
+                        id="messages"
+                        class="flex flex-end flex-col-reverse space-y-4 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
+                    >
+                        <div>
+                            <template
+                                v-for="conversation in conversations"
+                                :key="conversation.id"
+                            >
+                                <ConversationItem
+                                    :conversation="conversation"
+                                    v-on:roomChanged="setConversation($event)"
+                                />
+                            </template>
+                            <p
+                                class="text-slate-300 font-medium text-center animate-pulse"
+                                v-if="IsThereConversation()"
+                            >
+                                add a contact to chat with
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </AppLayout>
+</template>

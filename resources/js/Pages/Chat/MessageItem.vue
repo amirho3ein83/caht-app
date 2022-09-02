@@ -9,14 +9,11 @@
                 >
                     {{ message.text }}
                     <span>{{ message.sent_datetime }}</span>
-                    <i
-                        class="bi bi-check2-all text-blue-400"
-                        style="font-size: 16px"
-                    ></i>
-                    <i
-                        class="bi bi-check2-all text-gray-400"
-                        style="font-size: 16px"
-                    ></i>
+                <!-- <i class="bi bi-check2-all text-blue-400" style="font-size: 16px;"></i>
+                <i
+                    class="bi bi-check2-all text-gray-300 ml-1"
+                    style="font-size: 16px"
+                ></i> -->
                 </p>
             </div>
         </div>
@@ -50,11 +47,8 @@
 
             </div>
         </div>
-        <img
-            src="https://images.unsplash.com/photo-1590031905470-a1a1feacbb0b?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
-            alt="My profile"
-            class="w-8 h-8 rounded-full order-2"
-        />
+
+
     </div>
 </template>
 

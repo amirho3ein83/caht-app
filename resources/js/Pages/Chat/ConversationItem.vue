@@ -1,19 +1,16 @@
 <template>
     <a
         @click="$emit('roomChanged', conversation)"
-        class="cursor-pointer hover:opacity-80"
+        class="cursor-pointer hover:opacity-80 "
     >
         <div
             class="justify-between p-2 transition ease-in-out delay-25 mx-2 align-baseline flex my-1 bg-gray-400 hover:scale-105 hover:bg-gray-400 duration-30 rounded-md"
         >
             <div class="flex-col flex">
-                <p class="text-sm break-words">
+                <p class="text-sm break-words bold">
                     {{ conversation.name }}
                 </p>
-                <p class=" break-words text-xs">
-                    {{ conversation.lastMessage }}
-                    last message
-                </p>
+
             </div>
             <div
                 class="overflow-hidden relative w-8 h-8 bg-gray-100 rounded-full dark:bg-gray-600"
@@ -31,6 +28,6 @@
 
 <script>
 export default {
-    props: ["conversation"],
+    props: ["conversation"]
 };
 </script>
