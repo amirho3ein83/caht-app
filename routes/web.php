@@ -48,7 +48,7 @@ Route::middleware([
     })->name('chat');
 
 
-    Route::get('/chat/conversations', [ChatController::class, 'conversations'])->name('conversations');
+    Route::post('/chat/conversations', [ChatController::class, 'conversations'])->name('conversations');
 
     Route::get('/contact/{id}', [ChatController::class, 'getContact'])->name('getContact');
     Route::get('/chat/conversation/{id}/messages', [ChatController::class, 'messages'])->name('conversation.messages');
@@ -58,12 +58,6 @@ Route::middleware([
 
     Route::post('/member/{id}/online', [ChatController::class, 'onlineContact'])->name('onlineContact');
     Route::post('/member/{id}/offline', [ChatController::class, 'offlineContact'])->name('offlineContact');
-});
 
-
-Route::resource('users', UserController::class);
-Route::get('ooo', function(){
-    return view('ooo', [
-        'your_user_profile' => 'adfdc',
-    ]);
+    Route::post('/chat/conversation/{id}/last-message', [ChatController::class, 'setConversationlastMessage'])->name('conversation.last_messages');
 });

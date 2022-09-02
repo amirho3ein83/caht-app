@@ -17,8 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->boolean('is_online')->default(0);
-            $table->foreignId('contact_id')->nullable()->constrained();
-            $table->foreignId('conversation_id')->nullable()->constrained();
+            $table->foreignId('contact_id')->nullable()->unique()->constrained();
             $table->timestamp('last_status_at')->nullable();
             // $table->timestamp('joined_datetime')->nullable();
             // $table->timestamp('left_datetime')->nullable();

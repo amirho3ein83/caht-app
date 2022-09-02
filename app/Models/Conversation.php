@@ -9,7 +9,7 @@ class Conversation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name','last_message'];
 
     public function messages()
     {
@@ -18,6 +18,6 @@ class Conversation extends Model
 
     public function groupMembers()
     {
-        return $this->hasMany(GroupMember::class);
+        return $this->belongsToMany(GroupMember::class,'conversations_group_members');
     }
 }

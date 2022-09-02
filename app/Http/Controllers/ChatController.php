@@ -7,23 +7,19 @@ use App\Models\Contact;
 use App\Models\Message;
 use App\Models\Conversation;
 use App\Models\GroupMember;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class ChatController extends Controller
 {
     public function conversations(Request $request)
     {
-        $contactSelf = $request->userId;
-        $conversation = Conversation::query()->when($request->search, function ($q, $search) use($contactSelf) {
-            $q->where('name', 'like', "{$search}%");
-        })
-            ->whereHas('groupMembers', function ($q) use($contactSelf){
-                $q->where('id', $contactSelf);
-            })
-            ->with(['messages', 'groupMembers'])->get();
-        return $conversation;
+        return  GroupMember::find($request->memberId)->conversations()->get();
     }
 
     public function messages(Request $request, $id)
@@ -35,46 +31,67 @@ class ChatController extends Controller
 
     public function addContact(Request $request)
     {
-        $contact = Contact::create([
-            'name' => $request->name,
-            'email' => $request->email,
-        ]);
+        $Validator = Validator::make($request->only(['name', 'email']), [
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'name' => ['required', 'string', 'max:255'],
+        ])->validate();
 
-        $conversation = Conversation::create([
-            'name' => $contact->name,
-        ]);
+                $user = User::create([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'password' => Hash::make('111111')
+                ]);
 
-        $conversation->groupMembers()->create([
-            'name' => $contact->name,
-            'contact_id' => $contact->id,
-            'conversation_id' => $conversation->id,
-        ]);
+                $contact = Contact::create([
+                    'name' => $request->name,
+                    'user_id' => $user->id
+                ]);
 
-        $conversation->groupMembers()->create([
-            'name' => Auth::user()->name,
-            'contact_id' => Auth::id(),
-            'conversation_id' => $conversation->id,
-        ]);
+                $groupMember = GroupMember::create([
+                    'contact_id' => $contact->id,
+                    'name' => $contact->name,
+                ]);
+
+                $conversation = Conversation::create([
+                    'name' => $contact->name . " & " . Auth::user()->name
+                ]);
+
+                $conversation->groupMembers()->attach($groupMember->id);
+                $conversation->groupMembers()->attach(Auth::id());
+
+
     }
     public function onlineContact(Request $request, $id)
     {
         GroupMember::where('id', $id)->update([
             'is_online' => 1
         ]);
+
+        $user = GroupMember::where('id', $id)->get();
+        Log::info($user);
     }
     public function offlineContact(Request $request, $id)
     {
-        Log::info('user is offline');
         GroupMember::where('id', $id)->update([
             'is_online' => 0
         ]);
+
+        $user = GroupMember::where('id', $id)->get();
+        Log::info($user);
     }
 
     public function getContact($id)
     {
-        Log::info($id);
+        Log::info('dsdsdsd');
         return Contact::where('id', $id)
             ->get();
+    }
+    public function setConversationlastMessage(Request $request, $id)
+    {
+        $conversation = Conversation::where('id', $id)->update(['last_message' => $request->last_message]);
+        if ($conversation) {
+            Log::info('done');
+        }
     }
     public function newMessage(Request $request, $id)
     {
