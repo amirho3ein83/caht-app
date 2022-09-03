@@ -17,11 +17,11 @@ class AdminSeeder extends Seeder
     public function run()
     {
         \App\Models\User::create([
-            'username' => 'amir',
-            'password' => Hash::make('1111')
+            'email' => 'amir@amir.com',
+            'password' => Hash::make('11111111')
         ]);
         \App\Models\Contact::create([
-            'username' => 'amir',
+            'username' => 'amirshafi',
             'is_online' => rand(0,1)
         ]);
 

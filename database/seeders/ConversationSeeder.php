@@ -22,12 +22,11 @@ class ConversationSeeder extends Seeder
 
         $admin = Contact::first();
 
-        $user = User::create([
-            'username' => Str::random(8),
-            'password' => Hash::make('1111')
-        ]);
+        $user = User::factory()->create();
+
         $contact = Contact::create([
-            'username' => $user->username,
+            'user_id' => $user->id,
+            'username' => Str::random(9),
             'is_online' => rand(0,1)
         ]);
 

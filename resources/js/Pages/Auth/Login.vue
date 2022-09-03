@@ -8,21 +8,21 @@ import JetInputError from "@/Components/InputError.vue";
 import JetCheckbox from "@/Components/Checkbox.vue";
 import JetLabel from "@/Components/Label.vue";
 
-defineProps({
-    canResetPassword: Boolean,
-    status: String,
-});
+// defineProps({
+//     canResetPassword: Boolean,
+//     status: String,
+// });
 
 const form = useForm({
-    username: "",
+    email: "",
     password: "",
-    // remember: false,
+    remember: false,
 });
 
 const submit = () => {
     form.transform((data) => ({
         ...data,
-        // remember: form.remember ? "on" : "",
+        remember: form.remember ? "on" : "",
     })).post(route("login"), {
         onFinish: () => form.reset("password"),
     });
@@ -37,22 +37,22 @@ const submit = () => {
             <JetAuthenticationCardLogo />
         </template>
 
-        <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
+        <!-- <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
             {{ status }}
-        </div>
+        </div> -->
 
         <form @submit.prevent="submit">
             <div>
-                <JetLabel for="username" value="username" />
+                <JetLabel for="email" value="email" />
                 <JetInput
-                    id="username"
-                    v-model="form.username"
+                    id="email"
+                    v-model="form.email"
                     type="text"
                     class="mt-1 block w-full"
                     required
                     autofocus
                 />
-                <JetInputError class="mt-2" :message="form.errors.username" />
+                <JetInputError class="mt-2" :message="form.errors.email" />
             </div>
 
             <div class="mt-4">
@@ -68,7 +68,7 @@ const submit = () => {
                 <JetInputError class="mt-2" :message="form.errors.password" />
             </div>
 
-            <!-- <div class="block mt-4">
+            <div class="block mt-4">
                 <label class="flex items-center">
                     <JetCheckbox
                         v-model:checked="form.remember"
@@ -76,16 +76,16 @@ const submit = () => {
                     />
                     <span class="ml-2 text-sm text-gray-200">Remember me</span>
                 </label>
-            </div> -->
+            </div>
 
             <div class="mt-4 flex-col">
                 <div class="flex justify-between mx-2 my-2">
-                    <!-- <Link
+                    <Link
                         :href="route('password.request')"
                         class="underline text-sm text-gray-300 hover:text-gray-100"
                     >
                         Forgot your password?
-                    </Link> -->
+                    </Link>
                     <Link
                         :href="route('register')"
                         class=" text-lg animate-pulse text-gray-300 hover:text-gray-100"
