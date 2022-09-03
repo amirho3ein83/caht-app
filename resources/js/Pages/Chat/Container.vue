@@ -77,7 +77,7 @@ export default {
             axios.get("user/profile");
         },
         IsThereConversation() {
-            return this.conversations.length  0 ? true : false
+            return this.conversations.length == 0 ? true : false
         },
         getMessages() {
             axios

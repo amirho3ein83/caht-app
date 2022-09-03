@@ -9,15 +9,15 @@ class Conversation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','last_message'];
+    protected $fillable = ['name'];
 
     public function messages()
     {
         return $this->hasMany(Message::class);
     }
 
-    public function groupMembers()
+    public function contacts()
     {
-        return $this->belongsToMany(GroupMember::class,'conversations_group_members');
+        return $this->belongsToMany(Contact::class,'conversations_contacts');
     }
 }

@@ -14,15 +14,15 @@ defineProps({
 });
 
 const form = useForm({
-    email: "",
+    username: "",
     password: "",
-    remember: false,
+    // remember: false,
 });
 
 const submit = () => {
     form.transform((data) => ({
         ...data,
-        remember: form.remember ? "on" : "",
+        // remember: form.remember ? "on" : "",
     })).post(route("login"), {
         onFinish: () => form.reset("password"),
     });
@@ -43,16 +43,16 @@ const submit = () => {
 
         <form @submit.prevent="submit">
             <div>
-                <JetLabel for="email" value="Email" />
+                <JetLabel for="username" value="username" />
                 <JetInput
-                    id="email"
-                    v-model="form.email"
-                    type="email"
+                    id="username"
+                    v-model="form.username"
+                    type="text"
                     class="mt-1 block w-full"
                     required
                     autofocus
                 />
-                <JetInputError class="mt-2" :message="form.errors.email" />
+                <JetInputError class="mt-2" :message="form.errors.username" />
             </div>
 
             <div class="mt-4">
@@ -68,7 +68,7 @@ const submit = () => {
                 <JetInputError class="mt-2" :message="form.errors.password" />
             </div>
 
-            <div class="block mt-4">
+            <!-- <div class="block mt-4">
                 <label class="flex items-center">
                     <JetCheckbox
                         v-model:checked="form.remember"
@@ -76,21 +76,19 @@ const submit = () => {
                     />
                     <span class="ml-2 text-sm text-gray-200">Remember me</span>
                 </label>
-            </div>
+            </div> -->
 
             <div class="mt-4 flex-col">
                 <div class="flex justify-between mx-2 my-2">
-                    <Link
-                        v-if="canResetPassword"
+                    <!-- <Link
                         :href="route('password.request')"
                         class="underline text-sm text-gray-300 hover:text-gray-100"
                     >
                         Forgot your password?
-                    </Link>
+                    </Link> -->
                     <Link
-                        v-if="canResetPassword"
                         :href="route('register')"
-                        class="underline text-sm text-gray-300 hover:text-gray-100"
+                        class=" text-lg animate-pulse text-gray-300 hover:text-gray-100"
                     >
                         haven't registered yet?
                     </Link>

@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\NewChatMessage;
-use App\Models\Contact;
+use App\Events\NewMessage;
 use App\Models\Message;
 use App\Models\Conversation;
-use App\Models\GroupMember;
-use App\Models\User;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -17,93 +15,93 @@ use Illuminate\Support\Facades\Validator;
 
 class ChatController extends Controller
 {
+
+    protected $_validation = [
+        'username' => ['required', 'string', 'unique:users', 'max:255'],
+    ];
+
+
+
+
+
+
     public function conversations(Request $request)
     {
-        return  GroupMember::find($request->memberId)->conversations()->get();
+        Log::info($request->contactId);
+        return  contact::find($request->contactId)->conversations()->get();
     }
 
-    public function messages(Request $request, $id)
+    public function messages(Conversation $conversation)
     {
-        return Message::where('conversation_id', $id)
+        return $conversation->messages()
             ->latest('sent_datetime')
             ->get();
     }
 
     public function addContact(Request $request)
     {
-        $Validator = Validator::make($request->only(['name', 'email']), [
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'name' => ['required', 'string', 'max:255'],
-        ])->validate();
-
-                $user = User::create([
-                    'name' => $request->name,
-                    'email' => $request->email,
-                    'password' => Hash::make('111111')
-                ]);
-
-                $contact = Contact::create([
-                    'name' => $request->name,
-                    'user_id' => $user->id
-                ]);
-
-                $groupMember = GroupMember::create([
-                    'contact_id' => $contact->id,
-                    'name' => $contact->name,
-                ]);
-
-                $conversation = Conversation::create([
-                    'name' => $contact->name . " & " . Auth::user()->name
-                ]);
-
-                $conversation->groupMembers()->attach($groupMember->id);
-                $conversation->groupMembers()->attach(Auth::id());
+        $Validator = Validator::make($request->only(['username']), $this->_validation)->validate();
 
 
+
+
+
+
+        try {
+
+            $contact = Contact::firstWhere('username', $request->username);
+
+            $conversation = Conversation::create();
+
+            $conversation->contacts()->attach($contact->id);
+            $conversation->contacts()->attach(Auth::id());
+            
+        } catch (\Throwable $e) {
+            return back()->withError($e->getMessage())->withInput();
+        }
     }
+
+
     public function onlineContact(Request $request, $id)
     {
-        GroupMember::where('id', $id)->update([
+        Contact::where('id', $id)->update([
             'is_online' => 1
         ]);
-
-        $user = GroupMember::where('id', $id)->get();
-        Log::info($user);
     }
     public function offlineContact(Request $request, $id)
     {
-        GroupMember::where('id', $id)->update([
+        Contact::where('id', $id)->update([
             'is_online' => 0
         ]);
-
-        $user = GroupMember::where('id', $id)->get();
-        Log::info($user);
     }
 
     public function getContact($id)
     {
-        Log::info('dsdsdsd');
         return Contact::where('id', $id)
             ->get();
     }
-    public function setConversationlastMessage(Request $request, $id)
+
+    // public function setConversationlastMessage(Request $request, $id)
+    // {
+
+    //     // use redis here 
+
+    //     // $conversation = Conversation::where('id', $id)->update(['last_message' => $request->last_message]);
+    //     // if ($conversation) {
+    //     //     Log::info('done');
+    //     // }
+    // }
+
+    public function newMessage(Conversation $conversation, Request $request)
     {
-        $conversation = Conversation::where('id', $id)->update(['last_message' => $request->last_message]);
-        if ($conversation) {
-            Log::info('done');
-        }
-    }
-    public function newMessage(Request $request, $id)
-    {
-        $newMessage = Message::create([
-            'from' => Auth::id(),
-            'to' => 2,
+
+        $newMessage = $conversation->messages()->create([
+            'from' => $request->from,
+            'to' => $request->to,
             'text' => $request->text,
-            'conversation_id' => $id
+            'conversation_id' => $request->conversation_id
         ]);
 
-
-        broadcast(new NewChatMessage($newMessage))->toOthers();
-        return $newMessage;
+        broadcast(new NewMessage($newMessage))->toOthers();
     }
 }

@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('conversations_group_members', function (Blueprint $table) {
-            $table->foreignId('group_member_id')->constrained('group_members');
+        Schema::create('conversations_contacts', function (Blueprint $table) {
+            $table->foreignId('contact_id')->constrained('contacts');
             $table->foreignId('conversation_id')->constrained();
         });
     }
