@@ -42,11 +42,6 @@ class ChatController extends Controller
     {
         $Validator = Validator::make($request->only(['username']), $this->_validation)->validate();
 
-
-
-
-
-
         try {
 
             $contact = Contact::firstWhere('username', $request->username);

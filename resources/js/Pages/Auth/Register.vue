@@ -9,6 +9,7 @@ import JetCheckbox from '@/Components/Checkbox.vue';
 import JetLabel from '@/Components/Label.vue';
 
 const form = useForm({
+    email: '',
     username: '',
     password: '',
     password_confirmation: '',
@@ -40,6 +41,17 @@ const submit = () => {
                     required
                 />
                 <JetInputError class="mt-2" :message="form.errors.username" />
+            </div>
+            <div class="mt-4">
+                <JetLabel for="email" value="email" />
+                <JetInput
+                    id="email"
+                    v-model="form.email"
+                    type="text"
+                    class="mt-1 block w-full"
+                    required
+                />
+                <JetInputError class="mt-2" :message="form.errors.email" />
             </div>
 
             <div class="mt-4">

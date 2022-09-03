@@ -23,6 +23,11 @@ class Contact extends Model
         return $this->belongsToMany(Conversation::class,'conversations_contacts');
 
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+
+    }
 
     public function getProfileAttribute()
     {
