@@ -25,12 +25,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return redirect('dashboard');
 });
 
 Route::middleware([
@@ -44,7 +39,7 @@ Route::middleware([
     })->name('dashboard');
 
     Route::get('/chat', function () {
-        return Inertia::render('Chat/Container',['user' => Auth::user()]);
+        return Inertia::render('Chat/Container');
     })->name('chat');
 
 

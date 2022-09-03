@@ -9,8 +9,7 @@ import JetCheckbox from '@/Components/Checkbox.vue';
 import JetLabel from '@/Components/Label.vue';
 
 const form = useForm({
-    name: '',
-    email: '',
+    username: '',
     password: '',
     password_confirmation: '',
     terms: false,
@@ -27,35 +26,20 @@ const submit = () => {
     <Head title="Register" />
 
     <JetAuthenticationCard>
-        <template #logo>
-            <JetAuthenticationCardLogo />
-        </template>
+
 
         <form @submit.prevent="submit">
-            <div>
-                <JetLabel for="name" value="Name" />
+
+            <div class="mt-4">
+                <JetLabel for="username" value="username" />
                 <JetInput
-                    id="name"
-                    v-model="form.name"
+                    id="username"
+                    v-model="form.username"
                     type="text"
                     class="mt-1 block w-full"
                     required
-                    autofocus
-                    autocomplete="name"
                 />
-                <JetInputError class="mt-2" :message="form.errors.name" />
-            </div>
-
-            <div class="mt-4">
-                <JetLabel for="email" value="Email" />
-                <JetInput
-                    id="email"
-                    v-model="form.email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    required
-                />
-                <JetInputError class="mt-2" :message="form.errors.email" />
+                <JetInputError class="mt-2" :message="form.errors.username" />
             </div>
 
             <div class="mt-4">
@@ -97,7 +81,7 @@ const submit = () => {
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <Link :href="route('login')" class="underline text-sm text-gray-600 hover:text-gray-900">
+                <Link :href="route('login')" class=" text-lg animate-pulse text-gray-200 hover:text-gray-900">
                     Already registered?
                 </Link>
 

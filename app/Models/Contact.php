@@ -9,25 +9,19 @@ class Contact extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'name','email'];
+    protected $fillable = [ 'username','is_online'];
+
+    public $timestamps = false;
+
 
     protected $appends = [
         'profile',
     ];
 
-    public function user()
-    {
-        return $this->hasOne(User::class);
-    }
-
-    public function messages()
-    {
-        return $this->hasMany(Message::class);
-    }
-
     public function conversations()
     {
-        return $this->hasMany(Conversation::class);
+        return $this->belongsToMany(Conversation::class,'conversations_contacts');
+
     }
 
     public function getProfileAttribute()

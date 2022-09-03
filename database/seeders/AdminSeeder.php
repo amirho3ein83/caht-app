@@ -17,18 +17,13 @@ class AdminSeeder extends Seeder
     public function run()
     {
         \App\Models\User::create([
-            'id' => 1,
-            'name' => 'Amirhossein',
-            'email' => 'amir@gmail.com',
-            'password' => Hash::make('11111111'),
+            'username' => 'amir',
+            'password' => Hash::make('1111')
         ]);
         \App\Models\Contact::create([
-            'user_id' => 1,
-            'name' => 'Amirhossein'
+            'username' => 'amir',
+            'is_online' => rand(0,1)
         ]);
-        \App\Models\GroupMember::create([
-            'contact_id' => 1,
-            'name' => 'Amirhossein'
-        ]);
+
     }
 }

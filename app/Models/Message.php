@@ -11,7 +11,7 @@ class Message extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['from', 'text', 'conversation_id','contact_id','to'];
+    protected $fillable = ['from', 'text', 'conversation_id','to'];
     protected $dates = ['sent_datetime'];
 
     public $timestamps = false;
