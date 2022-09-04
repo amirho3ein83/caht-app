@@ -63,7 +63,7 @@ export default {
             axios
                 .post(
                     route("conversations", {
-                        memberId: this.$page.props.user.id,
+                        contactId: this.$page.props.user.id,
                     })
                 )
                 .then((response) => {
@@ -73,16 +73,16 @@ export default {
                     console.log(error);
                 });
         },
-        userProfile() {
-            axios.get("user/profile");
-        },
-        IsThereConversation() {
-            return this.conversations.length == 0 ? true : false
+        // userProfile() {
+        //     axios.get("user/profile");
+        // },
+        noConversation() {
+            return this.conversations.length != 0 ? false : true
         },
         getMessages() {
             axios
                 .get(
-                    "/chat/conversation/" +
+                    "/chat/conversations/" +
                         this.currentConversation.id +
                         "/messages"
                 )
@@ -94,46 +94,55 @@ export default {
                 });
         },
         setConversation(conversation) {
-            // offline user hiself
+
+            // get second contact details
             axios
-                .post("/member/" + this.current_contact.id + "/offline")
-                .then((response) => {})
+                .post("get/contact/",{username:conversation.second_contact})
+                .then((response) => {
+                    this.second_contact = response.data[0]
+                })
                 .catch((error) => {
                     console.log(error);
                 });
 
-            this.currentConversation = conversation;
-            this.current_contact = this.currentConversation.group_members[0]
-                ? this.$page.props.user
-                : this.currentConversation.group_members[1];
+                this.currentConversation = conversation;
+            // this.second_contact = conversation.second_contact
 
-            if (
-                this.current_contact ==
-                this.currentConversation.group_members[0]
-            ) {
-                this.second_contact =
-                    this.currentConversation.group_members[1] ??
-                    this.currentConversation.name;
-                this.current_contact =
-                    this.currentConversation.group_members[0] ??
-                    this.currentConversation.name;
-            } else {
-                this.second_contact =
-                    this.currentConversation.group_members[0] ??
-                    this.currentConversation.name;
-                this.current_contact =
-                    this.currentConversation.group_members[1] ??
-                    this.currentConversation.name;
-            }
+            // offline user hiself
+            // axios
+            //     .post("/member/" + this.current_contact.id + "/offline")
+            //     .then((response) => {})
+            //     .catch((error) => {
+            //         console.log(error);
+            //     });
+
+            // this.currentConversation = conversation;
+            // this.current_contact = this.currentConversation.contacts[0]
+            //     ? this.$page.props.user
+            //     : this.currentConversation.contacts[1];
+
+            // if (
+            //     this.current_contact ==
+            //     this.currentConversation.contacts[0]
+            // ) {
+            //     this.second_contact =
+            //         this.currentConversation.contacts[1] ??
+            //         this.currentConversation.name;
+            //     this.current_contact =
+            //         this.currentConversation.contacts[0] ??
+            //         this.currentConversation.name;
+            // } else {
+            //     this.second_contact =
+            //         this.currentConversation.contacts[0] ??
+            //         this.currentConversation.name;
+            //     this.current_contact =
+            //         this.currentConversation.contacts[1] ??
+            //         this.currentConversation.name;
+            // }
         },
     },
     created() {
         this.getConversations();
-    },
-
-    // offline user when left app
-    mounted() {
-        console.log(`the component is now mounted.`);
     },
 
 };
@@ -147,13 +156,15 @@ export default {
             >
                 <ContactDetails
                     :second_contact="second_contact"
-                    v-if="second_contact.length !== 0"
+                    v-if="second_contact.length != 0"
                 />
+                
                 <div v-else class="mx-auto mb-5">
                     <h3 class="text-slate-900">
                         Please choose one conversation
                     </h3>
                 </div>
+
                 <MessageContainer
                     :currentConversation="currentConversation"
                     :messages="messages"
@@ -182,11 +193,12 @@ export default {
                                 <ConversationItem
                                     :conversation="conversation"
                                     v-on:roomChanged="setConversation($event)"
+                                    v-on:second_contact="setSecondContact($event)"
                                 />
                             </template>
                             <p
                                 class="text-slate-300 font-medium text-center animate-pulse"
-                                v-if="IsThereConversation()"
+                                v-if="noConversation()"
                             >
                                 add a contact to chat with
                             </p>

@@ -1,24 +1,25 @@
 <script setup>
-import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
-import JetAuthenticationCard from '@/Components/AuthenticationCard.vue';
-import JetAuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
-import JetButton from '@/Components/Button.vue';
-import JetInput from '@/Components/Input.vue';
-import JetInputError from '@/Components/InputError.vue';
-import JetCheckbox from '@/Components/Checkbox.vue';
-import JetLabel from '@/Components/Label.vue';
+import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
+import JetAuthenticationCard from "@/Components/AuthenticationCard.vue";
+import JetAuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue";
+import JetButton from "@/Components/Button.vue";
+import JetInput from "@/Components/Input.vue";
+import JetInputError from "@/Components/InputError.vue";
+import JetCheckbox from "@/Components/Checkbox.vue";
+import JetLabel from "@/Components/Label.vue";
 
 const form = useForm({
-    email: '',
-    username: '',
-    password: '',
-    password_confirmation: '',
+    profile: null,
+    email: "",
+    username: "",
+    password: "",
+    password_confirmation: "",
     terms: false,
 });
 
 const submit = () => {
-    form.post(route('register'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
+    form.post(route("register"), {
+        onFinish: () => form.reset("password", "password_confirmation"),
     });
 };
 </script>
@@ -27,9 +28,8 @@ const submit = () => {
     <Head title="Register" />
 
     <JetAuthenticationCard>
-
-
         <form @submit.prevent="submit">
+            <input type="file" class="mx-auto w-1/4" name="profile" />
 
             <div class="mt-4">
                 <JetLabel for="username" value="username" />
@@ -68,7 +68,10 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <JetLabel for="password_confirmation" value="Confirm Password" />
+                <JetLabel
+                    for="password_confirmation"
+                    value="Confirm Password"
+                />
                 <JetInput
                     id="password_confirmation"
                     v-model="form.password_confirmation"
@@ -77,27 +80,57 @@ const submit = () => {
                     required
                     autocomplete="new-password"
                 />
-                <JetInputError class="mt-2" :message="form.errors.password_confirmation" />
+                <JetInputError
+                    class="mt-2"
+                    :message="form.errors.password_confirmation"
+                />
             </div>
 
-            <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature" class="mt-4">
+            <div
+                v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature"
+                class="mt-4"
+            >
                 <JetLabel for="terms">
                     <div class="flex items-center">
-                        <JetCheckbox id="terms" v-model:checked="form.terms" name="terms" />
+                        <JetCheckbox
+                            id="terms"
+                            v-model:checked="form.terms"
+                            name="terms"
+                        />
 
                         <div class="ml-2">
-                            I agree to the <a target="_blank" :href="route('terms.show')" class="underline text-sm text-gray-600 hover:text-gray-900">Terms of Service</a> and <a target="_blank" :href="route('policy.show')" class="underline text-sm text-gray-600 hover:text-gray-900">Privacy Policy</a>
+                            I agree to the
+                            <a
+                                target="_blank"
+                                :href="route('terms.show')"
+                                class="underline text-sm text-gray-600 hover:text-gray-900"
+                                >Terms of Service</a
+                            >
+                            and
+                            <a
+                                target="_blank"
+                                :href="route('policy.show')"
+                                class="underline text-sm text-gray-600 hover:text-gray-900"
+                                >Privacy Policy</a
+                            >
                         </div>
                     </div>
                 </JetLabel>
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <Link :href="route('login')" class=" text-lg animate-pulse text-gray-200 hover:text-gray-900">
+                <Link
+                    :href="route('login')"
+                    class="text-lg animate-pulse text-gray-200 hover:text-gray-900"
+                >
                     Already registered?
                 </Link>
 
-                <JetButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                <JetButton
+                    class="ml-4"
+                    :class="{ 'opacity-25': form.processing }"
+                    :disabled="form.processing"
+                >
                     Register
                 </JetButton>
             </div>

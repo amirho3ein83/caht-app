@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
 
-
-    const CREATED_AT = 'sent_datetime';
     /**
      * Run the migrations.
      *
@@ -19,7 +17,6 @@ return new class extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
             $table->string('from');
-            $table->string('to');
             $table->mediumText('text');
             $table->foreignId('conversation_id')->nullable()->constrained();
             $table->timestamp('sent_datetime')->useCurrent();

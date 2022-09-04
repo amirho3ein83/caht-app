@@ -39,13 +39,11 @@ class ConversationSeeder extends Seeder
 
         Message::create([
             'from' => $admin->id,
-            'to' => $contact->id,
             'text' => Str::random(14),
             'conversation_id' => $conversation->id,
         ]);
         Message::create([
             'from' => $contact->id,
-            'to' => $admin->id,
             'text' => Str::random(8),
             'conversation_id' => $conversation->id,
         ]);

@@ -8,6 +8,7 @@ use App\Models\Team;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
@@ -28,6 +29,7 @@ class CreateNewUser implements CreatesNewUsers
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'username' => ['required', 'string', 'max:255', 'unique:contact'],
             'password' => ['required', 'string', 'max:255'],
+            'profile' => [ 'image', 'max:2055'],
         ])->validate();
 
         return DB::transaction(function () use ($input) {
@@ -38,9 +40,14 @@ class CreateNewUser implements CreatesNewUsers
                 $this->createTeam($user);
             });
 
+            Storage::putFileAs(
+                'profile-photos', $input['profile'], $input['username']
+            );
+
             Contact::create([
                 'user_id' => $user->id,
                 'username' => $input['username'],
+                'profile' => $input['profile'],
             ]);
         });
     }

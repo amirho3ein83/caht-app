@@ -27,11 +27,11 @@ class ChatController extends Controller
 
     public function conversations(Request $request)
     {
-        Log::info($request->contactId);
-        return  contact::find($request->contactId)->conversations()->get();
+        $contact  = Contact::find($request->contactId);
+        return $contact->conversations;
     }
 
-    public function messages(Conversation $conversation)
+    public function messages( Conversation $conversation)
     {
         return $conversation->messages()
             ->latest('sent_datetime')
@@ -50,7 +50,6 @@ class ChatController extends Controller
 
             $conversation->contacts()->attach($contact->id);
             $conversation->contacts()->attach(Auth::id());
-            
         } catch (\Throwable $e) {
             return back()->withError($e->getMessage())->withInput();
         }
@@ -70,9 +69,9 @@ class ChatController extends Controller
         ]);
     }
 
-    public function getContact($id)
+    public function getContact(Request $request)
     {
-        return Contact::where('id', $id)
+        return Contact::where('username', $request->username)
             ->get();
     }
 
@@ -89,7 +88,6 @@ class ChatController extends Controller
 
     public function newMessage(Conversation $conversation, Request $request)
     {
-
         $newMessage = $conversation->messages()->create([
             'from' => $request->from,
             'to' => $request->to,
