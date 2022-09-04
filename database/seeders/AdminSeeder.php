@@ -21,7 +21,9 @@ class AdminSeeder extends Seeder
             'password' => Hash::make('11111111')
         ]);
         \App\Models\Contact::create([
+            'user_id' => 1,
             'username' => 'amirshafi',
+            'profile' => 'amirshafi.jpg',
             'is_online' => rand(0,1)
         ]);
 

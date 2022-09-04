@@ -1,11 +1,11 @@
 <template>
     <div
-        class="pb-3 justify-around relative flex flex-col items-center space-x-4"
+        class="pb-3 relative flex flex-col items-center space-x-4"
     >
         <AddContactForm :memberId="memberId" v-if="showContactForm" v-on:modalClosed="toggleModal()"/>
 
         <!-- Settings Dropdown -->
-        <div class="ml-3 relative">
+        <div class=" relative">
             <Dropdown align="right" width="48">
                 <template #trigger>
                     <button
@@ -15,7 +15,7 @@
                         <img
                             class="h-10 w-10 rounded-full object-cover"
                             :src="$page.props.user.profile_photo_url"
-                            :alt="$page.props.user.name"
+                            :alt="$page.props.contact.username"
                         />
                     </button>
 
@@ -24,7 +24,7 @@
                             type="button"
                             class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-gray-200 hover:text-gray-700 focus:outline-none transition"
                         >
-                            {{ $page.props.user.name }}
+                            {{ $page.props.contact.username }}
 
                             <svg
                                 class="ml-2 -mr-0.5 h-4 w-4"
@@ -97,9 +97,9 @@
                 </template>
             </Dropdown>
         </div>
-        <span class="text-gray-100 text-xs">
-            {{ $page.props.user.name }}
-        </span>
+        <p class="text-gray-100 text-sm">
+            {{ $page.props.contact.username }}
+        </p>
     </div>
 </template>
 

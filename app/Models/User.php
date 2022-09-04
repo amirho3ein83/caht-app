@@ -60,9 +60,9 @@ class User extends Authenticatable
         'profile',
     ];
 
-    public function contacts()
+    public function contact()
     {
-        return $this->hasMany(Contact::class);
+        return $this->hasOne(Contact::class);
     }
 
     public function getProfileAttribute()

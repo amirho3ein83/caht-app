@@ -23,8 +23,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            AdminSeeder::class,
-            ConversationSeeder::class,
+            // AdminSeeder::class,
+            // ConversationSeeder::class,
+            // ChatWithAdminSeeder::class,
         ]);
     }
 }

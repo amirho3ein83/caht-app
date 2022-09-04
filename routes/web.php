@@ -39,20 +39,21 @@ Route::middleware([
     })->name('dashboard');
 
     Route::get('/chat', function () {
-        return Inertia::render('Chat/Container');
+        return Inertia::render('Chat/Container',['contact' => Auth::user()->contact]);
     })->name('chat');
 
 
     Route::post('/chat/conversations', [ChatController::class, 'conversations'])->name('conversations');
 
-    Route::get('/contact/{id}', [ChatController::class, 'getContact'])->name('getContact');
-    Route::get('/chat/conversation/{id}/messages', [ChatController::class, 'messages'])->name('conversation.messages');
-    Route::post('/chat/conversation/{id}/message', [ChatController::class, 'newMessage'])->name('sendMessage');
+    Route::get('/chat/conversations/{conversation}/messages', [ChatController::class, 'messages'])->name('conversation.messages');
+    Route::post('/chat/conversations/{conversation}/message', [ChatController::class, 'newMessage'])->name('sendMessage');
 
     Route::post('/contact', [ChatController::class, 'addContact'])->name('addContact');
 
     Route::post('/member/{id}/online', [ChatController::class, 'onlineContact'])->name('onlineContact');
     Route::post('/member/{id}/offline', [ChatController::class, 'offlineContact'])->name('offlineContact');
+
+    Route::post('get/contact/', [ChatController::class, 'getContact'])->name('getContact');
 
     Route::post('/chat/conversation/{id}/last-message', [ChatController::class, 'setConversationlastMessage'])->name('conversation.last_messages');
 });

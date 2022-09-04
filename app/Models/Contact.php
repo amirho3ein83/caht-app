@@ -26,11 +26,11 @@ class Contact extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-
     }
 
     public function getProfileAttribute()
     {
-        return url('storage/profile-photos/ss.jpg');
+        // return url("storage/profile-photos/{$this->profile}");
+        return url("storage/profile-photos/amirshafi.png");
     }
 }

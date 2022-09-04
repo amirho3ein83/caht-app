@@ -5,8 +5,8 @@
                 <div class="relative">
                     <img
                         class="w-10 sm:w-16 h-10 sm:h-16 rounded-full"
-                        :src="$page.props.user.profile"
-                        v-if="$page.props.user.profile"
+                        :src="second_contact.profile"
+                        v-if="second_contact.profile"
                     />
                     <i v-else class="bi bi-person-circle w-10 sm:w-16 h-10 sm:h-16 rounded-full text-gray-600" style="font-size: 39px;"></i>
                     <template v-if="second_contact.is_online">
@@ -22,7 +22,7 @@
             <div class="flex flex-col leading-tight">
                 <div class="text-xl mt-1 flex items-center">
                     <span class="text-gray-100 mr-3 break-words"
-                        >{{ second_contact.name }}
+                        >{{ second_contact.username }}
                     </span>
                 </div>
                 <span
