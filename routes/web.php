@@ -5,11 +5,12 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\UserController;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
-use App\Models\User;
+use App\Models\contact;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Request as FacadesRequest;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -39,7 +40,7 @@ Route::middleware([
     })->name('dashboard');
 
     Route::get('/chat', function () {
-        return Inertia::render('Chat/Container',['contact' => Auth::user()->contact]);
+        return Inertia::render('Chat/Container', ['contact' => Auth::user()->contact]);
     })->name('chat');
 
 
@@ -55,5 +56,7 @@ Route::middleware([
 
     Route::post('get/contact/', [ChatController::class, 'getContact'])->name('getContact');
 
+    Route::get('/contacts/explore', [ChatController::class, 'exploreContacts'])->name('exploreContacts');
+    
     Route::post('/chat/conversation/{id}/last-message', [ChatController::class, 'setConversationlastMessage'])->name('conversation.last_messages');
 });
