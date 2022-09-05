@@ -1,17 +1,26 @@
-<script setup>
-import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
-import JetInputError from "@/Components/InputError.vue";
-
-// const form = useForm({
-//     username: "",
-// });
-
-// const submit = () => {
-//     form.post(route("addContact"), {
-//         onFinish: () => console.log('done'),
-//     });
-// };
-//
+<script>
+export default {
+    data() {
+        return {
+            search: "",
+            contacts: [],
+        };
+    },
+    watch: {
+        search(value) {
+            axios
+                .get("contacts/explore?search=".value)
+                .then((response) => {
+                    console.log(response);
+                    this.contacts = response.data["contacts"];
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+    },
+    methods: {},
+};
 </script>
 
 <template>
@@ -70,7 +79,7 @@ import JetInputError from "@/Components/InputError.vue";
                             </svg>
                         </div>
                         <input
-                            id="default-search"
+                            v-model="search"
                             class="block p-3 rounded pl-10 w-full text-sm text-gray-900 bg-gray-100"
                             placeholder="Search Contacts"
                             required
@@ -78,20 +87,33 @@ import JetInputError from "@/Components/InputError.vue";
                     </div>
                 </div>
                 <!-- Modal body -->
-                <div class="p-4">
+                <div class="py-3" style="height: 460px">
                     <hr />
 
-                    <div class="my-2 space-y-3 flex flex-col mx-auto w-2/3">
-                        <div v-for="index in [1, 2, 2, 3, 6, 5]">
-                            <a
-                                href="#"
-                                class="flex items-center p-3 text-base text-gray-800 bg-gray-50 rounded-lg hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
+                    <div
+                        class="my-2 space-y-3 h-full flex flex-col w-full flex-1 flex-end overflow-y-auto scrollbar-thumb-gray scrollbar-thumb-rounded scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch"
+                    >
+                        <h3
+                            v-if="contacts.length"
+                            class="ml-3 font-mono text-gray-400"
+                        >
+                            found {{ contacts.length }} result
+                        </h3>
+                        <div
+                            class="flex flex-end flex-col-reverse space-y-4 overflow-y-auto scrollbar-thumb-gray scrollbar-thumb-rounded scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch"
+                        >
+                            <div v-for="contact in contacts" :key="contact.id"
+                            class="flex mx-4 bg-gray-200 rounded-sm p-1"
                             >
-                                <i class="bi bi-person-plus-fill"></i>
-                                <span class="flex-1 ml-3 whitespace-nowrap"
-                                    >username</span
+                                <span class="flex-1 ml-3 whitespace-nowrap">{{
+                                    contact.username
+                                }}</span>
+                                <button
+                                    class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-4 rounded-full"
                                 >
-                            </a>
+                                    Add
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -33,11 +33,9 @@ const submit = () => {
 
     <JetAuthenticationCard>
         <form @submit.prevent="submit">
-            <input type="file" class="mx-auto w-1/4" name="profile" />
 
             <div class="mt-4">
-<<<<<<< Updated upstream
-=======
+
                 <JetLabel for="profile" value="profile" />
                 <JetInput
                     id="profile"
@@ -50,7 +48,12 @@ const submit = () => {
                 <JetInputError class="mt-2" :message="form.errors.profile" />
             </div>
             <div class="mt-4">
->>>>>>> Stashed changes
+
+                    required
+                />
+                <JetInputError class="mt-2" :message="form.errors.profile" />
+            </div>
+            <div class="mt-4">
                 <JetLabel for="username" value="username" />
                 <JetInput
                     id="username"

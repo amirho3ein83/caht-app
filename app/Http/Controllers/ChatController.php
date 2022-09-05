@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Request as FacadesRequest;
 use Illuminate\Support\Facades\Validator;
 
 class ChatController extends Controller
@@ -73,6 +74,21 @@ class ChatController extends Controller
     {
         return Contact::where('username', $request->username)
             ->get();
+    }
+    public function exploreContacts(Request $request)
+    {
+        Log::info(FacadesRequest::input('search'));
+        $contacts =  Contact::query()
+            ->when(FacadesRequest::input('search'), function ($query, $search) {
+                $query->where('username', 'like', "{$search}%");
+            })
+            ->get();
+
+
+        return [
+            'contacts' => $contacts,
+            'filters' => FacadesRequest::only(['search'])
+        ];
     }
 
     // public function setConversationlastMessage(Request $request, $id)

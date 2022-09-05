@@ -29,7 +29,7 @@ class CreateNewUser implements CreatesNewUsers
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'username' => ['required', 'string', 'max:255', 'unique:contacts'],
             'password' => ['required', 'string', 'max:255'],
-            'profile' => [ 'image', 'max:2055'],
+            // 'profile' => [ 'image', 'max:2055'],
         ])->validate();
 
         return DB::transaction(function () use ($input) {
