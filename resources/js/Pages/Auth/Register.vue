@@ -17,6 +17,10 @@ const form = useForm({
     terms: false,
 });
 
+defineProps({
+    errors:Object
+})
+
 const submit = () => {
     form.post(route("register"), {
         onFinish: () => form.reset("password", "password_confirmation"),
@@ -31,12 +35,20 @@ const submit = () => {
         <form @submit.prevent="submit">
 
             <div class="mt-4">
+
                 <JetLabel for="profile" value="profile" />
                 <JetInput
                     id="profile"
                     v-model="form.profile"
                     type="file"
                     class="mt-1 block w-full"
+                    
+                />
+                <div v-if="errors.name"  v-text="errors.name" class="text-red-500"></div>
+                <JetInputError class="mt-2" :message="form.errors.profile" />
+            </div>
+            <div class="mt-4">
+
                     required
                 />
                 <JetInputError class="mt-2" :message="form.errors.profile" />

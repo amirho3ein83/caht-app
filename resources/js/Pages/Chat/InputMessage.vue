@@ -1,4 +1,5 @@
 <template>
+<<<<<<< Updated upstream
     <div class="flex justify-between px-4 pt-4 mb-2 sm:mb-0">
         <input
             v-model="message"
@@ -28,6 +29,9 @@
             </svg>
         </button>
     </div>
+=======
+
+>>>>>>> Stashed changes
 </template>
 
 <script>
