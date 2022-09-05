@@ -16,23 +16,17 @@ class ChatWithAdminSeeder extends Seeder
      */
     public function run()
     {
-        // $contactId = 3;
-        // $conversationId = 1;
-        // $conversation = Conversation::firstWhere([
-        //     'name' => 'amirsaman'
-        // ]);
+        $num = 3;
 
-        // $conversation->contacts()->attach(1);
-        // $conversation->contacts()->attach(3);
 
-        for ($i = 1; $i <= 4; $i++) {
+        for ($i = 1; $i <= $num; $i++) {
             Message::create([
                 'from' => 1,
                 'text' => Str::random(14),
                 'conversation_id' => $i,
             ]);
             Message::create([
-                'from' => 2,
+                'from' => $i,
                 'text' => Str::random(8),
                 'conversation_id' => $i,
             ]);

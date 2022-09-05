@@ -1,11 +1,9 @@
 <template>
-    <div
-        class="pb-3 relative flex flex-col items-center space-x-4"
-    >
-        <AddContactForm :memberId="memberId" v-if="showContactForm" v-on:modalClosed="toggleModal()"/>
+    <div class="pb-3 relative flex flex-col items-center space-x-4">
+        <AddContactForm v-on:modalClosed="toggleModal()" v-if="show" />
 
         <!-- Settings Dropdown -->
-        <div class=" relative">
+        <div class="relative">
             <Dropdown align="right" width="48">
                 <template #trigger>
                     <button
@@ -111,8 +109,7 @@ import AddContactForm from "./AddContactForm.vue";
 export default {
     data() {
         return {
-            showContactForm: false,
-            memberId: this.$page.props.user.id,
+            show: false,
         };
     },
     components: {
@@ -125,7 +122,7 @@ export default {
             axios.post(route("logout"));
         },
         toggleModal() {
-            this.showContactForm = !this.showContactForm;
+            this.show = !this.show;
         },
     },
 };

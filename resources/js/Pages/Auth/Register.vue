@@ -29,8 +29,18 @@ const submit = () => {
 
     <JetAuthenticationCard>
         <form @submit.prevent="submit">
-            <input type="file" class="mx-auto w-1/4" name="profile" />
 
+            <div class="mt-4">
+                <JetLabel for="profile" value="profile" />
+                <JetInput
+                    id="profile"
+                    v-model="form.profile"
+                    type="file"
+                    class="mt-1 block w-full"
+                    required
+                />
+                <JetInputError class="mt-2" :message="form.errors.profile" />
+            </div>
             <div class="mt-4">
                 <JetLabel for="username" value="username" />
                 <JetInput
