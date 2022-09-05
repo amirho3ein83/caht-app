@@ -17,6 +17,10 @@ const form = useForm({
     terms: false,
 });
 
+defineProps({
+    errors:Object
+})
+
 const submit = () => {
     form.post(route("register"), {
         onFinish: () => form.reset("password", "password_confirmation"),
@@ -32,6 +36,21 @@ const submit = () => {
             <input type="file" class="mx-auto w-1/4" name="profile" />
 
             <div class="mt-4">
+<<<<<<< Updated upstream
+=======
+                <JetLabel for="profile" value="profile" />
+                <JetInput
+                    id="profile"
+                    v-model="form.profile"
+                    type="file"
+                    class="mt-1 block w-full"
+                    
+                />
+                <div v-if="errors.name"  v-text="errors.name" class="text-red-500"></div>
+                <JetInputError class="mt-2" :message="form.errors.profile" />
+            </div>
+            <div class="mt-4">
+>>>>>>> Stashed changes
                 <JetLabel for="username" value="username" />
                 <JetInput
                     id="username"
