@@ -1,13 +1,10 @@
-<<<<<<< Updated upstream
-=======
 
 <script setup>
 
-import MessageItem from "./MessageItem.vue";
-import InputMessage from "./InputMessage.vue";
 import { Inertia } from "@inertiajs/inertia";
 import { reactive, ref, watch } from "vue";
 import { useForm } from "@inertiajs/inertia-vue3";
+import MessageItem from "./MessageItem.vue";
 
 const props = defineProps({
     messages: Object,
@@ -60,7 +57,6 @@ let sendMessage = () => {
 
 </script>
         
->>>>>>> Stashed changes
 <template>
     <div
         class="flex flex-1 flex-end justify-end flex-col space-y-4  overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
@@ -74,13 +70,7 @@ let sendMessage = () => {
             </div>
         </div>
     </div>
-<<<<<<< Updated upstream
-    <InputMessage
-        :conversation="currentConversation"
-        v-on:messagesent="getMessages()"
-        :class="{'invisible': !currentConversation.id}"
-    />
-=======
+
 
 
     <div class="flex justify-between px-4 pt-4 mb-2 sm:mb-0" :class="{ 'invisible': !currentConversation.id }">
@@ -100,18 +90,5 @@ let sendMessage = () => {
             </svg>
         </button>
     </div>
->>>>>>> Stashed changes
 </template>
 
-<script>
-import MessageItem from "./MessageItem.vue";
-import InputMessage from "./InputMessage.vue";
-
-export default {
-    components: {
-        MessageItem,
-        InputMessage,
-    },
-    props: ["messages", "currentConversation"],
-};
-</script>

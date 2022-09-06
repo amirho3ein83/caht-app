@@ -77,18 +77,13 @@ class ChatController extends Controller
     }
     public function exploreContacts(Request $request)
     {
-        Log::info(FacadesRequest::input('search'));
         $contacts =  Contact::query()
             ->when(FacadesRequest::input('search'), function ($query, $search) {
                 $query->where('username', 'like', "{$search}%");
             })
             ->get();
 
-
-        return [
-            'contacts' => $contacts,
-            'filters' => FacadesRequest::only(['search'])
-        ];
+        return $contacts;
     }
 
     // public function setConversationlastMessage(Request $request, $id)

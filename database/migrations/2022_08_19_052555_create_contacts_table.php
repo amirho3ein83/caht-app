@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained()->nullable();
             $table->boolean('is_online')->default(0);
             $table->string('username')->unique()->index();
+            $table->timestamp('last_active_at')->nullable();
         });
     }
 

@@ -1,26 +1,29 @@
-<script>
-export default {
-    data() {
-        return {
-            search: "",
-            contacts: [],
-        };
-    },
-    watch: {
-        search(value) {
-            axios
-                .get("contacts/explore?search=".value)
-                .then((response) => {
-                    console.log(response);
-                    this.contacts = response.data["contacts"];
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        },
-    },
-    methods: {},
-};
+<script setup>
+import { useForm } from "@inertiajs/inertia-vue3";
+import { ref, watch } from "vue";
+
+let props = defineProps({
+    search: Object,
+    allContacts: Object,
+});
+let search = ref(props.search);
+let contacts = ref(props.allContacts);
+
+watch(search, value => {
+    
+    console.log(value)
+
+    axios
+        .get("contacts/explore?search="+value)
+        .then((response) => {
+            console.log(response.data);
+            props.allContacts = response.data;
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+});
+
 </script>
 
 <template>
@@ -38,7 +41,6 @@ export default {
                 <button
                     type="button"
                     class="absolute -top-3 -right-2.5 text-white bg-transparent bg-red-400 hover:bg-red-500 hover:text-white rounded-full text-sm p-1.5 ml-auto inline-flex items-center hover:animate-spin dark:hover:bg-gray-800 dark:hover:text-white"
-                    data-modal-toggle="crypto-modal"
                     @click="$emit('modalClosed')"
                 >
                     <svg
@@ -86,18 +88,19 @@ export default {
                         />
                     </div>
                 </div>
+                {{ contacts }}
                 <!-- Modal body -->
-                <div class="py-3" style="height: 460px">
+                 <div class="py-3" style="height: 460px">
                     <hr />
 
                     <div
                         class="my-2 space-y-3 h-full flex flex-col w-full flex-1 flex-end overflow-y-auto scrollbar-thumb-gray scrollbar-thumb-rounded scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch"
                     >
                         <h3
-                            v-if="contacts.length"
+                            v-if="contacts != 0"
                             class="ml-3 font-mono text-gray-400"
                         >
-                            found {{ contacts.length }} result
+                            found {{ contacts }} result
                         </h3>
                         <div
                             class="flex flex-end flex-col-reverse space-y-4 overflow-y-auto scrollbar-thumb-gray scrollbar-thumb-rounded scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch"
