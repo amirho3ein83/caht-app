@@ -17,9 +17,6 @@ const form = useForm({
     terms: false,
 });
 
-defineProps({
-    errors:Object
-})
 
 const submit = () => {
     form.post(route("register"), {
@@ -44,7 +41,6 @@ const submit = () => {
                     class="mt-1 block w-full"
                     
                 />
-                <div v-if="errors.name"  v-text="errors.name" class="text-red-500"></div>
                 <JetInputError class="mt-2" :message="form.errors.profile" />
             </div>
             <div class="mt-4">

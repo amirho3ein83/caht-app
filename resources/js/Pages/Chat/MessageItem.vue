@@ -1,3 +1,12 @@
+
+
+<script setup>
+defineProps({
+    message:Object
+})
+    </script>
+    
+
 <template>
     <div v-if="message.from != $page.props.user.id" class="flex items-end ">
         <div class="flex flex-col text-xs max-w-xs  mx-2 order-1 items-end">
@@ -53,8 +62,3 @@
     </div>
 </template>
 
-<script>
-export default {
-    props: ["message"],
-};
-</script>

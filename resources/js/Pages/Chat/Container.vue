@@ -1,14 +1,12 @@
-<script>
+<!-- <script>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import ConversationItem from "./ConversationItem.vue";
-import InputMessage from "./InputMessage.vue";
 import MessageItem from "./MessageItem.vue";
 import { Link } from "@inertiajs/inertia-vue3";
 
 import ContactDetails from "./ContactDetails.vue";
 import MessageContainer from "./MessageContainer.vue";
 import UserInfo from "./UserInfo.vue";
-import ContactSearchbox from "./ContactSearchbox.vue";
 
 export default {
     props: ["user"],
@@ -16,19 +14,17 @@ export default {
         AppLayout,
         MessageContainer,
         ConversationItem,
-        InputMessage,
         MessageItem,
         Link,
         ContactDetails,
         UserInfo,
-        ContactSearchbox,
     },
     data: function () {
         return {
             conversations: [],
             currentConversation: [],
             messages: [],
-            current_contact: [],
+            current_contact: this.$page.props.contact.id,
             second_contact: [],
         };
     },
@@ -59,7 +55,7 @@ export default {
         disconenct(conversation) {
             window.Echo.leave("chat." + conversation.id);
         },
-         getConversations() {
+        getConversations() {
             axios
                 .post(
                     route("conversations", {
@@ -73,18 +69,16 @@ export default {
                     console.log(error);
                 });
         },
-        // userProfile() {
-        //     axios.get("user/profile");
-        // },
+
         noConversation() {
-            return this.conversations.length != 0 ? false : true
+            return this.conversations.length != 0 ? false : true;
         },
         getMessages() {
             axios
                 .get(
                     "/chat/conversations/" +
-                        this.currentConversation.id +
-                        "/messages"
+                    this.currentConversation.id +
+                    "/messages"
                 )
                 .then((response) => {
                     this.messages = response.data;
@@ -94,112 +88,185 @@ export default {
                 });
         },
         setConversation(conversation) {
-
             // get second contact details
             axios
-                .post("get/contact/",{username:conversation.second_contact})
+                .post("get/contact/", { username: conversation.second_contact })
                 .then((response) => {
-                    this.second_contact = response.data[0]
+                    this.second_contact = response.data[0];
                 })
                 .catch((error) => {
                     console.log(error);
                 });
 
-                this.currentConversation = conversation;
-            // this.second_contact = conversation.second_contact
+            this.currentConversation = conversation;
 
-            // offline user hiself
-            // axios
-            //     .post("/member/" + this.current_contact.id + "/offline")
-            //     .then((response) => {})
-            //     .catch((error) => {
-            //         console.log(error);
-            //     });
-
-            // this.currentConversation = conversation;
-            // this.current_contact = this.currentConversation.contacts[0]
-            //     ? this.$page.props.user
-            //     : this.currentConversation.contacts[1];
-
-            // if (
-            //     this.current_contact ==
-            //     this.currentConversation.contacts[0]
-            // ) {
-            //     this.second_contact =
-            //         this.currentConversation.contacts[1] ??
-            //         this.currentConversation.name;
-            //     this.current_contact =
-            //         this.currentConversation.contacts[0] ??
-            //         this.currentConversation.name;
-            // } else {
-            //     this.second_contact =
-            //         this.currentConversation.contacts[0] ??
-            //         this.currentConversation.name;
-            //     this.current_contact =
-            //         this.currentConversation.contacts[1] ??
-            //         this.currentConversation.name;
-            // }
         },
     },
     created() {
+
         this.getConversations();
+
+        // online user
+        axios
+            .post("/member/" + this.$page.props.contact.id + "/online")
+            .then((response) => {
+                console.log('ur online');
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     },
 
 };
-</script>
+</script> -->
+<script setup>
 
+import AppLayout from "@/Layouts/AppLayout.vue";
+import ConversationItem from "./ConversationItem.vue";
+import ContactDetails from "./ContactDetails.vue";
+import MessageContainer from "./MessageContainer.vue";
+import UserInfo from "./UserInfo.vue";
+import { onMounted, watch } from "vue";
+
+
+
+
+const props = defineProps({
+    conversations: Object,
+    currentConversation: Object,
+    messages: Object,
+    current_contact: Object,
+    second_contact: Object,
+})
+
+watch(props.currentConversation, (newValue, oldValue) => {
+    if (oldValue.id) {
+        disconenct(oldValue);
+    }
+    connect();
+})
+
+
+let getConversations = () => {
+    axios
+        .post(
+            route("conversations", {
+                contactId: this.$page.props.user.id,
+            })
+        )
+        .then((response) => {
+            props.conversations = response.data;
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+};
+let getMessages = () => {
+    axios
+        .get(
+            "/chat/conversations/" +
+            props.currentConversation.id +
+            "/messages"
+        )
+        .then((response) => {
+            props.messages = response.data;
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+};
+let setConversation = (conversation) => {
+    axios
+        .post("get/contact/", { username: conversation.second_contact })
+        .then((response) => {
+            props.second_contact = response.data[0];
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
+    props.currentConversation = conversation;
+};
+
+let connect = () => {
+    if (props.currentConversation.id) {
+        getMessages();
+        window.Echo.private(
+            "chat." + props.currentConversation.id
+        ).listen(".message", (e) => {
+            getMessages();
+        });
+    }
+};
+
+let noConversation = () => {
+    // return props.conversations.length != 0 ? false : true;
+};
+
+
+let disconenct = (conversation) => {
+    window.Echo.leave("chat." + conversation.id);
+
+};
+
+onMounted(() => {
+    getConversations()
+
+    // online user
+    axios
+        .post("/member/" + this.$page.props.contact.id + "/online")
+        .then((response) => {
+            console.log('ur online');
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+})
+
+</script>
+            
 <template>
-    <AppLayout title="Chat">
+    <AppLayout>
         <div class="flex mx-auto justify-center">
             <div
-                class="p:2 sm:py-4 justify-between flex flex-col h-screen max-w-2xl my-0 bg-gradient-to-b from-gray-400 via-gray-500 to-gray-600"
-            >
-                <ContactDetails
-                    :second_contact="second_contact"
-                    v-if="second_contact.length != 0"
-                />
-                
-                <div v-else class="mx-auto mb-5">
+                class="p:2 sm:py-4 justify-between flex flex-col h-screen max-w-2xl my-0 bg-gradient-to-b from-gray-400 via-gray-500 to-gray-600">
+                <!-- <ContactDetails :second_contact="second_contact" v-if="second_contact.length != 0" /> -->
+
+                <!-- <div v-else class="mx-auto mb-5">
                     <h3 class="text-slate-900">
                         Please choose one conversation
                     </h3>
-                </div>
+                </div> -->
 
-                <MessageContainer
-                    :currentConversation="currentConversation"
-                    :messages="messages"
-                />
+                <MessageContainer :currentConversation="currentConversation" :messages="messages" />
             </div>
             <div></div>
-            <div
-                class="bg-gradient-to-b from-gray-700 to-gray-600 py-5 w-60 my-0 flex-col align-center"
-            >
+            <div class="bg-gradient-to-b from-gray-700 to-gray-600 py-5 w-60 my-0 flex-col align-center">
                 <UserInfo />
-                <ContactSearchbox />
-
-                <div
-                    style="height: 500px"
-                    class="flex flex-1 flex-end flex-col space-y-4 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
-                >
-                    <div
-                        id="messages"
-                        class="flex flex-end flex-col-reverse space-y-4 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
-                    >
+                <div class="relative">
+                    <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <input v-model="search"
+                        class="block p-2 mb-4 pl-10 w-full text-sm text-gray-900 bg-gray-100 border border-gray-300 focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500"
+                        placeholder="Search Contacts" />
+                </div>
+                <div style="height: 500px"
+                    class="flex flex-1 flex-end flex-col space-y-4 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
+                    <div id="messages"
+                        class="flex flex-end flex-col-reverse space-y-4 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
                         <div>
-                            <template
-                                v-for="conversation in conversations"
-                                :key="conversation.id"
-                            >
-                                <ConversationItem
-                                    :conversation="conversation"
-                                    v-on:roomChanged="setConversation($event)"
-                                    v-on:second_contact="setSecondContact($event)"
-                                />
+                            <template v-for="conversation in conversations" :key="conversation.id">
+                                <ConversationItem v-if="conversation" :conversation="conversation"
+                                    v-on:roomChanged="setConversation($event)" v-on:second_contact="
+                                        setSecondContact($event)
+                                    " />
                             </template>
-                            <p
-                                class="text-slate-300 font-medium text-center animate-pulse"
-                                v-if="noConversation()"
-                            >
+                            <p class="text-slate-300 font-medium text-center animate-pulse" v-if="noConversation()">
                                 add a contact to chat with
                             </p>
                         </div>

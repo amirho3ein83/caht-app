@@ -1,3 +1,19 @@
+<script setup>
+
+const props = defineProps({
+    second_contact: Object,
+    conversation: Object,
+});
+
+let chatTitle = (username) => {
+    props.conversation.second_contact = props.conversation.name.replace(
+        username,
+        ""
+    );
+    return props.conversation.second_contact;
+};
+</script>
+
 <template>
     <a
         @click="$emit('roomChanged', conversation)"
@@ -15,21 +31,9 @@
             <div
                 class="overflow-hidden relative w-8 h-8 bg-gray-100 rounded-full dark:bg-gray-600"
             >
-A
+                A
             </div>
             <!-- <i class="bi bi-3-circle-fill text-green-500" style="font-size: 22px;"></i> -->
         </div>
     </a>
 </template>
-
-<script>
-export default {
-    props: ["conversation","second_contact"],
-    methods: {
-        chatTitle(username) {
-            this.conversation.second_contact = this.conversation.name.replace(username, "")
-            return this.conversation.second_contact;
-        },
-    },
-};
-</script>

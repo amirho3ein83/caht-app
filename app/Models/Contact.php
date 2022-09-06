@@ -9,8 +9,9 @@ class Contact extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'username','is_online'];
+    protected $fillable = [ 'username','is_online','last_active_at'];
 
+    public $dates = ['last_active_at'];
     public $timestamps = false;
 
 

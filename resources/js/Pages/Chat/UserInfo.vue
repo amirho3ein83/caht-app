@@ -1,6 +1,29 @@
+
+
+
+<script setup>
+import Dropdown from "@/Components/Dropdown.vue";
+import DropdownLink from "@/Components/DropdownLink.vue";
+import { ref } from "vue";
+import AddContactForm from "./AddContactForm.vue";
+    
+    let logout = () => {
+        axios.post(route("logout"));
+    };
+    
+    let show = ref(false);
+    
+
+    const toggleModal = () => {
+        show.value = !show.value;
+    }
+    
+    </script>
+            
+
 <template>
     <div class="pb-3 relative flex flex-col items-center space-x-4">
-        <AddContactForm v-on:modalClosed="toggleModal()" v-if="show" />
+        <AddContactForm v-if="show"  v-on:modalClosed="toggleModal()" />
 
         <!-- Settings Dropdown -->
         <div class="relative">
@@ -101,29 +124,4 @@
     </div>
 </template>
 
-<script>
-import Dropdown from "@/Components/Dropdown.vue";
-import DropdownLink from "@/Components/DropdownLink.vue";
-import AddContactForm from "./AddContactForm.vue";
 
-export default {
-    data() {
-        return {
-            show: false,
-        };
-    },
-    components: {
-        Dropdown,
-        DropdownLink,
-        AddContactForm,
-    },
-    methods: {
-        logout() {
-            axios.post(route("logout"));
-        },
-        toggleModal() {
-            this.show = !this.show;
-        },
-    },
-};
-</script>
