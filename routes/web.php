@@ -51,7 +51,7 @@ Route::middleware([
     Route::get('/chat/conversations/{conversation}/messages', [ChatController::class, 'messages'])->name('conversation.messages');
     Route::post('/chat/conversations/{conversation}/message', [ChatController::class, 'newMessage'])->name('sendMessage');
 
-    Route::post('/contact', [ChatController::class, 'addContact'])->name('addContact');
+    Route::get('/contact/{username}', [ChatController::class, 'addContact'])->name('addContact');
 
     Route::post('/member/{id}/online', [ChatController::class, 'onlineContact'])->name('onlineContact');
     Route::post('/member/{id}/offline', [ChatController::class, 'offlineContact'])->name('offlineContact');
@@ -59,6 +59,7 @@ Route::middleware([
     Route::post('get/contact/', [ChatController::class, 'getContact'])->name('getContact');
 
     Route::get('/contacts/explore', [ChatController::class, 'exploreContacts'])->name('exploreContacts');
+    Route::get('/contact/{contact}/contacts', [ChatController::class, 'searchAvailableContacts'])->name('searchAvailableContacts');
     
     Route::post('/chat/conversation/{id}/last-message', [ChatController::class, 'setConversationlastMessage'])->name('conversation.last_messages');
 });

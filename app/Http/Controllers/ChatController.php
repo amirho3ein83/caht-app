@@ -32,7 +32,7 @@ class ChatController extends Controller
         return $contact->conversations;
     }
 
-    public function messages( Conversation $conversation)
+    public function messages(Conversation $conversation)
     {
         return $conversation->messages()
             ->latest('sent_datetime')
@@ -41,30 +41,38 @@ class ChatController extends Controller
 
     public function addContact(Request $request)
     {
-        $Validator = Validator::make($request->only(['username']), $this->_validation)->validate();
-
         try {
 
             $contact = Contact::firstWhere('username', $request->username);
 
-            $conversation = Conversation::create();
+            $conversation = Conversation::create([
+                'name' => $contact->username . "" . Auth::user()->contact->username
+            ]);
 
             $conversation->contacts()->attach($contact->id);
             $conversation->contacts()->attach(Auth::id());
         } catch (\Throwable $e) {
-            return back()->withError($e->getMessage())->withInput();
+            Log::info($e);
+            return back()->withError($e->getMessage());
         }
     }
 
 
     public function onlineContact(Request $request, $id)
     {
+        // broadcast(new UserWentOnline($contactId))->toOthers();
+
+        // here should use redis
+
         Contact::where('id', $id)->update([
             'is_online' => 1
         ]);
     }
     public function offlineContact(Request $request, $id)
     {
+        // broadcast(new UserWentOffline($contactId))->toOthers();
+        // here should use redis
+
         Contact::where('id', $id)->update([
             'is_online' => 0
         ]);
@@ -77,14 +85,28 @@ class ChatController extends Controller
     }
     public function exploreContacts(Request $request)
     {
+
+        $contact  = Contact::find(Auth::id());
+
+        foreach ($contact->conversations as $key => $conversation) {
+
+            $contacts = $conversation->contacts;
+            foreach ($contacts as $key => $contact) {
+                $ids[] = $contact->id;
+            }
+        }
+        $contact_ids = Contact::whereIn('id', $ids)->get()->pluck('id');
+
         $contacts =  Contact::query()
             ->when(FacadesRequest::input('search'), function ($query, $search) {
-                $query->where('username', 'like', "{$search}%");
+                $query->where('username', 'like', "%{$search}%");
             })
+            ->whereNotIn('id', $contact_ids)
             ->get();
 
         return $contacts;
     }
+
 
     // public function setConversationlastMessage(Request $request, $id)
     // {
