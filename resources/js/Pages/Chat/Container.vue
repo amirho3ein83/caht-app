@@ -232,7 +232,7 @@ onMounted(() => {
         <div class="flex mx-auto justify-center">
 
             <div class="bg-gradient-to-b from-gray-700 to-gray-600 py-5 w-60 my-0 flex-col align-center"
-                style="width: 360px;">
+                style="width: 400px;">
 
                 <UserInfo />
 
@@ -249,11 +249,11 @@ onMounted(() => {
                         placeholder="Search Contacts" />
                 </div>
 
-                <div style="height: 500px"
-                    class="flex flex-1 flex-end flex-col space-y-4 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
+                <div
+                    class= " flex flex-1 flex-end flex-col space-y-4 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
                     <div id="messages"
-                        class="flex flex-end flex-col-reverse space-y-4 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
-                        <div>
+                        class="flex flex-end h-100 flex-col-reverse space-y-4 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
+                        <div >
                             <template v-for="conversation in conversations" :key="conversation.id">
                                 <ConversationItem v-if="conversation" :conversation="conversation"
                                     v-on:roomChanged="setConversation($event)" v-on:second_contact="
@@ -268,10 +268,10 @@ onMounted(() => {
                 </div>
 
             </div>
-            <div v-if="currentConversation.length != 0"
-                class=" sm:visible flex-1 p:2 sm:py-4 justify-between flex flex-col h-screen my-0 bg-gradient-to-b from-gray-400 via-gray-500 to-gray-600">
-                <ContactDetails :second_contact="second_contact"/>
-
+            <div
+                class=" sm:visible flex-1 p:2  justify-between flex flex-col h-screen my-0 bg-gradient-to-b from-gray-400 via-gray-500 to-gray-600">
+                <ContactDetails :second_contact="second_contact" v-if="currentConversation.id"/>
+<h2 class="mx-auto animate-pulse" v-else>Let's start by choosing one conversation</h2>
                 <MessageContainer :currentConversation="currentConversation" :messages="messages" />
             </div>
         </div>

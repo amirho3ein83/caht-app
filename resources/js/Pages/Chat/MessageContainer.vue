@@ -73,9 +73,13 @@ let sendMessage = () => {
 
 
 
-    <div class="flex justify-between px-4 pt-4 mb-2 sm:mb-0" :class="{ 'invisible': !currentConversation.id }">
-        <input v-model="form.text" @keyup.enter="sendMessage()" type="text" placeholder="..."
-            class="w-72 flex-- focus:outline-none text-gray-600 0 pl-12 bg-gray-200 focus:ring focus:ring-gray-600 rounded-md py-2" />
+    <div class="flex justify-between px-4 pt-2 pb-2 bg-gray-500 backdrop-blur-xl" :class="{ 'invisible': !currentConversation.id }">
+
+        <i class="bi bi-emoji-smile text-yellow-500 mx-2 hover:scale-110 transition duration-60"></i>
+        <i class="bi bi-file-earmark-arrow-up text-gray-200 mx-2 hover:scale-110 transition duration-60"></i>
+
+        <input v-model="form.text" @keyup.enter="sendMessage()" type="text" placeholder="type something ..."
+            class="w-72 flex-1 focus:outline-none text-gray-600 0 pl-12 bg-gray-200 focus:ring focus:ring-gray-600 rounded-md py-2" />
 
         <button :disabled="processing" @click="sendMessage()" prevent-scroll type="button"
             :class="{ 'bg-gray-600': processing }"
@@ -92,3 +96,9 @@ let sendMessage = () => {
     </div>
 </template>
 
+<style>
+    i{
+font-size: 27px;
+cursor: pointer;
+    }
+</style>

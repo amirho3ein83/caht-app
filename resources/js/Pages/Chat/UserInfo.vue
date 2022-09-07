@@ -105,7 +105,7 @@ import AddContactForm from "./AddContactForm.vue";
 
                     <!-- Authentication -->
                     <form @submit="logout">
-                        <DropdownLink as="button">
+                        <DropdownLink >
                             <div class="flex justify-between">
                                 Logout
                                 <i
