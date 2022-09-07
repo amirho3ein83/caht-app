@@ -75,7 +75,7 @@ let sendMessage = () => {
 
     <div class="flex justify-between px-4 pt-4 mb-2 sm:mb-0" :class="{ 'invisible': !currentConversation.id }">
         <input v-model="form.text" @keyup.enter="sendMessage()" type="text" placeholder="..."
-            class="w-72 focus:outline-none text-gray-600 0 pl-12 bg-gray-200 focus:ring focus:ring-gray-600 rounded-md py-2" />
+            class="w-72 flex-- focus:outline-none text-gray-600 0 pl-12 bg-gray-200 focus:ring focus:ring-gray-600 rounded-md py-2" />
 
         <button :disabled="processing" @click="sendMessage()" prevent-scroll type="button"
             :class="{ 'bg-gray-600': processing }"

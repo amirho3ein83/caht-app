@@ -1,4 +1,6 @@
-<!-- <script>
+<script>
+
+
 import AppLayout from "@/Layouts/AppLayout.vue";
 import ConversationItem from "./ConversationItem.vue";
 import MessageItem from "./MessageItem.vue";
@@ -118,8 +120,8 @@ export default {
     },
 
 };
-</script> -->
-<script setup>
+</script> 
+<!-- <script setup>
 
 import AppLayout from "@/Layouts/AppLayout.vue";
 import ConversationItem from "./ConversationItem.vue";
@@ -224,25 +226,16 @@ onMounted(() => {
 })
 
 </script>
-            
+             -->
 <template>
     <AppLayout>
         <div class="flex mx-auto justify-center">
-            <div
-                class="p:2 sm:py-4 justify-between flex flex-col h-screen max-w-2xl my-0 bg-gradient-to-b from-gray-400 via-gray-500 to-gray-600">
-                <!-- <ContactDetails :second_contact="second_contact" v-if="second_contact.length != 0" /> -->
 
-                <!-- <div v-else class="mx-auto mb-5">
-                    <h3 class="text-slate-900">
-                        Please choose one conversation
-                    </h3>
-                </div> -->
+            <div class="bg-gradient-to-b from-gray-700 to-gray-600 py-5 w-60 my-0 flex-col align-center"
+                style="width: 360px;">
 
-                <MessageContainer :currentConversation="currentConversation" :messages="messages" />
-            </div>
-            <div></div>
-            <div class="bg-gradient-to-b from-gray-700 to-gray-600 py-5 w-60 my-0 flex-col align-center">
                 <UserInfo />
+
                 <div class="relative">
                     <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
                         <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none"
@@ -251,10 +244,11 @@ onMounted(() => {
                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
                     </div>
-                    <input v-model="search"
+                    <input
                         class="block p-2 mb-4 pl-10 w-full text-sm text-gray-900 bg-gray-100 border border-gray-300 focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500"
                         placeholder="Search Contacts" />
                 </div>
+
                 <div style="height: 500px"
                     class="flex flex-1 flex-end flex-col space-y-4 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
                     <div id="messages"
@@ -272,6 +266,13 @@ onMounted(() => {
                         </div>
                     </div>
                 </div>
+
+            </div>
+            <div v-if="currentConversation.length != 0"
+                class=" sm:visible flex-1 p:2 sm:py-4 justify-between flex flex-col h-screen my-0 bg-gradient-to-b from-gray-400 via-gray-500 to-gray-600">
+                <ContactDetails :second_contact="second_contact"/>
+
+                <MessageContainer :currentConversation="currentConversation" :messages="messages" />
             </div>
         </div>
     </AppLayout>

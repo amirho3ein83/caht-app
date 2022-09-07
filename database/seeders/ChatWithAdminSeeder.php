@@ -16,7 +16,7 @@ class ChatWithAdminSeeder extends Seeder
      */
     public function run()
     {
-        $num = 10;
+        $num = 3;
 
 
         for ($i = 1; $i <= $num; $i++) {
