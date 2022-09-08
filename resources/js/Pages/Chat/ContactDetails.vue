@@ -6,8 +6,12 @@ const props = defineProps({
     currentConversation: Object,
 });
 
-const deleteConversation = ()=>{
-    axios.delete('chat/conversations/'+props.currentConversation.id+'/'+props.second_contact.id);
+const blockContact = () => {
+    axios.patch('contacts/' + props.second_contact.id + '/block');
+}
+
+const deleteConversation = () => {
+    axios.delete('chat/conversations/' + props.currentConversation.id + '/' + props.second_contact.id);
 }
 </script>
 
@@ -50,12 +54,12 @@ const deleteConversation = ()=>{
             </div>
 
 
-            <Dropdown align="right" width="48" >
+            <Dropdown align="right" width="48">
                 <template #trigger>
                     <i class="mr-4 bi bi-three-dots-vertical text-gray-200" style="font-size: 20px"></i>
                 </template>
 
-                <template #content >
+                <template #content>
                     <!-- Account Management -->
                     <!-- <div
                                     class="block px-4 py-2 text-xs text-gray-400"
@@ -67,16 +71,18 @@ const deleteConversation = ()=>{
                         class="mx-auto py-2 text-sm text-gray-800 w-full hover:bg-gray-600 hover:text-gray-300 block transition">
                         Mute Conversation
                     </button>
-                    <form @submit="deleteConversation">
-                            <button
+
+                    <button @click="deleteConversation"
                         class="mx-auto py-2 text-sm text-red-600 w-full hover:bg-gray-600 hover:text-gray-300 block transition">
                         Delete Conversation
                     </button>
-                    </form>
-                    <button
-                        class="mx-auto py-2 text-sm text-gray-800 w-full hover:bg-gray-600 hover:text-gray-300 block transition">
-                        Mute Conversation
+
+                    <button @click="blockContact"
+                        class="mx-auto align-baseline py-2 text-sm w-full  justify-around hover:bg-gray-600 hover:text-gray-300 flex transition">
+                        Block
+                        <i class="bi bi-slash-circle bold text-xl text-red-600 "></i>
                     </button>
+
                     <button
                         class="mx-auto py-2 text-sm text-gray-800 w-full hover:bg-gray-600 hover:text-gray-300 block transition">
                         Mute Conversation

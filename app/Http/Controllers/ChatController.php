@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\NewMessage;
+use App\Models\Blocked;
 use App\Models\Message;
 use App\Models\Conversation;
 use App\Models\Contact;
@@ -30,6 +31,21 @@ class ChatController extends Controller
     {
         $contact  = Contact::find($request->contactId);
         return $contact->conversations;
+    }
+
+    public function blockContact($id)
+    {
+        Blocked::make([
+            'created_by' => Auth::id(),
+            'blocked_user' => $id
+        ]);
+    }
+
+    public function blockedContacts($id)
+    {
+        $blocked_users = Blocked::where('created_by',Auth::id())->select('blocked_user')->toArray();
+
+        return $blocked_users;
     }
 
     public function messages(Conversation $conversation)
