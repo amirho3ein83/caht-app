@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('conversations_contacts', function (Blueprint $table) {
-            $table->foreignId('contact_id')->constrained('contacts');
-            $table->foreignId('conversation_id')->constrained();
+        Schema::create('blocked', function (Blueprint $table) {
+            $table->string('created_by');
+            $table->string('blocked_user');
         });
     }
 
@@ -26,7 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('conversations_contacts');
-        
+        Schema::dropIfExists('blockeds');
     }
 };

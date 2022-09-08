@@ -28,6 +28,10 @@ watch(search, value => {
 
 <script>
 
+const focus = {
+  mounted: (el) => el.focus()
+}
+
 export default {
     // props: ["user"],
     data: function () {
@@ -37,7 +41,9 @@ export default {
 
         };
     },
-
+    directives: {
+    focus
+  },
     watch: {
         search(value) {
             if (value == '') {
@@ -81,7 +87,7 @@ export default {
         aria-modal="true" role="dialog">
         <div class="relative p-4 w-full max-w-md h-full md:h-auto">
             <!-- Modal content -->
-            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <div class="relative bg-gray-400 rounded-lg shadow dark:bg-gray-600">
                 <button type="button"
                     class="absolute -top-3 -right-2.5 text-white bg-transparent bg-red-400 hover:bg-red-500 hover:text-white rounded-full text-sm p-1.5 ml-auto inline-flex items-center hover:animate-spin dark:hover:bg-gray-800 dark:hover:text-white"
                     @click="$emit('modalClosed')">
@@ -103,8 +109,8 @@ export default {
                                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
                         </div>
-                        <input v-model="search" class="block p-3 rounded pl-10 w-full text-sm text-gray-900 bg-gray-100"
-                            placeholder="Search Contacts" required />
+                        <input v-focus v-model="search" class=" block p-3 rounded pl-10 w-full text-sm text-gray-900 bg-gray-100 outline-none"
+                            placeholder="Search Contacts" required/>
                     </div>
                 </div>
                 <!-- Modal body -->
