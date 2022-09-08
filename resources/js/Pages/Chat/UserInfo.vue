@@ -22,7 +22,7 @@ import AddContactForm from "./AddContactForm.vue";
             
 
 <template>
-    <div class="pb-3 relative flex flex-col items-center space-x-4">
+    <div class="pb-3 relative flex px-2">
         <AddContactForm v-if="show"  v-on:modalClosed="toggleModal()" />
 
         <!-- Settings Dropdown -->
@@ -34,7 +34,7 @@ import AddContactForm from "./AddContactForm.vue";
                         class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition"
                     >
                         <img
-                            class="h-15 w-15 rounded-full object-cover"
+                            class="h-10 w-10 rounded-full object-cover"
                             :src="$page.props.user.profile_photo_url"
                             :alt="$page.props.contact.username"
                         />
@@ -118,9 +118,6 @@ import AddContactForm from "./AddContactForm.vue";
                 </template>
             </Dropdown>
         </div>
-        <p class="text-gray-100 text-sm mx-auto">
-            {{ $page.props.contact.username }}
-        </p>
     </div>
 </template>
 
