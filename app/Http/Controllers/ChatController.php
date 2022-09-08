@@ -83,6 +83,16 @@ class ChatController extends Controller
         return Contact::where('username', $request->username)
             ->get();
     }
+
+    public function deleteConversation(Conversation $conversation, Contact $contact)
+    {
+        $conversation->contacts()->detach([Auth::id(), $contact->id]);
+
+        Message::where('conversation_id', $conversation->id)->delete();
+
+        $conversation->delete();
+    }
+
     public function exploreContacts(Request $request)
     {
 

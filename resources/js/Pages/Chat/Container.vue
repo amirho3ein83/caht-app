@@ -172,7 +172,11 @@ export default {
             </div>
             <div
                 class=" sm:visible flex-1 p:2  justify-between flex flex-col h-screen my-0 bg-gradient-to-b from-gray-400 via-gray-500 to-gray-600">
-                <ContactDetails :second_contact="second_contact" v-if="currentConversation.id" />
+                <ContactDetails 
+                v-if="currentConversation.id" 
+                :second_contact="second_contact"
+                :currentConversation="currentConversation"
+                 />
                 <h2 class="mx-auto animate-pulse" v-else>Let's start by choosing one conversation</h2>
                 <MessageContainer :currentConversation="currentConversation" :messages="messages" />
             </div>

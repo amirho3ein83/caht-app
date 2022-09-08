@@ -62,4 +62,6 @@ Route::middleware([
     Route::get('/contact/{contact}/contacts', [ChatController::class, 'searchAvailableContacts'])->name('searchAvailableContacts');
     
     Route::post('/chat/conversation/{id}/last-message', [ChatController::class, 'setConversationlastMessage'])->name('conversation.last_messages');
+    Route::delete('chat/conversations/{conversation}/{contact}', [ChatController::class, 'deleteConversation']);
+    Route::delete('chat/conversations/{conversation}/{contact}', [ChatController::class, 'clearConversationHistory']);
 });

@@ -27,7 +27,7 @@ import AddContactForm from "./AddContactForm.vue";
 
         <!-- Settings Dropdown -->
         <div class="relative">
-            <Dropdown align="right" width="48">
+            <Dropdown align="left" width="48">
                 <template #trigger>
                     <button
                         v-if="$page.props.jetstream.managesProfilePhotos"
@@ -83,7 +83,7 @@ import AddContactForm from "./AddContactForm.vue";
 
                     <button
                         @click="toggleModal()"
-                        class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 text-left hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition"
+                        class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 text-left hover:bg-gray-400 focus:outline-none focus:bg-gray-100 transition"
                     >
                         <div class="flex justify-between">
                             Add Contact
@@ -94,14 +94,7 @@ import AddContactForm from "./AddContactForm.vue";
                         </div>
                     </button>
 
-                    <DropdownLink
-                        v-if="$page.props.jetstream.hasApiFeatures"
-                        :href="route('api-tokens.index')"
-                    >
-                        API Tokens
-                    </DropdownLink>
-
-                    <div class="border-t border-gray-100" />
+                    <!-- <div class="border-t border-gray-100" /> -->
 
                     <!-- Authentication -->
                     <form @submit="logout">

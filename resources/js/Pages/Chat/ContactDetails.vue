@@ -3,7 +3,12 @@ import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
 const props = defineProps({
     second_contact: Object,
+    currentConversation: Object,
 });
+
+const deleteConversation = ()=>{
+    axios.delete('chat/conversations/'+props.currentConversation.id+'/'+props.second_contact.id);
+}
 </script>
 
 <template>
@@ -50,7 +55,7 @@ const props = defineProps({
                     <i class="mr-4 bi bi-three-dots-vertical text-gray-200" style="font-size: 20px"></i>
                 </template>
 
-                <template #content>
+                <template #content >
                     <!-- Account Management -->
                     <!-- <div
                                     class="block px-4 py-2 text-xs text-gray-400"
@@ -59,19 +64,21 @@ const props = defineProps({
                                 </div> -->
 
                     <button
-                        class="mx-auto py-2 text-lg text-gray-800 w-full hover:bg-gray-600 hover:text-gray-300 block transition">
+                        class="mx-auto py-2 text-sm text-gray-800 w-full hover:bg-gray-600 hover:text-gray-300 block transition">
+                        Mute Conversation
+                    </button>
+                    <form @submit="deleteConversation">
+                            <button
+                        class="mx-auto py-2 text-sm text-red-600 w-full hover:bg-gray-600 hover:text-gray-300 block transition">
+                        Delete Conversation
+                    </button>
+                    </form>
+                    <button
+                        class="mx-auto py-2 text-sm text-gray-800 w-full hover:bg-gray-600 hover:text-gray-300 block transition">
                         Mute Conversation
                     </button>
                     <button
-                        class="mx-auto py-2 text-lg text-gray-800 w-full hover:bg-gray-600 hover:text-gray-300 block transition">
-                        Mute Conversation
-                    </button>
-                    <button
-                        class="mx-auto py-2 text-lg text-gray-800 w-full hover:bg-gray-600 hover:text-gray-300 block transition">
-                        Mute Conversation
-                    </button>
-                    <button
-                        class="mx-auto py-2 text-lg text-gray-800 w-full hover:bg-gray-600 hover:text-gray-300 block transition">
+                        class="mx-auto py-2 text-sm text-gray-800 w-full hover:bg-gray-600 hover:text-gray-300 block transition">
                         Mute Conversation
                     </button>
                 </template>
