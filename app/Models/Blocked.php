@@ -10,8 +10,8 @@ class Blocked extends Model
     use HasFactory;
 
     protected $table = 'blocked';
-    
-    protected $fillable = ['created_by','blocked_user'];
 
-    protected $timestampts = false;
+    protected $fillable = ['created_by', 'blocked_contact'];
+
+    public $timestamps = false;
 }

@@ -68,19 +68,20 @@ const deleteConversation = () => {
                                 </div> -->
 
                     <button
-                        class="mx-auto py-2 text-sm text-gray-800 w-full hover:bg-gray-600 hover:text-gray-300 block transition">
+                        class=" mx-auto py-2 text-sm text-gray-800 w-full hover:bg-gray-600 hover:text-gray-300 block transition">
                         Mute Conversation
                     </button>
 
                     <button @click="deleteConversation"
-                        class="mx-auto py-2 text-sm text-red-600 w-full hover:bg-gray-600 hover:text-gray-300 block transition">
-                        Delete Conversation
+                        class="mx-auto py-2 text-sm flex justify-evenly w-full hover:bg-gray-600 hover:text-gray-300 block transition">
+                        Delete Chat
+                        <i class="bi bi-trash3 text-red-400 text-lg"></i>
                     </button>
 
                     <button @click="blockContact"
-                        class="mx-auto align-baseline py-2 text-sm w-full  justify-around hover:bg-gray-600 hover:text-gray-300 flex transition">
+                        class="mx-auto align-baseline py-2 text-sm w-full  justify-evenly hover:bg-gray-600 hover:text-gray-300 flex transition">
                         Block
-                        <i class="bi bi-slash-circle bold text-xl text-red-600 "></i>
+                        <i class="bi bi-slash-circle bold text-xl text-red-400 "></i>
                     </button>
 
                     <button

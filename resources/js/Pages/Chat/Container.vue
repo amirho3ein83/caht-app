@@ -144,7 +144,7 @@ export default {
                         </svg>
                     </div>
                     <input
-                        class="block rounded-2xl p-2 mb-4 w-full text-lg text-gray-900 h-12 bg-gray-300 outline-none focus:bg-gray-200"
+                        class="block rounded-2xl p-1 mb-4 w-full text-lg text-gray-900 h-10 bg-gray-300 outline-none focus:bg-gray-200"
                         placeholder="           Search Contacts" />
                 </div>
 

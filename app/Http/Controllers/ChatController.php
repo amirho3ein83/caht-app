@@ -35,17 +35,26 @@ class ChatController extends Controller
 
     public function blockContact($id)
     {
-        Blocked::make([
+        
+        Blocked::create([
             'created_by' => Auth::id(),
-            'blocked_user' => $id
+            'blocked_contact' => $id
         ]);
+        
     }
 
-    public function blockedContacts($id)
+    public function unBlockContact($id)
     {
-        $blocked_users = Blocked::where('created_by',Auth::id())->select('blocked_user')->toArray();
+        Blocked::where([['created_by', Auth::id()], ['blocked_contact',$id]])->delete();
+    }
 
-        return $blocked_users;
+    public function blockedContactsList($id)
+    {
+        $ids = Blocked::where([['created_by', Auth::id()], ['blocked_contact',$id]])->pluck('blocked_contact')->toArray();
+        
+        $blocked_contacts = Contact::whereIn('id', $ids)->get();
+
+        return $blocked_contacts;
     }
 
     public function messages(Conversation $conversation)

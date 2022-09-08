@@ -21,7 +21,7 @@ class ConversationSeeder extends Seeder
     {
 
         $admin = Contact::first();
-        $num = 3;
+        $num = 5;
 
         for ($i = 1; $i <= $num; $i++) {
             $user = User::factory()->create();
