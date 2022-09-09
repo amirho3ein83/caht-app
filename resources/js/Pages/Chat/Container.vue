@@ -12,14 +12,6 @@ import Navbar from "./Navbar.vue";
 import ContactBio from "./ContactBio.vue";
 
 
-const InputMessage = document.getElementById('input-message')
-InputMessage.addEventListener('input',function(event) {
-     window.Echo.private(
-                    "chat." + this.currentConversation.id
-                ).wisper('typing',{
-                    
-                })
-})
 export default {
     props: ["user"],
     components: {

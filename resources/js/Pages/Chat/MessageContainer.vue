@@ -27,18 +27,6 @@ axios
     });
 };
 
-let typing = ref(false)
-
-const fireTyping = ()=>{
-      let channel = Echo.private('chat.'+props.currentConversation.id);
-
-  setTimeout(function() {
-    channel.whisper('typing', {
-      user: Laravel.user,
-        typing: true
-    });
-  }, 300);
-}
 
 let form = reactive({
     text: '',
@@ -49,8 +37,8 @@ const processing = ref(false);
 let sendMessage = () => {
 
     processing.value = true;
-    form.from = props.currentConversation.pivot.contact_id
-    Inertia.post("/chat/conversations/" + props.currentConversation.id + "/message", form,
+
+Inertia.post("/chat/conversations/" + props.currentConversation.id + "/message", form,
         {
             onSuccess: () => Promise.all([
                 getMessages(),
@@ -65,20 +53,20 @@ let sendMessage = () => {
     )
 }
 
-onMounted(() => {
-      let _this = this;
+// onMounted(() => {
+//       let _this = this;
 
-  Echo.private('chat')
-    .listenForWhisper('typing', (e) => {
-      this.user = e.user;
-      this.typing = e.typing;
+//   Echo.private('chat')
+//     .listenForWhisper('typing', (e) => {
+//       this.user = e.user;
+//       this.typing = e.typing;
 
-      // remove is typing indicator after 0.9s
-      setTimeout(function() {
-        _this.typing = false
-      }, 900);
-    });
-});
+//       // remove is typing indicator after 0.9s
+//       setTimeout(function() {
+//         _this.typing = false
+//       }, 900);
+//     });
+// });
 
 </script>
         
