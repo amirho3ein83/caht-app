@@ -1,41 +1,18 @@
 
+<script setup>
+import Dropdown from "@/Components/Dropdown.vue";
+import DropdownLink from "@/Components/DropdownLink.vue";
+import { ref } from "vue";
+import AddContactForm from "./AddContactForm.vue";
+import NewBroadCast from "./NewBroadCast.vue";
 
+const props = defineProps({
+  conversations:Object
+})
 
-<script>
-
-const focus = {
-  mounted: (el) => el.focus()
-}
-
-export default {
-    // props: ["user"],
-    data: function () {
-        return {
-            message: [],
-            conversations: [],
-
-        };
-    },
-    directives: {
-    focus
-  },
-
-    methods: {
-        // addContact(username) {
-        //     axios
-        //         .get("/contact/" + username)
-        //         .then((response) => {
-        //             console.log(username + " added to ur contact list");
-        //         })
-        //         .catch((error) => {
-        //             console.log(error);
-        //         });
-        // }
-    }
-
-};
-</script> 
-
+let message = ref('')
+</script>
+        
 
 
 <template>
@@ -67,17 +44,16 @@ export default {
                                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
                         </div>
-                        <input v-focus v-model="message" class=" block p-3 rounded pl-10 w-full text-sm text-gray-900 bg-gray-100 outline-none"
+                        <input  v-model="message" class=" block p-3 rounded pl-10 w-full text-sm text-gray-900 bg-gray-100 outline-none"
                             placeholder="Search Contacts" required/>
                     </div>
                 </div>
                 <!-- Modal body -->
                 <div class="py-3" style="height: 460px">
                     <hr />
-{{ conversations }}
                     <div
                         class="my-2 space-y-3 h-full flex flex-col w-full flex-1 flex-end overflow-y-auto scrollbar-thumb-gray scrollbar-thumb-rounded scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch">
-                        <div
+                        <!-- <div
                             class=" flex-end flex-col-reverse space-y-4 overflow-y-auto scrollbar-thumb-gray scrollbar-thumb-rounded scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch">
                             <div v-for="conversation in conversations" :key="conversation.id"
                                 class="shadow-slate-100 shadow-inner flex mx-4 bg-gray-100 rounded-sm ">
@@ -96,7 +72,7 @@ export default {
                                 </button>
 
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
