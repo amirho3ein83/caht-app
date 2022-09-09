@@ -16,9 +16,10 @@ let chatTitle = (username) => {
 
 <template>
     <a @click="$emit('roomChanged', conversation)" class="cursor-pointer hover:opacity-80 ">
-        <div class="bg-gray-500 ">
-            <div class="justify-start p-1  align-baseline flex my-1 hover:bg-gray-400 "
-                :class="{'bg-gray-400':currentConversation.id == conversation.id}">
+        <div class="bg-gray-500 rounded-l-full hover:bg-gray-400 shadow-r-30"
+        :class="{'bg-gray-400':currentConversation.id == conversation.id}">
+            <div class="justify-start p-1  align-baseline flex my-1 "
+                >
                 <div>
 
                     <img class="w-8 sm:w-14 h-8 sm:h-14 rounded-full" :src="$page.props.contact.profile"

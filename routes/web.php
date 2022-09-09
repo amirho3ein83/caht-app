@@ -62,7 +62,7 @@ Route::middleware([
 
     Route::get('/contact/{contact}/contacts', [ChatController::class, 'searchAvailableContacts'])->name('searchAvailableContacts');
 
-    Route::patch('/contacts/{id}/block', [ChatController::class, 'blockContact'])->name('blockContact');
+    Route::patch('/contacts/{id}/block', [ChatController::class, 'blockedContactsList'])->name('blocked-contacts-list');
     
     Route::post('/chat/conversation/{id}/last-message', [ChatController::class, 'setConversationlastMessage'])->name('conversation.last_messages');
     Route::delete('chat/conversations/{conversation}/{contact}', [ChatController::class, 'deleteConversation']);

@@ -28,7 +28,6 @@ axios
 };
 
 
-
 let form = reactive({
     text: '',
 })
@@ -38,8 +37,8 @@ const processing = ref(false);
 let sendMessage = () => {
 
     processing.value = true;
-    form.from = props.currentConversation.pivot.contact_id
-    Inertia.post("/chat/conversations/" + props.currentConversation.id + "/message", form,
+
+Inertia.post("/chat/conversations/" + props.currentConversation.id + "/message", form,
         {
             onSuccess: () => Promise.all([
                 getMessages(),
@@ -54,6 +53,20 @@ let sendMessage = () => {
     )
 }
 
+// onMounted(() => {
+//       let _this = this;
+
+//   Echo.private('chat')
+//     .listenForWhisper('typing', (e) => {
+//       this.user = e.user;
+//       this.typing = e.typing;
+
+//       // remove is typing indicator after 0.9s
+//       setTimeout(function() {
+//         _this.typing = false
+//       }, 900);
+//     });
+// });
 
 </script>
         
@@ -78,7 +91,7 @@ let sendMessage = () => {
         <i class="bi bi-emoji-smile text-yellow-500 mx-2 hover:scale-110 transition duration-60"></i>
         <i class="bi bi-file-earmark-arrow-up text-gray-200 mx-2 hover:scale-110 transition duration-60"></i>
 
-        <input v-model="form.text" @keyup.enter="sendMessage()" type="text" placeholder="type something ..."
+        <input v-model="form.text" @keydown="fireTyping()" @keyup="stopTyping()" @keyup.enter="sendMessage()" type="text" placeholder="type something ..."
             class="w-72 flex-1 focus:outline-none text-gray-600 0 pl-12 bg-gray-200 focus:ring focus:ring-gray-600 rounded-md py-2" />
 
         <button :disabled="processing" @click="sendMessage()" prevent-scroll type="button"

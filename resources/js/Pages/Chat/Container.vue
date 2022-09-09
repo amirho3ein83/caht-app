@@ -8,9 +8,9 @@ import { Link } from "@inertiajs/inertia-vue3";
 
 import ContactDetails from "./ContactDetails.vue";
 import MessageContainer from "./MessageContainer.vue";
-import UserInfo from "./UserInfo.vue";
-import NavLink from "../../../../vendor/laravel/jetstream/stubs/inertia/resources/js/Components/NavLink.vue";
-import JetNavLink from '@/Components/NavLink.vue';
+import Navbar from "./Navbar.vue";
+import ContactBio from "./ContactBio.vue";
+
 
 export default {
     props: ["user"],
@@ -21,8 +21,8 @@ export default {
         MessageItem,
         Link,
         ContactDetails,
-        UserInfo,
-        NavLink
+        Navbar,
+        ContactBio,
     },
     data: function () {
         return {
@@ -31,6 +31,7 @@ export default {
             messages: [],
             current_contact: this.$page.props.contact.id,
             second_contact: [],
+            showbioPage: false,
         };
     },
 
@@ -45,6 +46,9 @@ export default {
     methods: {
         logout() {
             axios.post(route("logout"));
+        },
+        toggleBioPage() {
+            this.showbioPage = ! this.showbioPage
         },
         connect() {
             if (this.currentConversation.id) {
@@ -128,11 +132,12 @@ export default {
 <template>
     <AppLayout>
         <div class="flex mx-auto justify-center">
-
-            <div class="bg-gradient-to-b from-gray-700 to-gray-600 pb-5 pt-2 w-60 my-0 flex-col align-center"
+<ContactBio v-if="showbioPage" v-on:closeBioPage="toggleBioPage"/>
+            <div v-if="!showbioPage" class="bg-gradient-to-r from-gray-800 overflow-x-auto to-gray-600 p-2 w-60 my-0 flex-col align-center h-screen"
                 style="width: 420px;">
 
-                <UserInfo />
+<div class="m-4">
+                    <Navbar :conversations="conversations" v-on:closeBioPage="toggleBioPage"/>
 
 
                 <div class="w-96 mx-auto relative">
@@ -144,7 +149,7 @@ export default {
                         </svg>
                     </div>
                     <input
-                        class="block rounded-2xl p-2 mb-4 w-full text-lg text-gray-900 h-12 bg-gray-300 outline-none focus:bg-gray-200"
+                        class="block rounded-2xl p-1 mb-4 w-96 text-lg text-gray-900 h-10 bg-gray-300 outline-none focus:bg-gray-200"
                         placeholder="           Search Contacts" />
                 </div>
 
@@ -168,6 +173,7 @@ export default {
                         </div>
                     </div>
                 </div>
+</div>
 
             </div>
             <div
