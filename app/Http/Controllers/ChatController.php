@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Events\NewMessage;
 use App\Models\Blocked;
 use App\Models\Message;
-use App\Models\Conversation;
-use App\Models\Contact;
+use App\Models\Chat;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -27,55 +27,48 @@ class ChatController extends Controller
 
 
 
-    public function conversations(Request $request)
+    public function chats(Request $request)
     {
-        $contact  = Contact::find($request->contactId);
-        return $contact->conversations;
+        return Auth::user()->chats;
     }
 
-    public function blockContact($id)
-    {
-        
-        Blocked::create([
-            'created_by' => Auth::id(),
-            'blocked_contact' => $id
-        ]);
-        
-    }
 
-    public function unBlockContact($id)
+    public function messages(Chat $chat)
     {
-        Blocked::where([['created_by', Auth::id()], ['blocked_contact',$id]])->delete();
-    }
-
-    public function blockedContactsList($id)
-    {
-        $ids = Blocked::where([['created_by', Auth::id()], ['blocked_contact',$id]])->pluck('blocked_contact')->toArray();
-        
-        $blocked_contacts = Contact::whereIn('id', $ids)->get();
-
-        return $blocked_contacts;
-    }
-
-    public function messages(Conversation $conversation)
-    {
-        return $conversation->messages()
+        return $chat->messages()
             ->latest('sent_datetime')
             ->get();
     }
 
-    public function addContact(Request $request)
+    // public function follow(Request $request)
+    // {
+    //     try {
+
+    //         $user = User::firstWhere('username', $request->username);
+
+    //         $chat = Chat::create([
+    //             'name' => $user->username . "" . Auth::user()->user->username
+    //         ]);
+
+    //         $chat->users()->attach($user->id);
+    //         $chat->users()->attach(Auth::id());
+    //     } catch (\Throwable $e) {
+    //         Log::info($e);
+    //         return back()->withError($e->getMessage());
+    //     }
+    // }
+    public function startMessaging(Request $request)
     {
         try {
 
-            $contact = Contact::firstWhere('username', $request->username);
+            $user = User::firstWhere('username', $request->username);
 
-            $conversation = Conversation::create([
-                'name' => $contact->username . "" . Auth::user()->contact->username
+            $chat = Chat::create([
+                'name' => $user->username . "" . Auth::user()->user->username
             ]);
 
-            $conversation->contacts()->attach($contact->id);
-            $conversation->contacts()->attach(Auth::id());
+            $chat->users()->attach($user->id);
+            $chat->users()->attach(Auth::id());
         } catch (\Throwable $e) {
             Log::info($e);
             return back()->withError($e->getMessage());
@@ -83,86 +76,110 @@ class ChatController extends Controller
     }
 
 
-    public function onlineContact(Request $request, $id)
+    // public function onlineUser(Request $request, $id)
+    // {
+    //     // broadcast(new UserWentOnline($userId))->toOthers();
+
+    //     // here should use redis
+
+    //     User::where('id', $id)->update([
+    //         'is_online' => 1
+    //     ]);
+    // }
+    // public function offlineUser(Request $request, $id)
+    // {
+    //     // broadcast(new UserWentOffline($userId))->toOthers();
+    //     // here should use redis
+
+    //     User::where('id', $id)->update([
+    //         'is_online' => 0
+    //     ]);
+    // }
+
+    public function getUser(Request $request)
     {
-        // broadcast(new UserWentOnline($contactId))->toOthers();
-
-        // here should use redis
-
-        Contact::where('id', $id)->update([
-            'is_online' => 1
-        ]);
-    }
-    public function offlineContact(Request $request, $id)
-    {
-        // broadcast(new UserWentOffline($contactId))->toOthers();
-        // here should use redis
-
-        Contact::where('id', $id)->update([
-            'is_online' => 0
-        ]);
-    }
-
-    public function getContact(Request $request)
-    {
-        return Contact::where('username', $request->username)
+        return User::where('username', $request->username)
             ->get();
     }
 
-    public function deleteConversation(Conversation $conversation, Contact $contact)
+    public function deleteChat(Chat $chat, User $user)
     {
-        $conversation->contacts()->detach([Auth::id(), $contact->id]);
+        $chat->users()->detach([Auth::id(), $user->id]);
 
-        Message::where('conversation_id', $conversation->id)->delete();
+        Message::where('chat_id', $chat->id)->delete();
 
-        $conversation->delete();
+        $chat->delete();
     }
 
-    public function exploreContacts(Request $request)
+    public function exploreUsers(Request $request)
     {
 
-        $contact  = Contact::find(Auth::id());
+        $user  = User::find(Auth::id());
 
-        foreach ($contact->conversations as $key => $conversation) {
+        foreach ($user->chats as $key => $chat) {
 
-            $contacts = $conversation->contacts;
-            foreach ($contacts as $key => $contact) {
-                $ids[] = $contact->id;
+            $users = $chat->users;
+            foreach ($users as $key => $user) {
+                $ids[] = $user->id;
             }
         }
-        $contact_ids = Contact::whereIn('id', $ids)->get()->pluck('id');
+        $user_ids = User::whereIn('id', $ids)->get()->pluck('id');
 
-        $contacts =  Contact::query()
+        $users =  User::query()
             ->when(FacadesRequest::input('search'), function ($query, $search) {
                 $query->where('username', 'like', "%{$search}%");
             })
-            ->whereNotIn('id', $contact_ids)
+            ->whereNotIn('id', $user_ids)
             ->get();
 
-        return $contacts;
+        return $users;
     }
 
 
-    // public function setConversationlastMessage(Request $request, $id)
+    // public function setChatlastMessage(Request $request, $id)
     // {
 
     //     // use redis here 
 
-    //     // $conversation = Conversation::where('id', $id)->update(['last_message' => $request->last_message]);
-    //     // if ($conversation) {
+    //     // $chat = Chat::where('id', $id)->update(['last_message' => $request->last_message]);
+    //     // if ($chat) {
     //     //     Log::info('done');
     //     // }
     // }
 
-    public function newMessage(Conversation $conversation, Request $request)
+    public function sendMessage(Chat $chat, Request $request)
     {
-        $newMessage = $conversation->messages()->create([
+        $sendMessage = $chat->messages()->create([
             'from' => $request->from,
-            'to' => $request->to,
             'text' => $request->text,
-            'conversation_id' => $request->conversation_id
+            'chat_id' => $request->chat_id
         ]);
 
-        broadcast(new NewMessage($newMessage))->toOthers();
+        broadcast(new NewMessage($sendMessage))->toOthers();
+    }
+
+
+
+    public function blockAccount($id)
+    {
+
+        Blocked::create([
+            'created_by' => Auth::id(),
+            'blocked_user' => $id
+        ]);
+    }
+
+    public function unblockAccount($id)
+    {
+        Blocked::where([['created_by', Auth::id()], ['blocked_user', $id]])->delete();
+    }
+
+    public function blockedAccounts($id)
+    {
+        $ids = Blocked::where([['created_by', Auth::id()], ['blocked_user', $id]])->pluck('blocked_user')->toArray();
+
+        $blocked_accounts = User::whereIn('id', $ids)->get();
+
+        return $blocked_accounts;
     }
 }

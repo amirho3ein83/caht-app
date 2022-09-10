@@ -7,7 +7,7 @@ import AddContactForm from "./AddContactForm.vue";
 import NewBroadCast from "./NewBroadCast.vue";
 
 const props = defineProps({
-  conversations:Object
+  chats:Object
 })
 
 let message = ref('')
@@ -55,7 +55,7 @@ let message = ref('')
                         class="my-2 space-y-3 h-full flex flex-col w-full flex-1 flex-end overflow-y-auto scrollbar-thumb-gray scrollbar-thumb-rounded scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch">
                         <!-- <div
                             class=" flex-end flex-col-reverse space-y-4 overflow-y-auto scrollbar-thumb-gray scrollbar-thumb-rounded scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch">
-                            <div v-for="conversation in conversations" :key="conversation.id"
+                            <div v-for="chat in chats" :key="chat.id"
                                 class="shadow-slate-100 shadow-inner flex mx-4 bg-gray-100 rounded-sm ">
 
                                 <i 
@@ -63,10 +63,10 @@ let message = ref('')
                                     style="font-size: 39px;"></i>
 
                                 <p class="flex-1 ml-3 text-center align-middle self-center">{{
-                                conversation.username
+                                chat.username
                                 }}</p>
 
-                                <button @click="addContact(conversation.username)"
+                                <button @click="addContact(chat.username)"
                                     class="bg-gray-400 hover:bg-gray-600 text-white font-bold py-1 px-4 rounded-sm">
                                     Add
                                 </button>

@@ -8,14 +8,14 @@ import MessageItem from "./MessageItem.vue";
 
 const props = defineProps({
     messages: Object,
-    currentConversation: Object
+    currentChat: Object
 })
 
 let getMessages = () => {
 axios
     .get(
-        "/chat/conversations/" +
-        props.currentConversation.id +
+        "/chat/chats/" +
+        props.currentChat.id +
         "/messages"
     )
     .then((response) => {
@@ -38,7 +38,7 @@ let sendMessage = () => {
 
     processing.value = true;
 
-Inertia.post("/chat/conversations/" + props.currentConversation.id + "/message", form,
+Inertia.post("/chat/chats/" + props.currentChat.id + "/message", form,
         {
             onSuccess: () => Promise.all([
                 getMessages(),
@@ -86,7 +86,7 @@ Inertia.post("/chat/conversations/" + props.currentConversation.id + "/message",
 
 
 
-    <div class="flex justify-between px-4 pt-2 pb-2 bg-gray-500 backdrop-blur-xl" :class="{ 'invisible': !currentConversation.id }">
+    <div class="flex justify-between px-4 pt-2 pb-2 bg-gray-500 backdrop-blur-xl" :class="{ 'invisible': !currentChat.id }">
 
         <i class="bi bi-emoji-smile text-yellow-500 mx-2 hover:scale-110 transition duration-60"></i>
         <i class="bi bi-file-earmark-arrow-up text-gray-200 mx-2 hover:scale-110 transition duration-60"></i>

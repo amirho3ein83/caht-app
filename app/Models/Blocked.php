@@ -11,7 +11,7 @@ class Blocked extends Model
 
     protected $table = 'blocked';
 
-    protected $fillable = ['created_by', 'blocked_contact'];
+    protected $fillable = ['created_by', 'blocked'];
 
     public $timestamps = false;
 }

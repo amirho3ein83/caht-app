@@ -4,8 +4,8 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\Contact;
-use App\Models\Conversation;
+
+use App\Models\Chat;
 use App\Models\GroupMember;
 use App\Models\Message;
 use App\Models\User;
@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             AdminSeeder::class,
-            ConversationSeeder::class,
+            ChatSeeder::class,
             ChatWithAdminSeeder::class,
         ]);
     }

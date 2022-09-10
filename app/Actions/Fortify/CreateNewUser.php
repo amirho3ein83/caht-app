@@ -2,7 +2,7 @@
 
 namespace App\Actions\Fortify;
 
-use App\Models\Contact;
+
 use App\Models\GroupMember;
 use App\Models\Team;
 use App\Models\User;
@@ -29,7 +29,8 @@ class CreateNewUser implements CreatesNewUsers
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'username' => ['required', 'string', 'max:255', 'unique:contacts'],
             'password' => ['required', 'string', 'max:255'],
-            // 'profile' => [ 'image', 'max:2055'],
+            'username' => $input['username'],
+            'profile' => $input['profile']
         ])->validate();
 
         return DB::transaction(function () use ($input) {
@@ -40,15 +41,12 @@ class CreateNewUser implements CreatesNewUsers
                 $this->createTeam($user);
             });
 
-            Storage::putFileAs(
-                'profile-photos', $input['profile'], $input['username']
-            );
+            // Storage::putFileAs(
+            //     'profile-photos',
+            //     $input['profile'],
+            //     $input['username']
+            // );
 
-            Contact::create([
-                'user_id' => $user->id,
-                'username' => $input['username'],
-                'profile' => $input['profile'],
-            ]);
         });
     }
 

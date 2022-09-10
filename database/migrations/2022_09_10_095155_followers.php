@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -14,14 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('messages', function (Blueprint $table) {
-            $table->id();
-            $table->string('from');
-            $table->mediumText('text');
-            $table->foreignId('chat_id')->nullable()->constrained();
-            $table->timestamp('sent_datetime')->useCurrent();
-        });
-    }
+        Schema::create('followers', function (Blueprint $table) {
+
+            $table->integer('follower_id')->unsigned();
+            $table->integer('following_id')->unsigned();
+            
+        });    }
 
     /**
      * Reverse the migrations.
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('chat_messages');
+        Schema::dropIfExists('followers');
     }
 };

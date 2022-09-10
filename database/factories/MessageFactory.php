@@ -21,7 +21,7 @@ class MessageFactory extends Factory
             'from' => rand(1, 3),
             'to' => rand(1, 3),
             'text' => Str::random(14),
-            'conversation_id' => rand(1, 3),
+            'chat_id' => rand(1, 3),
         ];
     }
 }

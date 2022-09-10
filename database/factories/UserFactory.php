@@ -29,6 +29,10 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => '11111111', // password
             'remember_token' => Str::random(10),
+
+            'username' => $this->faker->unique()->userName(),
+            'profile' => 'amirshafi.jpg',
+            'is_online' => rand(0,1)
         ];
     }
 

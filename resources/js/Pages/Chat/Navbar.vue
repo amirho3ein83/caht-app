@@ -9,7 +9,7 @@ import AddContactForm from "./AddContactForm.vue";
 import NewBroadCast from "./NewBroadCast.vue";
 
 const props = defineProps({
-  conversations:Object
+  chats: Object
 })
 
 let logout = () => {
@@ -31,31 +31,21 @@ const toggleBroadCastForm = () => {
 <template>
   <div class="pb-2 relative flex px-2 justify-between">
     <AddContactForm v-if="show" v-on:modalClosed="toggleModal()" />
-    <NewBroadCast :conversations="conversations" v-if="showBroadCastForm" v-on:closeBroadCast="toggleBroadCastForm()" />
-    <img
-    @click="$emit('closeBioPage')"
-      class="h-10 w-10 rounded-full object-cover"
-      :src="$page.props.contact.profile"
-      :alt="$page.props.contact.username"
-    />
+    <NewBroadCast :chats="chats" v-if="showBroadCastForm" v-on:closeBroadCast="toggleBroadCastForm()" />
+    <img @click="$emit('closeBioPage')" class="h-10 w-10 rounded-full object-cover" :src="$page.props.user.profile"
+      :alt="$page.props.user.username" />
     <!-- Settings Dropdown -->
     <div class="relative flex">
 
-    <button
-      @click="toggleModal()"
-      class="px-4 py-2 text-gray-400 hover:text-gray-300"
-    >
-      <i style="font-size: 28px" class="bi bi-person-plus-fill"></i>
-    </button>
-    <button
-      @click="toggleBroadCastForm()"
-      class="px-4 py-2 text-gray-400 hover:text-gray-300"
-    >
-<i class="bi bi-broadcast-pin"></i>    </button>
+      <button @click="toggleModal()" class="px-4 py-2 text-gray-400 hover:text-gray-300">
+        <i style="font-size: 28px" class="bi bi-person-plus-fill"></i>
+      </button>
+      <button @click="toggleBroadCastForm()" class="px-4 py-2 text-gray-400 hover:text-gray-300">
+        <i class="bi bi-broadcast-pin"></i> </button>
 
       <Dropdown align="right" width="48">
         <template #trigger>
-                    <i class="mr-4 bi bi-three-dots-vertical text-gray-200" style="font-size: 20px"></i>
+          <i class="mr-4 bi bi-three-dots-vertical text-gray-200" style="font-size: 20px"></i>
 
         </template>
 
@@ -81,10 +71,7 @@ const toggleBroadCastForm = () => {
             <DropdownLink>
               <div class="flex justify-between">
                 Logout
-                <i
-                  class="text-red-600 bi bi-box-arrow-right"
-                  style="font-size: 22px"
-                ></i>
+                <i class="text-red-600 bi bi-box-arrow-right" style="font-size: 22px"></i>
               </div>
             </DropdownLink>
           </form>

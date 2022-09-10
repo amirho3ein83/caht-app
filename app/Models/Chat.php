@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Conversation extends Model
+class Chat extends Model
 {
     use HasFactory;
 
@@ -16,8 +16,8 @@ class Conversation extends Model
         return $this->hasMany(Message::class);
     }
 
-    public function contacts()
+    public function users()
     {
-        return $this->belongsToMany(Contact::class,'conversations_contacts');
+        return $this->belongsToMany(User::class, 'chats_users');
     }
 }

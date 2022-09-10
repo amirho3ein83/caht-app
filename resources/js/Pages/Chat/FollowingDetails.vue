@@ -2,16 +2,16 @@
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
 const props = defineProps({
-    second_contact: Object,
-    currentConversation: Object,
+    following: Object,
+    currentChat: Object,
 });
 
 const blockContact = () => {
-    axios.patch('contacts/' + props.second_contact.id + '/block');
+    axios.patch('block/' + props.following.username);
 }
 
-const deleteConversation = () => {
-    axios.delete('chat/conversations/' + props.currentConversation.id + '/' + props.second_contact.id);
+const deleteChat = () => {
+    axios.delete('chats/' + props.currentChat.id);
 }
 </script>
 
@@ -27,11 +27,11 @@ const deleteConversation = () => {
                 <div class="flex ml-3">
                     <div class="relative p-1">
                         <div class="relative">
-                            <img class="w-10 sm:w-16 h-10 sm:h-16 rounded-full" :src="second_contact.profile"
-                                v-if="second_contact.profile" />
+                            <img class="w-10 sm:w-16 h-10 sm:h-16 rounded-full" :src="following.profile"
+                                v-if="following.profile" />
                             <i v-else class="bi bi-person-circle w-10 sm:w-16 h-10 sm:h-16 rounded-full text-gray-600"
                                 style="font-size: 39px"></i>
-                            <template v-if="second_contact.is_online">
+                            <template v-if="following.is_online">
                                 <div
                                     class="absolute button-0 right-0 -mr-0 -mt-4 w-4 h-4 rounded-full bg-green-400 animate-ping">
                                 </div>
@@ -42,12 +42,12 @@ const deleteConversation = () => {
                     </div>
                     <div class="flex flex-col leading-tight justify-center ml-2">
                         <div class="text-xl mt-1 flex items-center">
-                            <span class="text-gray-100 mr-3 break-words">{{ second_contact.username }}
+                            <span class="text-gray-100 mr-3 break-words">{{ following.username }}
                             </span>
                         </div>
-                        <span v-if="second_contact.is_online" class="text-sm text-gray-100">online
+                        <span v-if="following.is_online" class="text-sm text-gray-100">online
                         </span>
-                        <span v-if="second_contact.is_typing" class="text-sm text-gray-100">typing...
+                        <span v-if="following.is_typing" class="text-sm text-gray-100">typing...
                         </span>
                     </div>
                 </div>
@@ -69,10 +69,10 @@ const deleteConversation = () => {
 
                     <button
                         class=" mx-auto py-2 text-sm text-gray-800 w-full hover:bg-gray-600 hover:text-gray-300 block transition">
-                        Mute Conversation
+                        Mute Chat
                     </button>
 
-                    <button @click="deleteConversation"
+                    <button @click="deleteChat"
                         class="mx-auto py-2 text-sm flex justify-evenly w-full hover:bg-gray-600 hover:text-gray-300 block transition">
                         Delete Chat
                         <i class="bi bi-trash3 text-red-400 text-lg"></i>
@@ -86,7 +86,7 @@ const deleteConversation = () => {
 
                     <button
                         class="mx-auto py-2 text-sm text-gray-800 w-full hover:bg-gray-600 hover:text-gray-300 block transition">
-                        Mute Conversation
+                        Mute Chat
                     </button>
                 </template>
             </Dropdown>
