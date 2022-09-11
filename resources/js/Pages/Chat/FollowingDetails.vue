@@ -11,7 +11,7 @@ const blockContact = () => {
 }
 
 const deleteChat = () => {
-    axios.delete('chats/' + props.currentChat.id);
+    axios.delete('chats/' + props.currentChat.id +'/'+props.following.id);
 }
 </script>
 
@@ -73,7 +73,7 @@ const deleteChat = () => {
                     </button>
 
                     <button @click="deleteChat"
-                        class="mx-auto py-2 text-sm flex justify-evenly w-full hover:bg-gray-600 hover:text-gray-300 block transition">
+                        class="mx-auto py-2 text-sm justify-evenly w-full hover:bg-gray-600 hover:text-gray-300 block transition">
                         Delete Chat
                         <i class="bi bi-trash3 text-red-400 text-lg"></i>
                     </button>

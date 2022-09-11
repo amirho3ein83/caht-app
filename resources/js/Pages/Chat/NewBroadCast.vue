@@ -7,10 +7,13 @@ import AddContactForm from "./AddContactForm.vue";
 import NewBroadCast from "./NewBroadCast.vue";
 
 const props = defineProps({
-  chats:Object
+    chats: Object
 })
 
 let message = ref('')
+
+const checkedAccounts = ref([])
+
 </script>
         
 
@@ -23,58 +26,167 @@ let message = ref('')
         <div class="relative p-4 w-full max-w-md h-full md:h-auto">
             <!-- Modal content -->
             <div class="relative bg-gray-400 rounded-lg shadow dark:bg-gray-600">
-                <button type="button"
-                    class="absolute -top-3 -right-2.5 text-white bg-transparent bg-red-400 hover:bg-red-500 hover:text-white rounded-full text-sm p-1.5 ml-auto inline-flex items-center hover:animate-spin dark:hover:bg-gray-800 dark:hover:text-white"
-                    @click="$emit('closeBroadCast')">
-                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                    <span class="sr-only">Close modal</span>
-                </button>
-                <!-- Modal header -->
-                <div class="py-4 px-6 rounded-t dark:border-gray-600">
-                    <div class="relative">
-                        <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                        </div>
-                        <input  v-model="message" class=" block p-3 rounded pl-10 w-full text-sm text-gray-900 bg-gray-100 outline-none"
-                            placeholder="Search Contacts" required/>
-                    </div>
-                </div>
-                <!-- Modal body -->
-                <div class="py-3" style="height: 460px">
-                    <hr />
-                    <div
-                        class="my-2 space-y-3 h-full flex flex-col w-full flex-1 flex-end overflow-y-auto scrollbar-thumb-gray scrollbar-thumb-rounded scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch">
-                        <!-- <div
-                            class=" flex-end flex-col-reverse space-y-4 overflow-y-auto scrollbar-thumb-gray scrollbar-thumb-rounded scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch">
-                            <div v-for="chat in chats" :key="chat.id"
-                                class="shadow-slate-100 shadow-inner flex mx-4 bg-gray-100 rounded-sm ">
+<!--
+  This component uses @tailwindcss/forms
 
-                                <i 
-                                    class="bi bi-person-circle w-10 sm:w-16 h-10 sm:h-16 rounded-full text-gray-600"
-                                    style="font-size: 39px;"></i>
+  yarn add @tailwindcss/forms
+  npm install @tailwindcss/forms
 
-                                <p class="flex-1 ml-3 text-center align-middle self-center">{{
-                                chat.username
-                                }}</p>
+  plugins: [require('@tailwindcss/forms')]
+-->
 
-                                <button @click="addContact(chat.username)"
-                                    class="bg-gray-400 hover:bg-gray-600 text-white font-bold py-1 px-4 rounded-sm">
-                                    Add
-                                </button>
+<details open class="overflow-hidden rounded">
+  <summary
+    class="flex items-center justify-between px-5 py-3 bg-gray-100 lg:hidden"
+  >
+    <span class="text-sm font-medium"> Toggle Filters </span>
 
-                            </div>
-                        </div> -->
-                    </div>
-                </div>
+    <svg
+      class="w-5 h-5"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M4 6h16M4 12h16M4 18h16"
+      />
+    </svg>
+  </summary>
+
+  <form action="" class="border-t border-gray-200 lg:border-t-0">
+    <fieldset>
+      <legend class="block w-full px-5 py-3 text-xs font-medium bg-gray-50">
+        Type
+      </legend>
+
+      <div class="px-5 py-6 space-y-2">
+        <div class="flex items-center">
+          <input
+            id="toy"
+            type="checkbox"
+            name="type[toy]"
+            class="w-5 h-5 border-gray-300 rounded"
+          />
+
+          <label for="toy" class="ml-3 text-sm font-medium"> Toy </label>
+        </div>
+
+        <div class="flex items-center">
+          <input
+            id="game"
+            type="checkbox"
+            name="type[game]"
+            class="w-5 h-5 border-gray-300 rounded"
+          />
+
+          <label for="game" class="ml-3 text-sm font-medium"> Game </label>
+        </div>
+
+        <div class="flex items-center">
+          <input
+            id="outdoor"
+            type="checkbox"
+            name="type[outdoor]"
+            class="w-5 h-5 border-gray-300 rounded"
+          />
+
+          <label for="outdoor" class="ml-3 text-sm font-medium">
+            Outdoor
+          </label>
+        </div>
+
+        <div class="pt-2">
+          <button type="button" class="text-xs text-gray-500 underline">
+            Reset Type
+          </button>
+        </div>
+      </div>
+    </fieldset>
+
+    <div>
+      <fieldset>
+        <legend class="block w-full px-5 py-3 text-xs font-medium bg-gray-50">
+          Age
+        </legend>
+
+        <div class="px-5 py-6 space-y-2">
+          <div class="flex items-center">
+            <input
+              id="3+"
+              type="checkbox"
+              name="age[3+]"
+              class="w-5 h-5 border-gray-300 rounded"
+            />
+
+            <label for="3+" class="ml-3 text-sm font-medium"> 3+ </label>
+          </div>
+
+          <div class="flex items-center">
+            <input
+              id="8+"
+              type="checkbox"
+              name="age[8+]"
+              class="w-5 h-5 border-gray-300 rounded"
+            />
+
+            <label for="8+" class="ml-3 text-sm font-medium"> 8+ </label>
+          </div>
+
+          <div class="flex items-center">
+            <input
+              id="12+"
+              type="checkbox"
+              name="age[12+]"
+              class="w-5 h-5 border-gray-300 rounded"
+            />
+
+            <label for="12+" class="ml-3 text-sm font-medium"> 12+ </label>
+          </div>
+
+          <div class="flex items-center">
+            <input
+              id="16+"
+              type="checkbox"
+              name="age[16+]"
+              class="w-5 h-5 border-gray-300 rounded"
+            />
+
+            <label for="16+" class="ml-3 text-sm font-medium"> 16+ </label>
+          </div>
+
+          <div class="pt-2">
+            <button type="button" class="text-xs text-gray-500 underline">
+              Reset Age
+            </button>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+
+    <div class="flex justify-between px-5 py-3 border-t border-gray-200">
+      <button
+        name="reset"
+        type="button"
+        class="text-xs font-medium text-gray-600 underline rounded"
+      >
+        Reset All
+      </button>
+
+      <button
+        name="commit"
+        type="button"
+        class="px-5 py-3 text-xs font-medium text-white bg-green-600 rounded"
+      >
+        Apply Filters
+      </button>
+    </div>
+  </form>
+</details>
+
             </div>
         </div>
     </div>

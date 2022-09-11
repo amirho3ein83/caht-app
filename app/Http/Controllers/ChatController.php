@@ -102,13 +102,25 @@ class ChatController extends Controller
             ->get();
     }
 
-    public function deleteChat(Chat $chat, User $user)
+    public function deleteChat(Chat $chat,$id)
     {
-        $chat->users()->detach([Auth::id(), $user->id]);
+        DB::beginTransaction();
 
-        Message::where('chat_id', $chat->id)->delete();
+        try {
+           
+            $chat->users()->detach([Auth::id(), $id]);
 
-        $chat->delete();
+            Message::where('chat_id', $chat->id)->delete();
+
+            $chat->delete();
+
+
+            
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::info($e);
+        }
     }
 
     public function exploreUsers(Request $request)
@@ -160,12 +172,14 @@ class ChatController extends Controller
 
 
 
-    public function blockAccount($id)
+    public function blockAccount($username)
     {
+
+        $user = User::where('username', $username)->first();
 
         Blocked::create([
             'created_by' => Auth::id(),
-            'blocked_user' => $id
+            'blocked_user' => $user->id
         ]);
     }
 

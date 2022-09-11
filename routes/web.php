@@ -56,7 +56,7 @@ Route::middleware([
     // Route::post('/member/{id}/online', [ChatController::class, 'onlineContact'])->name('onlineContact');
     // Route::post('/member/{id}/offline', [ChatController::class, 'offlineContact'])->name('offlineContact');
 
-    Route::get('following/{username}/get-details', [ChatController::class, 'getContact'])->name('getContact');
+    Route::get('following/{username}/get-details', [ChatController::class, 'getUser'])->name('getUser');
 
     Route::get('/explore', [ChatController::class, 'explore'])->name('explore');
 
@@ -68,6 +68,6 @@ Route::middleware([
     Route::get('blocked-accounts', [ChatController::class, 'blockedAccount'])->name('blocked-account');
 
     // Route::post('/chat/chat/{id}/last-message', [ChatController::class, 'setChatlastMessage'])->name('chat.last_messages');
-    Route::delete('chats/{chat}', [ChatController::class, 'deleteChat']);
+    Route::delete('chats/{chat}/{id}', [ChatController::class, 'deleteChat']);
     // Route::delete('chat/chats/{chat}/{contact}', [ChatController::class, 'clearChatHistory']);
 });
