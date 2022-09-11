@@ -21,6 +21,10 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
+            $table->string('profile', 2048)->nullable();
+            $table->foreignId('user_id')->nullable()->constrained()->nullable();
+            $table->boolean('is_online')->default(0);
+            $table->string('username')->unique()->index();
             $table->timestamps();
         });
     }

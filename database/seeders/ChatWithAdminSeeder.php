@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Conversation;
+use App\Models\Chat;
 use App\Models\Message;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -23,12 +23,12 @@ class ChatWithAdminSeeder extends Seeder
             Message::create([
                 'from' => 1,
                 'text' => Str::random(14),
-                'conversation_id' => $i,
+                'chat_id' => $i,
             ]);
             Message::create([
                 'from' => $i,
                 'text' => Str::random(8),
-                'conversation_id' => $i,
+                'chat_id' => $i,
             ]);
         }
     }

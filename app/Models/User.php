@@ -26,7 +26,7 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'email','username', 'password',
+        'email', 'username', 'password', 'username', 'is_online','profile'
     ];
 
     /**
@@ -60,13 +60,39 @@ class User extends Authenticatable
         'profile',
     ];
 
-    public function contact()
-    {
-        return $this->hasOne(Contact::class);
-    }
-
     public function getProfileAttribute()
     {
         return url('storage/profile-photos/ss.jpg');
     }
+
+    public function chats()
+    {
+        return $this->belongsToMany(Chat::class, 'chats_users');
+    }
+
+    public function following()
+    {
+        return $this->belongsToMany(User::class, 'followers', 'follower_id', 'following_id');
+    }
+
+    // users that follow this user
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'followers', 'following_id', 'follower_id');
+    }
+
+
+
+    //     User $a wants to follow user $b:
+
+    //     $a->following()->attach($b);
+
+    //     User $a wants to stop following user $b:
+
+    // $a->following()->detach($b);
+
+    // Get all followers of user $a:
+
+    // $a_followers = $a->followers()->get();
+
 }

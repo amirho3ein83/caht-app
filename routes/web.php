@@ -5,7 +5,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\UserController;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
-use App\Models\contact;
+
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,8 +37,7 @@ Route::middleware([
 
     Route::get('/dashboard', function () {
         // return Inertia::render('Dashboard');
-    return redirect('chat');
-
+        return redirect('chat');
     })->name('dashboard');
 
     Route::get('/chat', function () {
@@ -46,25 +45,29 @@ Route::middleware([
     })->name('chat');
 
 
-    Route::post('/chat/conversations', [ChatController::class, 'conversations'])->name('conversations');
+    Route::get('/chats', [ChatController::class, 'chats'])->name('chats');
 
-    Route::get('/chat/conversations/{conversation}/messages', [ChatController::class, 'messages'])->name('conversation.messages');
-    Route::post('/chat/conversations/{conversation}/message', [ChatController::class, 'newMessage'])->name('sendMessage');
+    Route::get('/chats/{chat}/messages', [ChatController::class, 'messages'])->name('chat.messages');
 
-    Route::get('/contact/{username}', [ChatController::class, 'addContact'])->name('addContact');
+    Route::post('chats/{chat}/send-message', [ChatController::class, 'sendMessage'])->name('sendMessage');
 
-    Route::post('/member/{id}/online', [ChatController::class, 'onlineContact'])->name('onlineContact');
-    Route::post('/member/{id}/offline', [ChatController::class, 'offlineContact'])->name('offlineContact');
+    Route::patch('/follow/{username}', [ChatController::class, 'follow'])->name('follow');
 
-    Route::post('get/contact/', [ChatController::class, 'getContact'])->name('getContact');
+    // Route::post('/member/{id}/online', [ChatController::class, 'onlineContact'])->name('onlineContact');
+    // Route::post('/member/{id}/offline', [ChatController::class, 'offlineContact'])->name('offlineContact');
 
-    Route::get('/contacts/explore', [ChatController::class, 'exploreContacts'])->name('exploreContacts');
+    Route::get('following/{username}/get-details', [ChatController::class, 'getUser'])->name('getUser');
 
-    Route::get('/contact/{contact}/contacts', [ChatController::class, 'searchAvailableContacts'])->name('searchAvailableContacts');
+    Route::get('/explore', [ChatController::class, 'explore'])->name('explore');
 
-    Route::patch('/contacts/{id}/block', [ChatController::class, 'blockedContactsList'])->name('blocked-contacts-list');
-    
-    Route::post('/chat/conversation/{id}/last-message', [ChatController::class, 'setConversationlastMessage'])->name('conversation.last_messages');
-    Route::delete('chat/conversations/{conversation}/{contact}', [ChatController::class, 'deleteConversation']);
-    // Route::delete('chat/conversations/{conversation}/{contact}', [ChatController::class, 'clearConversationHistory']);
+    Route::get('/search-followings', [ChatController::class, 'searchFollowings'])->name('searchFollowings');
+    Route::get('/search-followers', [ChatController::class, 'searchFollowers'])->name('searchFollowers');
+
+    Route::patch('block/{username}', [ChatController::class, 'blockAccount'])->name('blocked-account');
+    Route::patch('unblock/{username}', [ChatController::class, 'unblockAccount'])->name('unblocked-account');
+    Route::get('blocked-accounts', [ChatController::class, 'blockedAccount'])->name('blocked-account');
+
+    // Route::post('/chat/chat/{id}/last-message', [ChatController::class, 'setChatlastMessage'])->name('chat.last_messages');
+    Route::delete('chats/{chat}/{id}', [ChatController::class, 'deleteChat']);
+    // Route::delete('chat/chats/{chat}/{contact}', [ChatController::class, 'clearChatHistory']);
 });

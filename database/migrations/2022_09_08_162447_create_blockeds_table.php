@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('blocked', function (Blueprint $table) {
             $table->string('created_by');
-            $table->string('blocked_contact');
+            $table->string('blocked_user');
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('blockeds');
+        Schema::dropIfExists('blocked');
     }
 };
