@@ -50,6 +50,7 @@ Route::middleware([
     Route::get('/chats/{chat}/messages', [ChatController::class, 'messages'])->name('chat.messages');
 
     Route::post('chats/{chat}/send-message', [ChatController::class, 'sendMessage'])->name('sendMessage');
+    Route::post('message/broadcasting', [ChatController::class, 'broadcastMessage'])->name('broadcastMessage');
 
     Route::patch('/follow/{username}', [ChatController::class, 'follow'])->name('follow');
 
@@ -62,6 +63,9 @@ Route::middleware([
 
     Route::get('/search-followings', [ChatController::class, 'searchFollowings'])->name('searchFollowings');
     Route::get('/search-followers', [ChatController::class, 'searchFollowers'])->name('searchFollowers');
+
+    Route::get('followings', [ChatController::class, 'getFollowings'])->name('getFollowings');
+    Route::get('followers', [ChatController::class, 'getFollowers'])->name('getFollowers');
 
     Route::patch('block/{username}', [ChatController::class, 'blockAccount'])->name('blocked-account');
     Route::patch('unblock/{username}', [ChatController::class, 'unblockAccount'])->name('unblocked-account');

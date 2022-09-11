@@ -70,7 +70,7 @@ class User extends Authenticatable
         return $this->belongsToMany(Chat::class, 'chats_users');
     }
 
-    public function following()
+    public function followings()
     {
         return $this->belongsToMany(User::class, 'followers', 'follower_id', 'following_id');
     }
@@ -82,6 +82,24 @@ class User extends Authenticatable
     }
 
 
+    public function isNotTheUser(User $user) {
+        return $this->id !== $user->id;
+    }
+
+    public function isFollowing(User $user) {
+        return (bool) $this->following->where('id', $user->id)->count();
+    }
+
+    public function canFollow(User $user) {
+        if (!$this->isNotTheUser($user)) {
+            return false;
+        }
+        return !$this->isFollowing($user);
+    }
+
+    public function canUnfollow(User $user) {
+        return $this->isFollowing($user);
+    }
 
     //     User $a wants to follow user $b:
 

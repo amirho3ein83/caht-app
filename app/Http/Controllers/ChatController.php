@@ -9,6 +9,7 @@ use App\Models\Chat;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -38,6 +39,29 @@ class ChatController extends Controller
         return $chat->messages()
             ->latest('sent_datetime')
             ->get();
+    }
+    public function broadcastMessage()
+    {
+        $sendMessage = $chat->messages()->create([
+            'from' => Auth::id(),
+            'text' => $request->text,
+            'chat_id' => $request->chat_id
+        ]);
+
+        broadcast(new NewMessage($sendMessage))->toOthers();
+    }
+    public function getFollowings()
+    {
+        return  Cache::remember('followings',60*60,function(){
+           return Auth::user()->followings;
+        });
+        
+    }
+    public function getFollowers()
+    {
+        return  Cache::remember('followers',60*60,function(){
+            return Auth::user()->followers;
+         });
     }
 
     // public function follow(Request $request)

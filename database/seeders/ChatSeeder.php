@@ -25,6 +25,10 @@ class ChatSeeder extends Seeder
         for ($i = 1; $i <= $num; $i++) {
             $user = User::factory()->create();
 
+
+            $admin->following()->attach($user);
+            $user->following()->attach($admin);
+
             $chat = Chat::create([
                 'name' => $admin->username . "" . $user->username
             ]);
@@ -41,6 +45,10 @@ class ChatSeeder extends Seeder
 
             $user1 = User::factory()->create();
             $user2 = User::factory()->create();
+
+
+            $user1->following()->attach($user2);
+            $user2->following()->attach($user1);
 
             $chat = Chat::create([
                 'name' => $user1->username . "" . $user1->username

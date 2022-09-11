@@ -1,193 +1,236 @@
-
-<script setup>
+<script>
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
-import { ref } from "vue";
+import { onBeforeMount, ref } from "vue";
 import AddContactForm from "./AddContactForm.vue";
 import NewBroadCast from "./NewBroadCast.vue";
+import Spinner from "./Spinner.vue";
 
-const props = defineProps({
-    chats: Object
-})
+export default {
+  emits: ["broadcastStarted"],
+  components: { Spinner },
+  data() {
+    return {
+      followers: [],
+      followings: [],
+      checkedAccounts: [],
+      messsage: "",
+      processing: false,
+    };
+  },
+  directives: {
+    focus,
+  },
+  components: {
+    Spinner,
+  },
+  methods: {
+    getFollowers() {
+      axios
+        .get("followers")
+        .then((response) => {
+          console.log(response.data);
+          this.followers = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getFollowings() {
+      axios
+        .get("followings")
+        .then((response) => {
+          console.log(response.data);
+          this.followings = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    startBroadcasting() {
+      this.processing = true;
+      axios
+        .post("message/broadcasting", { chosenAccounts: this.checkedAccounts })
+        .then((response) => {
+          this.processing = false;
+          console.log("start broadcat");
 
-let message = ref('')
+          this.$emit("broadcastStarted");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
 
-const checkedAccounts = ref([])
-
+  created() {
+    this.getFollowings();
+    this.getFollowers();
+  },
+};
 </script>
-        
-
 
 <template>
-    <!-- Main modal -->
-    <div id="crypto-modal" tabindex="-1"
-        class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex"
-        aria-modal="true" role="dialog">
-        <div class="relative p-4 w-full max-w-md h-full md:h-auto">
-            <!-- Modal content -->
-            <div class="relative bg-gray-400 rounded-lg shadow dark:bg-gray-600">
-<!--
-  This component uses @tailwindcss/forms
-
-  yarn add @tailwindcss/forms
-  npm install @tailwindcss/forms
-
-  plugins: [require('@tailwindcss/forms')]
--->
-
-<details open class="overflow-hidden rounded">
-  <summary
-    class="flex items-center justify-between px-5 py-3 bg-gray-100 lg:hidden"
+  <!-- Main modal -->
+  <div
+    id="crypto-modal"
+    tabindex="-1"
+    class="
+      overflow-y-auto overflow-x-hidden
+      fixed
+      top-0
+      right-0
+      left-0
+      z-200
+      w-full
+      md:inset-0
+      h-modal
+      md:h-full
+      justify-center
+      items-center
+      flex
+    "
+    aria-modal="true"
+    role="dialog"
   >
-    <span class="text-sm font-medium"> Toggle Filters </span>
-
-    <svg
-      class="w-5 h-5"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M4 6h16M4 12h16M4 18h16"
-      />
-    </svg>
-  </summary>
-
-  <form action="" class="border-t border-gray-200 lg:border-t-0">
-    <fieldset>
-      <legend class="block w-full px-5 py-3 text-xs font-medium bg-gray-50">
-        Type
-      </legend>
-
-      <div class="px-5 py-6 space-y-2">
-        <div class="flex items-center">
-          <input
-            id="toy"
-            type="checkbox"
-            name="type[toy]"
-            class="w-5 h-5 border-gray-300 rounded"
-          />
-
-          <label for="toy" class="ml-3 text-sm font-medium"> Toy </label>
-        </div>
-
-        <div class="flex items-center">
-          <input
-            id="game"
-            type="checkbox"
-            name="type[game]"
-            class="w-5 h-5 border-gray-300 rounded"
-          />
-
-          <label for="game" class="ml-3 text-sm font-medium"> Game </label>
-        </div>
-
-        <div class="flex items-center">
-          <input
-            id="outdoor"
-            type="checkbox"
-            name="type[outdoor]"
-            class="w-5 h-5 border-gray-300 rounded"
-          />
-
-          <label for="outdoor" class="ml-3 text-sm font-medium">
-            Outdoor
-          </label>
-        </div>
-
-        <div class="pt-2">
-          <button type="button" class="text-xs text-gray-500 underline">
-            Reset Type
-          </button>
-        </div>
-      </div>
-    </fieldset>
-
-    <div>
-      <fieldset>
-        <legend class="block w-full px-5 py-3 text-xs font-medium bg-gray-50">
-          Age
-        </legend>
-
-        <div class="px-5 py-6 space-y-2">
-          <div class="flex items-center">
+    <div class="relative p-4 w-full max-w-md h-full md:h-auto">
+      <div class="relative bg-gray-400 rounded-lg shadow dark:bg-gray-500">
+        <button
+          type="button"
+          class="
+            absolute
+            -top-3
+            -right-2.5
+            text-white
+            bg-transparent bg-red-400
+            hover:bg-red-500 hover:text-white
+            rounded-full
+            text-sm
+            p-1.5
+            ml-auto
+            inline-flex
+            items-center
+            hover:animate-spin
+            dark:hover:bg-gray-800 dark:hover:text-white
+          "
+          @click="$emit('broadcastStarted')"
+        >
+          <svg
+            aria-hidden="true"
+            class="w-5 h-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          <span class="sr-only">Close modal</span>
+        </button>
+        <div open class="overflow-hidden rounded">
+          <div class="py-4 px-6 rounded-t dark:border-gray-500">
             <input
-              id="3+"
-              type="checkbox"
-              name="age[3+]"
-              class="w-5 h-5 border-gray-300 rounded"
+              v-focus
+              v-model="message"
+              class="
+                block
+                p-3
+                rounded
+                pl-10
+                w-full
+                text-sm text-gray-900
+                bg-gray-100
+                outline-none
+              "
+              placeholder="message..."
+              required
             />
-
-            <label for="3+" class="ml-3 text-sm font-medium"> 3+ </label>
           </div>
+          <fieldset>
+            <legend
+              class="block w-full px-5 py-3 text-xs font-medium bg-gray-200"
+            >
+              followings
+            </legend>
 
-          <div class="flex items-center">
-            <input
-              id="8+"
-              type="checkbox"
-              name="age[8+]"
-              class="w-5 h-5 border-gray-300 rounded"
-            />
+            <div class="px-5 py-6 space-y-2">
+              <Spinner v-if="followings.length == 0" />
+              <div
+                v-for="following of followings"
+                :key="following.id"
+                class="flex items-center"
+              >
+                <input
+                  type="checkbox"
+                  v-model="checkedAccounts"
+                  :value="following.username"
+                  name="age[3+]"
+                  class="w-5 h-5 border-gray-300 rounded"
+                />
 
-            <label for="8+" class="ml-3 text-sm font-medium"> 8+ </label>
+                <label class="ml-3 text-sm font-medium">
+                  {{ following.username }}
+                </label>
+              </div>
+            </div>
+          </fieldset>
+
+          <div>
+            <fieldset>
+              <legend
+                class="block w-full px-5 py-3 text-xs font-medium bg-gray-200"
+              >
+                followers
+              </legend>
+
+              <div class="px-5 py-6 space-y-2">
+                <Spinner v-if="followers.length == 0" />
+
+                <div
+                  v-for="follower of followers"
+                  :key="follower.id"
+                  class="flex items-center"
+                >
+                  <input
+                    type="checkbox"
+                    v-model="checkedAccounts"
+                    :value="follower.username"
+                    name="age[3+]"
+                    class="w-5 h-5 border-gray-300 rounded"
+                  />
+
+                  <label class="ml-3 text-sm font-medium">
+                    {{ follower.username }}
+                  </label>
+                </div>
+              </div>
+            </fieldset>
           </div>
+          <div>{{ checkedAccounts }}</div>
 
-          <div class="flex items-center">
-            <input
-              id="12+"
-              type="checkbox"
-              name="age[12+]"
-              class="w-5 h-5 border-gray-300 rounded"
-            />
-
-            <label for="12+" class="ml-3 text-sm font-medium"> 12+ </label>
-          </div>
-
-          <div class="flex items-center">
-            <input
-              id="16+"
-              type="checkbox"
-              name="age[16+]"
-              class="w-5 h-5 border-gray-300 rounded"
-            />
-
-            <label for="16+" class="ml-3 text-sm font-medium"> 16+ </label>
-          </div>
-
-          <div class="pt-2">
-            <button type="button" class="text-xs text-gray-500 underline">
-              Reset Age
+          <div class="flex justify-between px-5 py-3 border-t border-gray-200">
+            <button
+              @click="startBroadcasting()"
+              name="commit"
+              type="button"
+              class="
+                px-5
+                py-3
+                text-xs
+                font-medium
+                text-white
+                bg-green-500
+                rounded
+              "
+            >
+              send
             </button>
           </div>
         </div>
-      </fieldset>
+      </div>
     </div>
-
-    <div class="flex justify-between px-5 py-3 border-t border-gray-200">
-      <button
-        name="reset"
-        type="button"
-        class="text-xs font-medium text-gray-600 underline rounded"
-      >
-        Reset All
-      </button>
-
-      <button
-        name="commit"
-        type="button"
-        class="px-5 py-3 text-xs font-medium text-white bg-green-600 rounded"
-      >
-        Apply Filters
-      </button>
-    </div>
-  </form>
-</details>
-
-            </div>
-        </div>
-    </div>
+  </div>
 </template>

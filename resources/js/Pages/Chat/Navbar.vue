@@ -8,9 +8,6 @@ import { ref } from "vue";
 import AddContactForm from "./AddContactForm.vue";
 import NewBroadCast from "./NewBroadCast.vue";
 
-const props = defineProps({
-  chats: Object
-})
 
 let logout = () => {
   axios.post(route("logout"));
@@ -32,7 +29,7 @@ const toggleBroadCastForm = () => {
   <div class="pb-2 relative flex px-2 justify-between">
     <AddContactForm v-if="show" v-on:modalClosed="toggleModal()" />
 
-    <NewBroadCast :chats="chats" v-if="showBroadCastForm" v-on:closeBroadCast="toggleBroadCastForm()" />
+    <NewBroadCast v-if="showBroadCastForm" v-on:broadcastStarted="toggleBroadCastForm()" />
 
     <img @click="$emit('closeBioPage')" class="h-10 w-10 rounded-full object-cover" :src="$page.props.user.profile"
       :alt="$page.props.user.username" />
