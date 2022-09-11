@@ -134,7 +134,7 @@ console.log('online');
                 style="width: 420px;">
 
                 <div class="m-4">
-                    <Navbar :chats="chats" v-on:closeBioPage="toggleBioPage" />
+                    <Navbar  v-on:closeBioPage="toggleBioPage" />
 
 
                     <div class="w-96 mx-auto relative">
