@@ -2,9 +2,9 @@
 import { ref, onMounted } from "vue";
 import Spinner from "./Spinner.vue";
 
-
 let numberOfFollowings = ref(0);
 let numberOfFollowers = ref(0);
+
 
 let followings = ref(null);
 let followers = ref(null);
@@ -15,7 +15,7 @@ const getFollowers = () => {
     return axios
         .get("followers")
         .then((response) => {
-            numberOfFollowers =response.data.length
+            numberOfFollowers = response.data.length;
             followers.value = response.data;
         })
         .catch((error) => {
@@ -26,7 +26,7 @@ const getFollowings = () => {
     return axios
         .get("followings")
         .then((response) => {
-            numberOfFollowings =response.data.length
+            numberOfFollowings = response.data.length;
 
             followings.value = response.data;
         })
@@ -37,11 +37,14 @@ const getFollowings = () => {
 
 const startBroadcasting = () => {
     axios
-        .post("message/broadcasting", { chosenAccounts: checkedAccounts.value ,message:message.value})
+        .post("message/broadcasting", {
+            chosenAccounts: checkedAccounts.value,
+            message: message.value,
+        })
         .then((response) => {
             console.log("start broadcat");
 
-            // this.$emit("broadcastStarted");
+            this.$emit("broadcastStarted");
         })
         .catch((error) => {
             console.log(error);
@@ -56,6 +59,7 @@ onMounted(() => {
 
 <template>
     <!-- Main modal -->
+<div class="z-20">
     <div
         id="crypto-modal"
         tabindex="-1"
@@ -63,10 +67,10 @@ onMounted(() => {
         aria-modal="true"
         role="dialog"
     >
-    <div class="relative p-4 w-full max-w-md h-full md:h-auto">
-        <div
-        class="relative bg-gray-400 rounded-lg shadow dark:bg-gray-500"
-        >
+        <div class="relative p-4 w-full max-w-md h-full md:h-auto">
+            <div
+                class="relative bg-gray-400 rounded-lg shadow dark:bg-gray-500"
+            >
                 <button
                     type="button"
                     class="absolute -top-3 -right-2.5 text-white bg-transparent bg-red-400 hover:bg-red-500 hover:text-white rounded-full text-sm p-1.5 ml-auto inline-flex items-center hover:animate-spin dark:hover:bg-gray-800 dark:hover:text-white"
@@ -134,7 +138,7 @@ onMounted(() => {
                             </legend>
 
                             <div class="px-5 py-6 space-y-2">
-                            <Spinner v-if="!numberOfFollowers == 0" />
+                                <Spinner v-if="!numberOfFollowers == 0" />
 
                                 <div
                                     v-for="follower of followers"
@@ -163,15 +167,30 @@ onMounted(() => {
                     >
                         <button
                             @click="startBroadcasting()"
-                            name="commit"
+                            prevent-scroll
                             type="button"
-                            class="px-5 py-3 text-xs font-medium text-white bg-green-500 rounded"
+                            class="inline-flex items-center justify-center rounded-lg px-3 py-2 transition duration-500 ease-in-out text-white hover:bg-gray-600 bg-gray-500 focus:outline-none ml-1"
                         >
-                            send
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                class="h-6 w-6 ml-2 transform rotate-90"
+                            >
+                                <path
+                                    d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"
+                                ></path>
+                            </svg>
                         </button>
+                        <button
+                            @click="startBroadcasting()"
+                            prevent-scroll
+                            type="button"
+                        ></button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </template>

@@ -44,12 +44,7 @@ Route::middleware([
         return Inertia::render('Chat/Container', ['contact' => Auth::user()->contact]);
     })->name('chat');
 
-    Route::get('/data', function () {
-        return Inertia::render('FetchDataTest');
-    });
 
-
-    Route::get('/users', [ChatController::class, 'users'])->name('users');
     Route::get('/chats', [ChatController::class, 'chats'])->name('chats');
 
     Route::get('/chats/{chat}/messages', [ChatController::class, 'messages'])->name('chat.messages');
@@ -57,14 +52,14 @@ Route::middleware([
     Route::post('chats/{chat}/send-message', [ChatController::class, 'sendMessage'])->name('sendMessage');
     Route::post('message/broadcasting', [ChatController::class, 'broadcastMessage'])->name('broadcastMessage');
 
-    Route::patch('/follow/{username}', [ChatController::class, 'follow'])->name('follow');
+    Route::get('/follow/{username}', [ChatController::class, 'follow'])->name('follow');
 
     // Route::post('/member/{id}/online', [ChatController::class, 'onlineContact'])->name('onlineContact');
     // Route::post('/member/{id}/offline', [ChatController::class, 'offlineContact'])->name('offlineContact');
 
     Route::get('following/{username}/get-details', [ChatController::class, 'getUser'])->name('getUser');
 
-    Route::get('/explore', [ChatController::class, 'explore'])->name('explore');
+    Route::get('accounts/explore', [ChatController::class, 'exploreAccounts']);
 
     Route::get('/search-followings', [ChatController::class, 'searchFollowings'])->name('searchFollowings');
     Route::get('/search-followers', [ChatController::class, 'searchFollowers'])->name('searchFollowers');
