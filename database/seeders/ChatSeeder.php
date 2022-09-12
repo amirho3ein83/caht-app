@@ -26,11 +26,11 @@ class ChatSeeder extends Seeder
             $user = User::factory()->create();
 
 
-            $admin->following()->attach($user);
-            $user->following()->attach($admin);
+            $admin->followings()->attach($user);
+            $user->followings()->attach($admin);
 
             $chat = Chat::create([
-                'name' => $admin->username . "" . $user->username
+                'name' => $admin->id . "-" . $user->id
             ]);
 
             $chat->users()->attach($admin->id);
@@ -47,11 +47,11 @@ class ChatSeeder extends Seeder
             $user2 = User::factory()->create();
 
 
-            $user1->following()->attach($user2);
-            $user2->following()->attach($user1);
+            $user1->followings()->attach($user2);
+            $user2->followings()->attach($user1);
 
             $chat = Chat::create([
-                'name' => $user1->username . "" . $user1->username
+                'name' => $user1->id . "-" . $user2->id
             ]);
 
             $chat->users()->attach($user1->id);

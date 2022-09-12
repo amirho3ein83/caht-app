@@ -8,6 +8,7 @@ use App\Models\Message;
 use App\Models\Chat;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -30,13 +31,16 @@ class ChatController extends Controller
 
     public function chats(Request $request)
     {
-        return Auth::user()->chats;
+        return Chat::where('user_id', auth()->id())
+        ->orWhere('receiver_id', auth()->id())
+        ->get();
     }
-    public function users(Request $request)
-    {
-        return User::all();
-    }
-
+    // $users = $conversations->map(function($conversation){
+    //     if($conversation->user_id === auth()->id()) {
+    //         return $conversation->receiver;
+    //     }
+    //     return $conversation->sender;
+    // })->unique();
 
     public function messages(Chat $chat)
     {
@@ -44,28 +48,62 @@ class ChatController extends Controller
             ->latest('sent_datetime')
             ->get();
     }
-    // public function broadcastMessage()
-    // {
-    //     $sendMessage = $chat->messages()->create([
-    //         'from' => Auth::id(),
-    //         'text' => $request->text,
-    //         'chat_id' => $request->chat_id
-    //     ]);
 
-    //     broadcast(new NewMessage($sendMessage))->toOthers();
-    // }
+
+    public function broadcastMessage(Request $request)
+    {
+        $ids = $request->chosenAccounts;
+        $message = $request->message;
+
+        $usernames = User::whereIn('id',$ids)->pluck('username');
+
+        $chats = Auth::user()->chats;
+
+        foreach ($chats as $key => $chat) {
+              $chat->pluck('name');
+        }
+
+//         foreach ($ids  as $key => $id) {
+//             // Log::info($id);
+//             // Log::info($message);
+//             $this->sendMessageTo($id, $message);
+//         }
+
+
+
+
+//         $outputA = array_filter($ids, function($k) {
+//             return $k == Auth::id();
+//           }, ARRAY_FILTER_USE_KEY);
+
+// Log::info($outputA);
+// dd('stop');
+//         Log::info(User::whereIn('id', $outputA)->get());
+//         foreach ($users as $key => $user) {
+//             $sendMessage = $chat->messages()->create([
+//                 'from' => Auth::id(),
+//                 'text' => $message,
+//                 'chat_id' => Au
+//             ]);
+
+//             broadcast(new NewMessage($sendMessage))->toOthers();
+//         }
+    }
+
+
+
+
     public function getFollowings()
     {
-        return  Cache::remember('followings',60*60,function(){
-           return Auth::user()->followings;
+        return  Cache::remember('followings', 60 * 60, function () {
+            return Auth::user()->followings;
         });
-        
     }
     public function getFollowers()
     {
-        return  Cache::remember('followers',60*60,function(){
+        return  Cache::remember('followers', 60 * 60, function () {
             return Auth::user()->followers;
-         });
+        });
     }
 
     // public function follow(Request $request)
@@ -92,7 +130,7 @@ class ChatController extends Controller
             $user = User::firstWhere('username', $request->username);
 
             $chat = Chat::create([
-                'name' => $user->username . "" . Auth::user()->user->username
+                'name' => $user->id . "-" . Auth::id()
             ]);
 
             $chat->users()->attach($user->id);
@@ -130,12 +168,12 @@ class ChatController extends Controller
             ->get();
     }
 
-    public function deleteChat(Chat $chat,$id)
+    public function deleteChat(Chat $chat, $id)
     {
         DB::beginTransaction();
 
         try {
-           
+
             $chat->users()->detach([Auth::id(), $id]);
 
             Message::where('chat_id', $chat->id)->delete();
@@ -143,7 +181,7 @@ class ChatController extends Controller
             $chat->delete();
 
 
-            
+
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();

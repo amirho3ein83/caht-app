@@ -2,7 +2,9 @@
 import { ref, onMounted } from "vue";
 import Spinner from "./Spinner.vue";
 
-let dataFetched = ref(false);
+
+let numberOfFollowings = ref(0);
+let numberOfFollowers = ref(0);
 
 let followings = ref(null);
 let followers = ref(null);
@@ -13,7 +15,7 @@ const getFollowers = () => {
     return axios
         .get("followers")
         .then((response) => {
-            console.log(response.data);
+            numberOfFollowers =response.data.length
             followers.value = response.data;
         })
         .catch((error) => {
@@ -24,8 +26,9 @@ const getFollowings = () => {
     return axios
         .get("followings")
         .then((response) => {
+            numberOfFollowings =response.data.length
+
             followings.value = response.data;
-            dataFetched = true;
         })
         .catch((error) => {
             console.log(error);
@@ -34,7 +37,7 @@ const getFollowings = () => {
 
 const startBroadcasting = () => {
     axios
-        .post("message/broadcasting", { chosenAccounts: checkedAccounts })
+        .post("message/broadcasting", { chosenAccounts: checkedAccounts.value ,message:message.value})
         .then((response) => {
             console.log("start broadcat");
 
@@ -60,10 +63,10 @@ onMounted(() => {
         aria-modal="true"
         role="dialog"
     >
-        <div class="relative p-4 w-full max-w-md h-full md:h-auto">
-            <div
-                class="relative bg-gray-400 rounded-lg shadow dark:bg-gray-500"
-            >
+    <div class="relative p-4 w-full max-w-md h-full md:h-auto">
+        <div
+        class="relative bg-gray-400 rounded-lg shadow dark:bg-gray-500"
+        >
                 <button
                     type="button"
                     class="absolute -top-3 -right-2.5 text-white bg-transparent bg-red-400 hover:bg-red-500 hover:text-white rounded-full text-sm p-1.5 ml-auto inline-flex items-center hover:animate-spin dark:hover:bg-gray-800 dark:hover:text-white"
@@ -101,7 +104,7 @@ onMounted(() => {
                         </legend>
 
                         <div class="px-5 py-6 space-y-2">
-                            <Spinner v-if="!dataFetched" />
+                            <Spinner v-if="!numberOfFollowings == 0" />
                             <div
                                 v-for="following of followings"
                                 :key="following.id"
@@ -110,7 +113,7 @@ onMounted(() => {
                                 <input
                                     type="checkbox"
                                     v-model="checkedAccounts"
-                                    :value="following.username"
+                                    :value="following.id"
                                     name="age[3+]"
                                     class="w-5 h-5 border-gray-300 rounded"
                                 />
@@ -131,7 +134,7 @@ onMounted(() => {
                             </legend>
 
                             <div class="px-5 py-6 space-y-2">
-                            <Spinner v-if="!dataFetched" />
+                            <Spinner v-if="!numberOfFollowers == 0" />
 
                                 <div
                                     v-for="follower of followers"
@@ -141,7 +144,7 @@ onMounted(() => {
                                     <input
                                         type="checkbox"
                                         v-model="checkedAccounts"
-                                        :value="follower.username"
+                                        :value="follower.id"
                                         name="age[3+]"
                                         class="w-5 h-5 border-gray-300 rounded"
                                     />
