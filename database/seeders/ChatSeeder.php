@@ -30,7 +30,7 @@ class ChatSeeder extends Seeder
             $user->followings()->attach($admin);
 
             $chat = Chat::create([
-                'name' => $admin->id . "-" . $user->id
+                'name' => $admin->username . "" . $user->username
             ]);
 
             $chat->users()->attach($admin->id);
@@ -51,7 +51,7 @@ class ChatSeeder extends Seeder
             $user2->followings()->attach($user1);
 
             $chat = Chat::create([
-                'name' => $user1->id . "-" . $user2->id
+                'name' => $user1->username . "" . $user2->username
             ]);
 
             $chat->users()->attach($user1->id);

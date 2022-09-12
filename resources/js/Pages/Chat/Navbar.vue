@@ -5,7 +5,7 @@
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
 import { ref } from "vue";
-import AddContactForm from "./AddContactForm.vue";
+import AddContactForm from "./ExploreAccounts.vue";
 import NewBroadCast from "./NewBroadCast.vue";
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\NewMessage;
+use App\Jobs\MessageBroadcast;
 use App\Models\Blocked;
 use App\Models\Message;
 use App\Models\Chat;
@@ -31,16 +32,9 @@ class ChatController extends Controller
 
     public function chats(Request $request)
     {
-        return Chat::where('user_id', auth()->id())
-        ->orWhere('receiver_id', auth()->id())
-        ->get();
+        return Auth::user()->chats;
     }
-    // $users = $conversations->map(function($conversation){
-    //     if($conversation->user_id === auth()->id()) {
-    //         return $conversation->receiver;
-    //     }
-    //     return $conversation->sender;
-    // })->unique();
+
 
     public function messages(Chat $chat)
     {
@@ -52,42 +46,7 @@ class ChatController extends Controller
 
     public function broadcastMessage(Request $request)
     {
-        $ids = $request->chosenAccounts;
-        $message = $request->message;
-
-        $usernames = User::whereIn('id',$ids)->pluck('username');
-
-        $chats = Auth::user()->chats;
-
-        foreach ($chats as $key => $chat) {
-              $chat->pluck('name');
-        }
-
-//         foreach ($ids  as $key => $id) {
-//             // Log::info($id);
-//             // Log::info($message);
-//             $this->sendMessageTo($id, $message);
-//         }
-
-
-
-
-//         $outputA = array_filter($ids, function($k) {
-//             return $k == Auth::id();
-//           }, ARRAY_FILTER_USE_KEY);
-
-// Log::info($outputA);
-// dd('stop');
-//         Log::info(User::whereIn('id', $outputA)->get());
-//         foreach ($users as $key => $user) {
-//             $sendMessage = $chat->messages()->create([
-//                 'from' => Auth::id(),
-//                 'text' => $message,
-//                 'chat_id' => Au
-//             ]);
-
-//             broadcast(new NewMessage($sendMessage))->toOthers();
-//         }
+        MessageBroadcast::dispatch($request->chosenAccounts,$request->message,Auth::id());
     }
 
 
@@ -106,23 +65,23 @@ class ChatController extends Controller
         });
     }
 
-    // public function follow(Request $request)
-    // {
-    //     try {
+    public function follow(Request $request)
+    {
+        Log::info($request->username);
+        try {
 
-    //         $user = User::firstWhere('username', $request->username);
+            $user = User::firstWhere('username', $request->username);
+            $me = User::firstWhere('id', Auth::id());
 
-    //         $chat = Chat::create([
-    //             'name' => $user->username . "" . Auth::user()->user->username
-    //         ]);
+            $me->followings()->attach($user);
 
-    //         $chat->users()->attach($user->id);
-    //         $chat->users()->attach(Auth::id());
-    //     } catch (\Throwable $e) {
-    //         Log::info($e);
-    //         return back()->withError($e->getMessage());
-    //     }
-    // }
+        } catch (\Throwable $e) {
+            Log::info($e);
+            return back()->withError($e->getMessage());
+        }
+
+        Cache::forget('followings');
+    }
     public function startMessaging(Request $request)
     {
         try {
@@ -189,7 +148,7 @@ class ChatController extends Controller
         }
     }
 
-    public function exploreUsers(Request $request)
+    public function exploreAccounts(Request $request)
     {
 
         $user  = User::find(Auth::id());

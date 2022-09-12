@@ -4,7 +4,7 @@ import { useForm } from "@inertiajs/inertia-vue3";
 let props = defineProps({
 });
 let search = ref('');
-let contacts = ref(null);
+let accountss = ref(null);
 
 watch(search, value => {
     if (value == '') {
@@ -12,10 +12,10 @@ watch(search, value => {
     }
 
     axios
-        .get("contacts/explore?search=" + value)
+        .get("accountss/explore?search=" + value)
         .then((response) => {
             console.log(response);
-            props.contacts = response.data;
+            props.accountss = response.data;
         })
         .catch((error) => {
             console.log(error);
@@ -37,7 +37,7 @@ export default {
     data: function () {
         return {
             search: [],
-            contacts: [],
+            accounts: [],
 
         };
     },
@@ -47,15 +47,15 @@ export default {
     watch: {
         search(value) {
             if (value == '') {
-                this.contacts = [];
+                this.accounts = [];
                 return;
             }
 
             axios
-                .get("contacts/explore?search=" + value)
+                .get("accounts/explore?search=" + value)
                 .then((response) => {
                     console.log(response);
-                    this.contacts = response.data;
+                    this.accounts = response.data;
                 })
                 .catch((error) => {
                     console.log(error);
@@ -63,11 +63,11 @@ export default {
         },
     },
     methods: {
-        addContact(username) {
+        follow(username) {
             axios
-                .get("/contact/" + username)
+                .get("/follow/" + username)
                 .then((response) => {
-                    console.log(username + " added to ur contact list");
+                    console.log(username + " followed");
                 })
                 .catch((error) => {
                     console.log(error);
@@ -110,7 +110,7 @@ export default {
                             </svg>
                         </div>
                         <input v-focus v-model="search" class=" block p-3 rounded pl-10 w-full text-sm text-gray-900 bg-gray-100 outline-none"
-                            placeholder="Search Contacts" required/>
+                            placeholder="Search accounts" required/>
                     </div>
                 </div>
                 <!-- Modal body -->
@@ -119,8 +119,8 @@ export default {
 
                     <div
                         class="my-2 space-y-3 h-full flex flex-col w-full flex-1 flex-end overflow-y-auto scrollbar-thumb-gray scrollbar-thumb-rounded scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch">
-                        <h3 v-if="contacts.length != 0" class="ml-3 font-mono text-gray-400">
-                            found {{ contacts.length }} result
+                        <h3 v-if="accounts.length != 0" class="ml-3 font-mono text-gray-400">
+                            found {{ accounts.length }} result
                         </h3>
                         <h3 v-else class="ml-3 font-mono text-gray-400">
                             no results found
@@ -128,23 +128,23 @@ export default {
                         
                         <div
                             class=" flex-end flex-col-reverse space-y-4 overflow-y-auto scrollbar-thumb-gray scrollbar-thumb-rounded scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch">
-                            <div v-for="contact in contacts" :key="contact.id"
+                            <div v-for="account in accounts" :key="account.id"
                                 class="shadow-slate-100 shadow-inner flex mx-4 bg-gray-100 rounded-sm ">
 
-                                <img class="w-10 sm:w-15 h-10 sm:h-15 rounded-full" :src="contact.profile"
-                                    v-if="contact.profile" />
+                                <img class="w-10 sm:w-15 h-10 sm:h-15 rounded-full" :src="account.profile"
+                                    v-if="account.profile" />
 
                                 <i v-else
                                     class="bi bi-person-circle w-10 sm:w-16 h-10 sm:h-16 rounded-full text-gray-600"
                                     style="font-size: 39px;"></i>
 
                                 <p class="flex-1 ml-3 text-center align-middle self-center">{{
-                                contact.username
+                                account.username
                                 }}</p>
 
-                                <button @click="addContact(contact.username)"
+                                <button @click="follow(account.username)"
                                     class="bg-gray-400 hover:bg-gray-600 text-white font-bold py-1 px-4 rounded-sm">
-                                    Add
+                                    follow
                                 </button>
 
                             </div>
