@@ -44,7 +44,12 @@ Route::middleware([
         return Inertia::render('Chat/Container', ['contact' => Auth::user()->contact]);
     })->name('chat');
 
+    Route::get('/data', function () {
+        return Inertia::render('FetchDataTest');
+    });
 
+
+    Route::get('/users', [ChatController::class, 'users'])->name('users');
     Route::get('/chats', [ChatController::class, 'chats'])->name('chats');
 
     Route::get('/chats/{chat}/messages', [ChatController::class, 'messages'])->name('chat.messages');
