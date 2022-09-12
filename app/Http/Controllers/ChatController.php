@@ -32,6 +32,10 @@ class ChatController extends Controller
     {
         return Auth::user()->chats;
     }
+    public function users(Request $request)
+    {
+        return User::all();
+    }
 
 
     public function messages(Chat $chat)
@@ -40,16 +44,16 @@ class ChatController extends Controller
             ->latest('sent_datetime')
             ->get();
     }
-    public function broadcastMessage()
-    {
-        $sendMessage = $chat->messages()->create([
-            'from' => Auth::id(),
-            'text' => $request->text,
-            'chat_id' => $request->chat_id
-        ]);
+    // public function broadcastMessage()
+    // {
+    //     $sendMessage = $chat->messages()->create([
+    //         'from' => Auth::id(),
+    //         'text' => $request->text,
+    //         'chat_id' => $request->chat_id
+    //     ]);
 
-        broadcast(new NewMessage($sendMessage))->toOthers();
-    }
+    //     broadcast(new NewMessage($sendMessage))->toOthers();
+    // }
     public function getFollowings()
     {
         return  Cache::remember('followings',60*60,function(){
