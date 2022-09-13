@@ -5,7 +5,7 @@
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
 import { ref } from "vue";
-import AddContactForm from "./ExploreAccounts.vue";
+import ExploreAccounts from "./ExploreAccounts.vue";
 import NewBroadCast from "./NewBroadCast.vue";
 
 
@@ -13,10 +13,8 @@ let logout = () => {
   axios.post(route("logout"));
 };
 
-let show = ref(false);
-const toggleModal = () => {
-  show.value = !show.value;
-};
+let showExploreAccounts = ref(false);
+
 
 let showBroadCastForm = ref(false);
 const toggleBroadCastForm = () => {
@@ -27,25 +25,25 @@ const toggleBroadCastForm = () => {
 
 <template>
   <div class="pb-2 relative flex px-2 justify-between">
-    <AddContactForm v-if="show" v-on:modalClosed="toggleModal()" />
+    <ExploreAccounts v-if="showExploreAccounts" v-on:modalClosed="showExploreAccounts =false" />
 
     <NewBroadCast v-if="showBroadCastForm" v-on:broadcastStarted="toggleBroadCastForm()" />
 
     <img @click="$emit('closeBioPage')" class="h-10 w-10 rounded-full object-cover" :src="$page.props.user.profile"
       :alt="$page.props.user.username" />
-      
+
     <!-- Settings Dropdown -->
     <div class="relative flex">
 
-      <button @click="toggleModal()" class="px-4 py-2 text-gray-400 hover:text-gray-300">
+      <button @click="showExploreAccounts = !showExploreAccounts" class="px-4 py-2 text-gray-400 hover:text-gray-300">
         <i style="font-size: 28px" class="bi bi-person-plus-fill"></i>
       </button>
 
       <button @click="toggleBroadCastForm()" class="px-4 py-2 text-gray-400 hover:text-gray-300">
-        <i class="bi bi-broadcast-pin"></i> 
+        <i class="bi bi-broadcast-pin"></i>
       </button>
 
-      <button  class="px-4 py-2 text-gray-400 hover:text-gray-300">
+      <button class="px-4 py-2 text-gray-400 hover:text-gray-300">
         <i class="bi bi-chat-left-dots"></i>
       </button>
 

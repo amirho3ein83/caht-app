@@ -79,7 +79,7 @@ Inertia.post("/chat/chats/" + props.currentChat.id + "/message", form,
             class="flex flex-end flex-col-reverse  space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
         >
             <div v-for="message in messages" :key="message.id">
-                <MessageItem :message="message" />
+                <MessageItem v-on:message-deleted="" :message="message" />
             </div>
         </div>
     </div>

@@ -13,6 +13,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request as FacadesRequest;
@@ -42,11 +43,15 @@ class ChatController extends Controller
             ->latest('sent_datetime')
             ->get();
     }
+    public function deleteMessage(Message $message)
+    {
+        $message->delete();
+    }
 
 
     public function broadcastMessage(Request $request)
     {
-        MessageBroadcast::dispatch($request->chosenAccounts,$request->message,Auth::id());
+        MessageBroadcast::dispatch($request->chosenAccounts, $request->message, Auth::id());
     }
 
 
@@ -74,7 +79,6 @@ class ChatController extends Controller
             $me = User::firstWhere('id', Auth::id());
 
             $me->followings()->attach($user);
-
         } catch (\Throwable $e) {
             Log::info($e);
             return back()->withError($e->getMessage());

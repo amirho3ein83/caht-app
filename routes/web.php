@@ -73,5 +73,6 @@ Route::middleware([
 
     // Route::post('/chat/chat/{id}/last-message', [ChatController::class, 'setChatlastMessage'])->name('chat.last_messages');
     Route::delete('chats/{chat}/{id}', [ChatController::class, 'deleteChat']);
+    Route::delete('messages/{message}', [ChatController::class, 'deleteMessage'])->name('delete.message');
     // Route::delete('chat/chats/{chat}/{contact}', [ChatController::class, 'clearChatHistory']);
 });
