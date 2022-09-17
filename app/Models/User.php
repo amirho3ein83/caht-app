@@ -81,6 +81,11 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(User::class, 'followers', 'following_id', 'follower_id');
     }
+    
+    public function blockedAccounts()
+    {
+        return $this->belongsToMany(User::class, 'blocked', 'created_by', 'blocked_user');
+    }
 
 
     public function isNotTheUser(User $user) {
