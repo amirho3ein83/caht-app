@@ -14,10 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('chats_users', function (Blueprint $table) {
-            $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('chat_id')->constrained();
-            $table->timestamps();
         });
     }
 

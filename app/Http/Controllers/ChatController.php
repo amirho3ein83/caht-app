@@ -33,7 +33,29 @@ class ChatController extends Controller
 
     public function chats(Request $request)
     {
-        return Auth::user()->chats;
+        $blocked_accounts = Auth::user()->blockedAccounts->pluck('id');
+        Log::info($blocked_accounts);
+        //         $user = Auth::user();
+        // $posts = Chat::where(function($q) use ($user){
+        //       $q)
+        // })->get();
+
+
+        // $chats = Chat::whereHas('users', function ($query) {
+        //     return $query->whereIn('users.id', $this->ids);
+        // })->get();
+
+        // return Auth::user()->chats->whereHas('users', function ($query)use( $blocked_accounts) {
+        //         return $query->whereNotIn('users.id',  $blocked_accounts);
+        //     })->get();
+
+        return Chat::whereHas('users',function($query) use($blocked_accounts){
+            return $query->whereNotIn('users.id',$blocked_accounts)->whereIn('users.id',[Auth::id()]);
+        })->get();
+
+
+
+        // Log::info($ds);
     }
 
 
