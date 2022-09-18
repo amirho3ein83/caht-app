@@ -6,9 +6,9 @@ import { createInertiaApp, Link } from "@inertiajs/inertia-vue3";
 import { InertiaProgress } from "@inertiajs/progress";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
-import axios from "axios";
-import Echo from "laravel-echo";
-import 'bootstrap-icons/font/bootstrap-icons.css'
+
+import { createPinia } from "pinia";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 const appName =
     window.document.getElementsByTagName("title")[0]?.innerText || "Laravel";
@@ -26,6 +26,7 @@ createInertiaApp({
             .use(plugin)
             .component("Link", Link)
             .use(ZiggyVue, Ziggy)
+            .use(createPinia())
             .mount(el);
     },
 });

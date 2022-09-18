@@ -2,22 +2,21 @@
 
 const props = defineProps({
     chat: Object,
-    currentChat: Object,
 });
 
 let chatTitle = (username) => {
-    props.chat.following = props.chat.name.replace(
+    props.chat.name = props.chat.name.replace(
         username,
         ""
     );
-    return props.chat.following;
+    return props.chat.name;
 };
 </script>
 
 <template>
-    <a @click="$emit('chatChanged', chat)" class="cursor-pointer hover:opacity-80 ">
+    <a  class="cursor-pointer hover:opacity-80 ">
         <div class="bg-gray-500 rounded-l-full hover:bg-gray-400 shadow-r-30"
-        :class="{'bg-gray-400':currentChat.id == chat.id}">
+>
             <div class="justify-start p-1  align-baseline flex my-1 "
                 >
                 <div>
