@@ -1,19 +1,11 @@
 <script setup></script>
 
 <template>
-    <div
-        class="z-20 bg-gradient-to-b from-gray-700 to-gray-600 p-1 w-60 my-0 flex-col align-center h-screen"
-        style="width: 420px"
-    >
-        <div class="flex flex-wrap items-center justify-center ">
+
             <div
-                class="container max-w-lg bg-gray-600 rounded dark:bg-gray-800 shadow-lg transform duration-200 easy-in-out m-5 "
+                class="h-full container max-w-lg bg-gray-600 rounded dark:bg-gray-800 shadow-lg transform duration-200 easy-in-out "
             >
-                <i
-                    @click="$emit('closeBioPage')"
-                    class="absolute bi bi-arrow-left-circle-fill text-gray-700 ml-2 hover:text-gray-900"
-                    style="font-size: 31px"
-                ></i>
+
 
                 <div class="h-2/4 sm:h-64 overflow-hidden">
                     <img
@@ -90,6 +82,5 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+
 </template>

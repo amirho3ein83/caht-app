@@ -81,24 +81,9 @@ export default {
 
 
 <template>
-    <!-- Main modal -->
-    <div id="crypto-modal" tabindex="-1"
-        class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex"
-        aria-modal="true" role="dialog">
-        <div class="relative p-4 w-full max-w-md h-full md:h-auto">
+
             <!-- Modal content -->
-            <div class="relative bg-gray-400 rounded-lg shadow dark:bg-gray-600">
-                <button type="button"
-                    class="absolute -top-3 -right-2.5 text-white bg-transparent bg-red-400 hover:bg-red-500 hover:text-white rounded-full text-sm p-1.5 ml-auto inline-flex items-center hover:animate-spin dark:hover:bg-gray-800 dark:hover:text-white"
-                    @click="$emit('modalClosed')">
-                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                    <span class="sr-only">Close modal</span>
-                </button>
+            <div class=" relative bg-gray-400 rounded-lg shadow dark:bg-gray-600 h-full">
                 <!-- Modal header -->
                 <div class="py-4 px-6 rounded-t dark:border-gray-600">
                     <div class="relative">
@@ -118,7 +103,7 @@ export default {
                     <hr />
 
                     <div
-                        class="my-2 space-y-3 h-full flex flex-col w-full flex-1 flex-end overflow-y-auto scrollbar-thumb-gray scrollbar-thumb-rounded scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch">
+                        class="my-2 space-y-3 h-full flex flex-col w-full flex-1 flex-end ">
                         <h3 v-if="accounts.length != 0" class="ml-3 font-mono text-gray-400">
                             found {{ accounts.length }} result
                         </h3>
@@ -126,8 +111,6 @@ export default {
                             no results found
                         </h3>
                         
-                        <div
-                            class=" flex-end flex-col-reverse space-y-4 overflow-y-auto scrollbar-thumb-gray scrollbar-thumb-rounded scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch">
                             <div v-for="account in accounts" :key="account.id"
                                 class="shadow-slate-100 shadow-inner flex mx-4 bg-gray-100 rounded-sm ">
 
@@ -147,11 +130,9 @@ export default {
                                     follow
                                 </button>
 
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+
 </template>

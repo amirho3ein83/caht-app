@@ -24,6 +24,7 @@
         "@dvuckovic/vue3-bootstrap-icons": "^1.0.5",
         "bootstrap-icons": "^1.9.1",
         "laravel-echo": "^1.13.1",
+        "pinia": "^2.0.22",
         "pusher-js": "^7.4.0",
         "vuejs-paginate-next": "^1.0.2"
     }
