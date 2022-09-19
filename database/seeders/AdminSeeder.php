@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\SocialMedia;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +23,12 @@ class AdminSeeder extends Seeder
             'username' => 'amirshafi',
             'profile' => 'amirshafi.jpg',
             'is_online' => rand(0,1)
+        ]);
+
+        SocialMedia::create([
+            'user_id' => 1,
+            'instagram' => 'amirshafi83',
+            'telegram' => 'amirshafi83'
         ]);
 
     }
