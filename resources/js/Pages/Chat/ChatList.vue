@@ -1,15 +1,17 @@
 <script setup>
 import ChatItem from "./ChatItem.vue";
-import {useGetChatsStore} from "@/stores/getChats.js" 
+import {useChatsStore} from "@/stores/Chats.js" 
 import { ref } from "@vue/reactivity";
 import { storeToRefs } from 'pinia'
-// const storeGetChats = useGetChatsStore()
+import { gsap } from "gsap";
 
-// storeGetChats.getChats();
+const store = useChatsStore()
+
+store.getChats();
 
 
-const { chats} = storeToRefs(useGetChatsStore())
-const { getChats } = useGetChatsStore()
+// const  chats = store.chats
+// const { getChats } = useChatsStore()
 
 // let chatTitle = (username) => {
 //     props.chat.following = props.chat.name.replace(
@@ -18,13 +20,21 @@ const { getChats } = useGetChatsStore()
 //     );
 //     return props.chat.following;
 // };
-
+const onEnter = (el, done)=> {
+  gsap.to(el, {
+    opacity: 1,
+    height: '1.6em',
+    delay: el.dataset.index * 0.15,
+    onComplete: done
+  })
+}
 </script>
 
 <template>
         <div class="m-4" >
 
                 <input
+                @keypress="onEnter"
                     class=" rounded-2xl p-1 mb-4 w-96 text-lg text-gray-900 h-10 bg-gray-300 outline-none focus:bg-gray-200"
                     placeholder="           Search Contacts" />
 
@@ -36,10 +46,17 @@ const { getChats } = useGetChatsStore()
                     class="flex flex-end h-100 flex-col-reverse space-y-4 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
                     <div>
 
-                        <!-- <p v-for="chat in chats" :key="chat">{{ chat}}</p> -->
-                        <div v-for="chat in chats" :key="chat.id">
-                            <ChatItem  :chat="chat" />
-                        </div>
+<!-- <TransitionGroup
+  tag="ul"
+  :css="false"
+  @before-enter="onBeforeEnter"
+  @enter="onEnter"
+  @leave="onLeave"
+>
+
+</TransitionGroup> -->
+
+                            <ChatItem v-for="chat in store.chats" :key="chat.id" :chat="chat" />
 
                     </div>
                 </div>

@@ -2,7 +2,7 @@ import { Inertia } from "@inertiajs/inertia";
 import axios from "axios";
 import { defineStore } from "pinia";
 
-export const useGetChatsStore = defineStore("chats", {
+export const useGetChatsStore = defineStore("chatss", {
     state: () => ({
             chats: [],
             currentChat: [],
@@ -13,17 +13,17 @@ export const useGetChatsStore = defineStore("chats", {
             numberOfFollowings: 0,
     }),
     actions:{
-        getChats() {
-            axios
-                .get("chats")
-                .then((response) => {
-                    this.chats = response.data;
-                    console.log(this.chats)
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        },
+        // getChats() {
+        //     axios
+        //         .get("chats")
+        //         .then((response) => {
+        //             this.chats = response.data;
+        //             console.log(this.chats)
+        //         })
+        //         .catch((error) => {
+        //             console.log(error);
+        //         });
+        // },
         logout() {
             axios.post(route("logout"));
         },
