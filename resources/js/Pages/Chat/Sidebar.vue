@@ -31,7 +31,7 @@ let currentSidebar = ref('ChatList');
 
 
         <div>
-            <img @click="currentSidebar = 'ContactBio'" class=" ml-2 h-12 w-12 rounded-full object-cover "
+            <img @click="currentSidebar = 'ContactBio'" class=" w-full rounded-full object-cover "
                 :src="$page.props.user.profile" :alt="$page.props.user.username" />
 
 
