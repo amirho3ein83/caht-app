@@ -53,13 +53,14 @@ Route::middleware([
     Route::post('message/broadcasting', [ChatController::class, 'broadcastMessage'])->name('broadcastMessage');
 
     Route::get('/follow/{username}', [ChatController::class, 'follow'])->name('follow');
+    Route::get('/social-media', [ChatController::class, 'getSocialMedia'])->name('user.socialMedia');
 
     // Route::post('/member/{id}/online', [ChatController::class, 'onlineContact'])->name('onlineContact');
     // Route::post('/member/{id}/offline', [ChatController::class, 'offlineContact'])->name('offlineContact');
 
     Route::get('following/{username}/get-details', [ChatController::class, 'getUser'])->name('getUser');
 
-    Route::get('accounts/explore', [ChatController::class, 'exploreAccounts']);
+    Route::get('accounts/explore', [ChatController::class, 'exploreAccounts'])->name('exploreAccounts');
 
     Route::get('/search-followings', [ChatController::class, 'searchFollowings'])->name('searchFollowings');
     Route::get('/search-followers', [ChatController::class, 'searchFollowers'])->name('searchFollowers');

@@ -7,6 +7,10 @@ export const useGetChatsStore = defineStore("chats", {
             chats: [],
             currentChat: [],
             messages: [],
+            followings: [],
+            followers: [],
+            numberOfFollowers: 0,
+            numberOfFollowings: 0,
     }),
     actions:{
         getChats() {
@@ -80,5 +84,30 @@ export const useGetChatsStore = defineStore("chats", {
             this.currentChat = chat;
 
         },
+        getFollowings ()  {
+             axios
+                .get("followings")
+                .then((response) => {
+                    this.numberOfFollowings = response.data.length;
+        
+                    this.followings = response.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        getFollowers() {
+            // async fetchAuthors() {
+            //     this.authors = await fetch('https://jsonplaceholder.typicode.com/users')
+            //     .then((response) => response.json())
+            //   }
+            this.followers = fetch
+                .get("followers")
+                .then((response) => {response.json()
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
     }
 });

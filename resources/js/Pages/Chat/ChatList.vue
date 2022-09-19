@@ -2,13 +2,14 @@
 import ChatItem from "./ChatItem.vue";
 import {useGetChatsStore} from "@/stores/getChats.js" 
 import { ref } from "@vue/reactivity";
+import { storeToRefs } from 'pinia'
+// const storeGetChats = useGetChatsStore()
 
-const storeGetChats = useGetChatsStore()
-
-storeGetChats.getChats();
+// storeGetChats.getChats();
 
 
-const chats = ref(storeGetChats.chats)
+const { chats} = storeToRefs(useGetChatsStore())
+const { getChats } = useGetChatsStore()
 
 // let chatTitle = (username) => {
 //     props.chat.following = props.chat.name.replace(

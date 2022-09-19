@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 use Illuminate\Support\Facades\Validator;
+use Inertia\Inertia;
 
 class ChatController extends Controller
 {
@@ -34,7 +35,7 @@ class ChatController extends Controller
     public function chats(Request $request)
     {
         $blocked_accounts = Auth::user()->blockedAccounts->pluck('id');
-        Log::info($blocked_accounts);
+        // Log::info($blocked_accounts);
         //         $user = Auth::user();
         // $posts = Chat::where(function($q) use ($user){
         //       $q)
@@ -49,8 +50,8 @@ class ChatController extends Controller
         //         return $query->whereNotIn('users.id',  $blocked_accounts);
         //     })->get();
 
-        return Chat::whereHas('users',function($query) use($blocked_accounts){
-            return $query->whereNotIn('users.id',$blocked_accounts)->whereIn('users.id',[Auth::id()]);
+        return Chat::whereHas('users', function ($query) use ($blocked_accounts) {
+            return $query->whereNotIn('users.id', $blocked_accounts)->whereIn('users.id', [Auth::id()]);
         })->get();
 
 
@@ -152,6 +153,12 @@ class ChatController extends Controller
         return User::where('username', $request->username)
             ->get();
     }
+    public function getSocialMedia(Request $request)
+    {
+        return  Cache::remember('socialMedia', 60 * 60, function () {
+            return Auth::user()->socialMedia;
+        });
+    }
 
     public function deleteChat(Chat $chat, $id)
     {
@@ -176,7 +183,6 @@ class ChatController extends Controller
 
     public function exploreAccounts(Request $request)
     {
-
         $user  = User::find(Auth::id());
 
         foreach ($user->chats as $key => $chat) {
@@ -196,6 +202,7 @@ class ChatController extends Controller
             ->get();
 
         return $users;
+        // return Inertia::render('Chat/ExploreAccounts', ['accounts' => $users]);
     }
 
 

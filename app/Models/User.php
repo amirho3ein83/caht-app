@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -27,7 +28,7 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'email', 'username', 'password', 'username', 'is_online','profile'
+        'email', 'username', 'password', 'username', 'is_online', 'profile'
     ];
 
     /**
@@ -63,7 +64,12 @@ class User extends Authenticatable
 
     public function getProfileAttribute()
     {
-        return url('storage/profile-photos/ss.jpg');
+        return url('storage/profile-photos/avatar.jpg');
+    }
+
+    public function socialMedia()
+    {
+        return $this->hasOne(SocialMedia::class);
     }
 
     public function chats()
@@ -81,29 +87,33 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(User::class, 'followers', 'following_id', 'follower_id');
     }
-    
+
     public function blockedAccounts()
     {
         return $this->belongsToMany(User::class, 'blocked', 'created_by', 'blocked_user');
     }
 
 
-    public function isNotTheUser(User $user) {
+    public function isNotTheUser(User $user)
+    {
         return $this->id !== $user->id;
     }
 
-    public function isFollowing(User $user) {
+    public function isFollowing(User $user)
+    {
         return (bool) $this->following->where('id', $user->id)->count();
     }
 
-    public function canFollow(User $user) {
+    public function canFollow(User $user)
+    {
         if (!$this->isNotTheUser($user)) {
             return false;
         }
         return !$this->isFollowing($user);
     }
 
-    public function canUnfollow(User $user) {
+    public function canUnfollow(User $user)
+    {
         return $this->isFollowing($user);
     }
 

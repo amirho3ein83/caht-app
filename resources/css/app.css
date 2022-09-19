@@ -24,3 +24,10 @@
   body {
     overflow-x: hidden;
   }
+
+  .text-c-orange{
+    color: #f5b642;
+  }
+  .text-c-green{
+    color: #42f554;
+  }
