@@ -6,13 +6,12 @@ import { useFollowersStore } from "@/stores/Followers";
 import { useFollowingsStore } from "@/stores/Followings";
 
 const storeFollowers = useFollowersStore();
-storeFollowers.fill()
+storeFollowers.fill();
 
 const storeFollowings = useFollowingsStore();
-storeFollowings.fill()
+storeFollowings.fill();
 // const { followings, followers} = storeToRefs(useGetChatsStore())
 //   const { getFollowers,getFollowings } = useGetChatsStore()
-
 
 // let followings = ref(store.followings);
 // let followers = ref(store.followers);
@@ -69,48 +68,59 @@ const startBroadcasting = () => {
 <template>
     <div
         open
-        class="overflow-hidden h-full flex flex-col flex-end align-end justify-between"
+        class="overflow-y-auto h-full flex flex-col flex-end align-end justify-between"
     >
-        <div class="flex-1">
+        <div class="flex-1 ">
             <legend
                 class="block w-full px-5 py-3 text-lg font-medium bg-gray-200"
             >
                 followings
             </legend>
 
-            <div class="px-5 py-6 space-y-2">
-                <!-- <Spinner v-if="!numberOfFollowings == 0" /> -->
-                <!-- <div v-for="following of followings" :key="following.id" class="flex items-center">
-                    <input type="checkbox" v-model="checkedAccounts" :value="following.id" name="age[3+]"
-                        class="w-5 h-5 border-gray-300 " />
-
-                    <label class="ml-3 text-gray-100 text-lg font-medium">
+            <div
+                v-for="following of storeFollowings.followings"
+                :key="following.id"
+                class="select-none cursor-pointer flex flex-1 items-center p-1 hover:opacity-100 opacity-80 hover:bg-gray-600"
+            >
+                <div
+                    class="flex flex-col w-10 h-10 justify-center items-center mr-4"
+                >
+                    <img
+                        class="w-full rounded-full"
+                        :src="$page.props.user.profile"
+                        v-if="$page.props.user.profile"
+                    />
+                    <i
+                        v-else
+                        class="bi bi-person-circle w-10 sm:w-16 h-10 sm:h-16 rounded-full text-gray-600"
+                        style="font-size: 39px"
+                    ></i>
+                </div>
+                <div class="flex-1 pl-1">
+                    <div class="text-gray-300 dark:text-gray-200 text-lg">
                         {{ following.username }}
-                    </label>
-                </div> -->
+                    </div>
+                </div>
+                <div class="flex flex-row justify-center">
+                    <input
+                    v-model="checkedAccounts"
+
+                        :value="following.username"
+                        type="checkbox"
+                        class="w-5 h-5 border-gray-300"
+                    />
+                </div>
             </div>
         </div>
-
-        <div class="flex-1">
-            <legend
-                class="block w-full px-5 py-3 text-lg font-medium bg-gray-200"
-            >
+        <div class="flex-1 ">
+            <legend class="block w-full px-5 py-3 text-lg font-medium bg-gray-200">
                 followers
             </legend>
             <div class="px-5 py-6 space-y-2">
-                <!-- <Spinner v-if="!store.numberOfFollowers == 0" /> -->
-
-                <!-- <div v-for="follower of followers" :key="follower.id" class="flex items-center">
-                    <input type="checkbox" v-model="checkedAccounts" :value="follower.id" name="age[3+]"
-                        class="w-5 h-5 border-gray-300 " />
-
-                    <label class="ml-3 text-gray-100 text-lg font-medium">
-                        {{ follower.username }}
-                    </label>
-                </div> -->
                 <div
-                v-for="follower of storeFollowers.followers" :key="follower.id"
-                    class="select-none cursor-pointer flex flex-1 items-center p-4 hover:opacity-100 opacity-80 hover:bg-gray-600"
+                    v-for="follower of storeFollowers.followers"
+                    :key="follower.id"
+                    class="select-none cursor-pointer flex flex-1 items-center p-1 hover:opacity-100 opacity-80 hover:bg-gray-600"
                 >
                     <div
                         class="flex flex-col w-10 h-10 justify-center items-center mr-4"
@@ -127,13 +137,14 @@ const startBroadcasting = () => {
                         ></i>
                     </div>
                     <div class="flex-1 pl-1">
-                        <div class="text-gray-600 dark:text-gray-200 text-lg">
+                        <div class="text-gray-300 dark:text-gray-200 text-lg">
                             {{ follower.username }}
                         </div>
                     </div>
                     <div class="flex flex-row justify-center">
                         <input
-                        :value="follower.username"
+                        v-model="checkedAccounts"
+                            :value="follower.username"
                             type="checkbox"
                             class="w-5 h-5 border-gray-300"
                         />
@@ -141,39 +152,39 @@ const startBroadcasting = () => {
                 </div>
             </div>
         </div>
+        </div>
         <div>{{ checkedAccounts }}</div>
 
-        <div class="flex border-gray-200">
-            <div class="p-1 flex-1 -t dark:border-gray-500">
-                <input
-                    v-model="message"
-                    class="block p-3 pl-10 w-full text-sm text-gray-900 bg-gray-100 outline-none"
-                    placeholder="message..."
-                    required
-                />
-            </div>
-            <button
-                @click="startBroadcasting()"
-                prevent-scroll
-                type="button"
-                class="inline-flex items-center justify-center -lg px-2 py-1 transition duration-500 ease-in-out text-white hover:bg-gray-600 bg-gray-500 focus:outline-none ml-1"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    class="h-6 w-6 ml-2 transform rotate-90"
-                >
-                    <path
-                        d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"
-                    ></path>
-                </svg>
-            </button>
-            <button
-                @click="startBroadcasting()"
-                prevent-scroll
-                type="button"
-            ></button>
+    <div class="flex border-gray-200 sticky bottom-0">
+        <div class="p-1 flex-1 -t dark:border-gray-500">
+            <input
+                v-model="message"
+                class="block p-3 pl-10 w-full text-sm text-gray-900 bg-gray-100 outline-none"
+                placeholder="message..."
+                required
+            />
         </div>
+        <button
+            @click="startBroadcasting()"
+            prevent-scroll
+            type="button"
+            class="inline-flex items-center justify-center -lg px-2 py-1 transition duration-500 ease-in-out text-white hover:bg-gray-600 bg-gray-500 focus:outline-none ml-1"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                class="h-6 w-6 ml-2 transform rotate-90"
+            >
+                <path
+                    d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"
+                ></path>
+            </svg>
+        </button>
+        <button
+            @click="startBroadcasting()"
+            prevent-scroll
+            type="button"
+        ></button>
     </div>
 </template>

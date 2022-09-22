@@ -2,16 +2,16 @@
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
 const props = defineProps({
-    following: Object,
+    addressee: Object,
     currentChat: Object,
 });
 
 const blockContact = () => {
-    axios.patch('block/' + props.following.username);
+    axios.patch('block/' + props.addressee.username);
 }
 
 const deleteChat = () => {
-    axios.delete('chats/' + props.currentChat.id +'/'+props.following.id);
+    axios.delete('chats/' + props.currentChat.id +'/'+props.addressee.id);
 }
 </script>
 
@@ -27,11 +27,11 @@ const deleteChat = () => {
                 <div class="flex ml-3">
                     <div class="relative p-1">
                         <div class="relative">
-                            <img class="w-10 sm:w-16 h-10 sm:h-16 rounded-full" :src="following.profile"
-                                v-if="following.profile" />
+                            <img class="w-10 sm:w-16 h-10 sm:h-16 rounded-full" :src="addressee.profile"
+                                v-if="addressee.profile" />
                             <i v-else class="bi bi-person-circle w-10 sm:w-16 h-10 sm:h-16 rounded-full text-gray-600"
                                 style="font-size: 39px"></i>
-                            <template v-if="following.is_online">
+                            <template v-if="addressee.is_online">
                                 <div
                                     class="absolute button-0 right-0 -mr-0 -mt-4 w-4 h-4 rounded-full bg-green-400 animate-ping">
                                 </div>
@@ -42,12 +42,12 @@ const deleteChat = () => {
                     </div>
                     <div class="flex flex-col leading-tight justify-center ml-2">
                         <div class="text-xl mt-1 flex items-center">
-                            <span class="text-gray-100 mr-3 break-words">{{ following.username }}
+                            <span class="text-gray-100 mr-3 break-words">{{ addressee.username }}
                             </span>
                         </div>
-                        <span v-if="following.is_online" class="text-sm text-gray-100">online
+                        <span v-if="addressee.is_online" class="text-sm text-gray-100">online
                         </span>
-                        <span v-if="following.is_typing" class="text-sm text-gray-100">typing...
+                        <span v-if="addressee.is_typing" class="text-sm text-gray-100">typing...
                         </span>
                     </div>
                 </div>

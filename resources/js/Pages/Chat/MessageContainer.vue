@@ -5,27 +5,33 @@ import { Inertia } from "@inertiajs/inertia";
 import { reactive, ref, watch } from "vue";
 import { useForm } from "@inertiajs/inertia-vue3";
 import MessageItem from "./MessageItem.vue";
+import FollowingDetails from "./FollowingDetails.vue";
 
-const props = defineProps({
-    messages: Object,
-    currentChat: Object
-})
+import {useChatsStore} from "@/stores/Chats.js" 
 
-let getMessages = () => {
-axios
-    .get(
-        "/chat/chats/" +
-        props.currentChat.id +
-        "/messages"
-    )
-    .then((response) => {
-        console.log('ssss');
-        props.messages = response.data;
-    })
-    .catch((error) => {
-        console.log(error);
-    });
-};
+const storeChats = useChatsStore()
+
+
+// const props = defineProps({
+//     messages: Object,
+//     currentChat: Object
+// })
+
+// let getMessages = () => {
+// axios
+//     .get(
+//         "/chat/chats/" +
+//         props.currentChat.id +
+//         "/messages"
+//     )
+//     .then((response) => {
+//         console.log('ssss');
+//         props.messages = response.data;
+//     })
+//     .catch((error) => {
+//         console.log(error);
+//     });
+// };
 
 
 let form = reactive({
@@ -38,7 +44,7 @@ let sendMessage = () => {
 
     processing.value = true;
 
-Inertia.post("/chat/chats/" + props.currentChat.id + "/message", form,
+Inertia.post("/chat/chats/" + storeChats.currentChat.id + "/message", form,
         {
             onSuccess: () => Promise.all([
                 getMessages(),
@@ -71,6 +77,8 @@ Inertia.post("/chat/chats/" + props.currentChat.id + "/message", form,
 </script>
         
 <template>
+                <FollowingDetails  :addressee="storeChats.addressee" :currentChat="storeChats.currentChat" />
+
     <div
         class="flex flex-1 flex-end justify-end flex-col space-y-4  overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
     >
@@ -78,7 +86,7 @@ Inertia.post("/chat/chats/" + props.currentChat.id + "/message", form,
             id="messages"
             class="flex flex-end flex-col-reverse  space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
         >
-            <div v-for="message in messages" :key="message.id">
+            <div v-for="message in storeChats.messages" :key="message.id">
                 <MessageItem v-on:message-deleted="" :message="message" />
             </div>
         </div>
@@ -86,7 +94,7 @@ Inertia.post("/chat/chats/" + props.currentChat.id + "/message", form,
 
 
 
-    <div class="flex justify-between px-4 pt-2 pb-2 bg-gray-500 backdrop-blur-xl" :class="{ 'invisible': !currentChat.id }">
+    <div class="flex justify-between px-4 pt-2 pb-2 bg-gray-500 backdrop-blur-xl" :class="{ 'invisible': !storeChats.currentChat.id }">
 
         <i class="bi bi-emoji-smile text-yellow-500 mx-2 hover:scale-110 transition duration-60"></i>
         <i class="bi bi-file-earmark-arrow-up text-gray-200 mx-2 hover:scale-110 transition duration-60"></i>

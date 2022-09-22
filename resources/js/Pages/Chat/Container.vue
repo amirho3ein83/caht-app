@@ -6,7 +6,6 @@ import ChatItem from "./ChatItem.vue";
 import MessageItem from "./MessageItem.vue";
 import { Link } from "@inertiajs/inertia-vue3";
 
-import FollowingDetails from "./FollowingDetails.vue";
 import MessageContainer from "./MessageContainer.vue";
 import Navbar from "./Navbar.vue";
 import ContactBio from "./ContactBio.vue";
@@ -21,7 +20,6 @@ export default {
     ChatItem,
     MessageItem,
     Link,
-    FollowingDetails,
     Navbar,
     ContactBio,
     Sidebar
@@ -75,7 +73,6 @@ export default {
 
             <div
                 class=" sm:visible flex-1 p:2  justify-between flex flex-col h-screen my-0 bg-gradient-to-b from-gray-400 via-gray-500 to-gray-600">
-                <FollowingDetails v-if="currentChat.id" :following="following" :currentChat="currentChat" />
                 <!-- <h2 class="mx-auto animate-pulse" v-else>Let's start by choosing one chat</h2> -->
                 <MessageContainer :currentChat="currentChat" :messages="messages" />
             </div>

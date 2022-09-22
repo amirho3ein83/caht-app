@@ -95,7 +95,6 @@ class ChatController extends Controller
 
     public function follow(Request $request)
     {
-        Log::info($request->username);
         try {
 
             $user = User::firstWhere('username', $request->username);

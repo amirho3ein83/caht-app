@@ -64,7 +64,7 @@ class User extends Authenticatable
 
     public function getProfileAttribute()
     {
-        return url('storage/profile-photos/avatar.jpg');
+        return url('storage/profiles/chris.webp');
     }
 
     public function socialMedia()
