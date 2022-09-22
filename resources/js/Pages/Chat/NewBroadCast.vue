@@ -3,13 +3,13 @@ import { ref, onMounted } from "vue";
 import Spinner from "./Spinner.vue";
 import { storeToRefs } from "pinia";
 import { useFollowersStore } from "@/stores/Followers";
-import { useFollowingsStore } from "@/stores/Following";
+import { useFollowingsStore } from "@/stores/Followings";
 
 const storeFollowers = useFollowersStore();
-store.fill()
+storeFollowers.fill()
 
 const storeFollowings = useFollowingsStore();
-store.fill()
+storeFollowings.fill()
 // const { followings, followers} = storeToRefs(useGetChatsStore())
 //   const { getFollowers,getFollowings } = useGetChatsStore()
 
