@@ -10,38 +10,9 @@ storeFollowers.fill();
 
 const storeFollowings = useFollowingsStore();
 storeFollowings.fill();
-// const { followings, followers} = storeToRefs(useGetChatsStore())
-//   const { getFollowers,getFollowings } = useGetChatsStore()
-
-// let followings = ref(store.followings);
-// let followers = ref(store.followers);
 
 const message = ref("");
 const checkedAccounts = ref([]);
-
-// const getFollowers = () => {
-//     return axios
-//         .get("followers")
-//         .then((response) => {
-//             numberOfFollowers = response.data.length;
-//             followers.value = response.data;
-//         })
-//         .catch((error) => {
-//             console.log(error);
-//         });
-// };
-// const getFollowings = () => {
-//     return axios
-//         .get("followings")
-//         .then((response) => {
-//             numberOfFollowings = response.data.length;
-
-//             followings.value = response.data;
-//         })
-//         .catch((error) => {
-//             console.log(error);
-//         });
-// };
 
 const startBroadcasting = () => {
     axios
@@ -70,7 +41,7 @@ const startBroadcasting = () => {
         open
         class="overflow-y-auto h-full flex flex-col flex-end align-end justify-between"
     >
-        <div class="flex-1 ">
+        <div class="flex-1">
             <legend
                 class="block w-full px-5 py-3 text-lg font-medium bg-gray-200"
             >
@@ -80,19 +51,19 @@ const startBroadcasting = () => {
             <div
                 v-for="following of storeFollowings.followings"
                 :key="following.id"
-                class="select-none cursor-pointer flex flex-1 items-center p-1 hover:opacity-100 opacity-80 hover:bg-gray-600"
+                class="select-none cursor-pointer flex flex-1 items-center p-2 hover:opacity-100 opacity-80 hover:bg-gray-600"
             >
                 <div
-                    class="flex flex-col w-10 h-10 justify-center items-center mr-4"
+                    class="flex flex-col w-12 h-12 justify-center items-center mr-4"
                 >
                     <img
-                        class="w-full rounded-full"
+                        class="w-12 h-12 object-cover rounded-full"
                         :src="$page.props.user.profile"
                         v-if="$page.props.user.profile"
                     />
                     <i
                         v-else
-                        class="bi bi-person-circle w-10 sm:w-16 h-10 sm:h-16 rounded-full text-gray-600"
+                        class="bi bi-person-circle w-12 sm:w-16 h-10 sm:h-16 rounded-full text-gray-600"
                         style="font-size: 39px"
                     ></i>
                 </div>
@@ -103,8 +74,7 @@ const startBroadcasting = () => {
                 </div>
                 <div class="flex flex-row justify-center">
                     <input
-                    v-model="checkedAccounts"
-
+                        v-model="checkedAccounts"
                         :value="following.username"
                         type="checkbox"
                         class="w-5 h-5 border-gray-300"
@@ -112,21 +82,23 @@ const startBroadcasting = () => {
                 </div>
             </div>
         </div>
-        <div class="flex-1 ">
-            <legend class="block w-full px-5 py-3 text-lg font-medium bg-gray-200">
+        <div class="flex-1">
+            <legend
+                class="block w-full px-5 py-3 text-lg font-medium bg-gray-200"
+            >
                 followers
             </legend>
             <div class="px-5 py-6 space-y-2">
                 <div
                     v-for="follower of storeFollowers.followers"
                     :key="follower.id"
-                    class="select-none cursor-pointer flex flex-1 items-center p-1 hover:opacity-100 opacity-80 hover:bg-gray-600"
+                    class="select-none cursor-pointer flex flex-1 items-center p-2 hover:opacity-100 opacity-80 hover:bg-gray-600"
                 >
                     <div
-                        class="flex flex-col w-10 h-10 justify-center items-center mr-4"
+                        class="flex flex-col w-12 h-12 justify-center items-center mr-4"
                     >
                         <img
-                            class="w-full rounded-full"
+                            class="w-12 h-12 object-cover rounded-full"
                             :src="$page.props.user.profile"
                             v-if="$page.props.user.profile"
                         />
@@ -143,7 +115,7 @@ const startBroadcasting = () => {
                     </div>
                     <div class="flex flex-row justify-center">
                         <input
-                        v-model="checkedAccounts"
+                            v-model="checkedAccounts"
                             :value="follower.username"
                             type="checkbox"
                             class="w-5 h-5 border-gray-300"
@@ -152,8 +124,8 @@ const startBroadcasting = () => {
                 </div>
             </div>
         </div>
-        </div>
-        <div>{{ checkedAccounts }}</div>
+    </div>
+    <div>{{ checkedAccounts }}</div>
 
     <div class="flex border-gray-200 sticky bottom-0">
         <div class="p-1 flex-1 -t dark:border-gray-500">
@@ -162,10 +134,10 @@ const startBroadcasting = () => {
                 class="block p-3 pl-10 w-full text-sm text-gray-900 bg-gray-100 outline-none"
                 placeholder="message..."
                 required
+                @keyup.enter="startBroadcasting()"
             />
         </div>
         <button
-            @click="startBroadcasting()"
             prevent-scroll
             type="button"
             class="inline-flex items-center justify-center -lg px-2 py-1 transition duration-500 ease-in-out text-white hover:bg-gray-600 bg-gray-500 focus:outline-none ml-1"

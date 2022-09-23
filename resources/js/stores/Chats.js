@@ -11,23 +11,12 @@ export const useChatsStore = defineStore("chats", {
         followings: [],
         followers: [],
         numberOfFollowers: 0,
-        numberOfFollowings: 0,        }),
+        numberOfFollowings: 0,
+    }),
     getters: {
         //   doubleCount: (state) => state.count * 2,
     },
     actions: {
-        async getChats() {
-            try {
-                const data = await axios.get(
-                    "chats"
-                );
-                this.chats = data.data;
-                console.log(this.chats)
-            } catch (error) {
-                alert(error);
-                console.log(error);
-            }
-        },
         getChats() {
             axios
                 .get("chats")
@@ -44,11 +33,7 @@ export const useChatsStore = defineStore("chats", {
         },
         getMessages() {
             axios
-                .get(
-                    "/chats/" +
-                    this.currentChat.id +
-                    "/messages"
-                )
+                .get("/chats/" + this.currentChat.id + "/messages")
                 .then((response) => {
                     this.messages = response.data;
                 })
@@ -58,9 +43,7 @@ export const useChatsStore = defineStore("chats", {
         },
         getFollowingInfo() {
             axios
-                .get(
-                   'following/'+this.currentChat.name+'/get-details'
-                )
+                .get("following/" + this.currentChat.name + "/get-details")
                 .then((response) => {
                     this.addressee = response.data;
                 })
@@ -80,9 +63,38 @@ export const useChatsStore = defineStore("chats", {
                 });
 
             this.currentChat = chat;
-            this.getMessages()
-            this.getFollowingInfo()
+            this.connect();
+            this.getMessages();
+            this.getFollowingInfo();
+        },
 
+        connect() {
+            if (this.currentChat.id) {
+                let vm = this;
+                this.getMessages();
+                window.Echo.private("chat." + this.currentChat.id).listen(
+                    ".message",
+                    (e) => {
+                        vm.getMessages();
+                    }
+                );
+            }
+        },
+        disconenct(chat) {
+            window.Echo.leave("chat." + chat.id);
+        },
+        blockContact() {
+            Inertia.patch("block/" + this.addressee.username);
+        },
+
+        deleteChat() {
+            Inertia.delete(
+                "chats/" + this.currentChat.id + "/" + this.addressee.id,
+                {
+                    preserveScroll: true,
+                    onSuccess: () => this.getChats(),
+                }
+            );
         },
     },
 });

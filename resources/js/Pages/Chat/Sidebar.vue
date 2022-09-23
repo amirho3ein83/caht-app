@@ -11,9 +11,9 @@ import NewBroadCast from "./NewBroadCast.vue";
 import Navbar from "./Navbar.vue";
 import ContactBio from "./ContactBio.vue";
 import ChatList from "./ChatList.vue";
-import { useGetChatsStore } from '@/stores/getChats'
+import { Connection } from '@/stores/Connection'
 
-const store = useGetChatsStore()
+const store = Connection()
 let currentSidebar = ref('ChatList');
 // let logout = () => {
 //     Inertia.post(route("logout"));
@@ -31,7 +31,7 @@ let currentSidebar = ref('ChatList');
 
 
         <div>
-            <img @click="currentSidebar = 'ContactBio'" class=" w-full rounded-full object-cover "
+            <img @click="currentSidebar = 'ContactBio'" class="object-cover h-16 w-16 rounded-full object-cover "
                 :src="$page.props.user.profile" :alt="$page.props.user.username" />
 
 
@@ -71,7 +71,7 @@ let currentSidebar = ref('ChatList');
 
 
     <!-- chat list page -->
-    <div class="  bg-gradient-to-r from-gray-800 overflow-x-auto to-gray-600 p-2 my-0 flex-col align-center h-screen"
+    <div class="  bg-gradient-to-r from-gray-800 overflow-x-hidden to-gray-600 p-2 my-0 flex-col align-center h-screen"
         style="width: 420px;">
 
 

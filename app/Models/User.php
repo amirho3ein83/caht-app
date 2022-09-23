@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
@@ -64,7 +65,7 @@ class User extends Authenticatable
 
     public function getProfileAttribute()
     {
-        return url('storage/profiles/chris.webp');
+        return "https://i.pinimg.com/736x/7b/42/4a/7b424a30b80d383ed34a40135f84a305.jpg";
     }
 
     public function socialMedia()

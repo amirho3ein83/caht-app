@@ -1,18 +1,14 @@
 <script setup>
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
-const props = defineProps({
-    addressee: Object,
-    currentChat: Object,
-});
+import {useChatsStore} from "@/stores/Chats.js" 
 
-const blockContact = () => {
-    axios.patch('block/' + props.addressee.username);
-}
+const storeChats = useChatsStore()
+// const props = defineProps({
+//     storeChats.addressee: Object,
+//     currentChat: Object,
+// });
 
-const deleteChat = () => {
-    axios.delete('chats/' + props.currentChat.id +'/'+props.addressee.id);
-}
 </script>
 
 <template>
@@ -27,11 +23,11 @@ const deleteChat = () => {
                 <div class="flex ml-3">
                     <div class="relative p-1">
                         <div class="relative">
-                            <img class="w-10 sm:w-16 h-10 sm:h-16 rounded-full" :src="addressee.profile"
-                                v-if="addressee.profile" />
+                            <img class="w-14 h-14 object-cover rounded-full" :src="storeChats.addressee.profile"
+                                v-if="storeChats.addressee.profile" />
                             <i v-else class="bi bi-person-circle w-10 sm:w-16 h-10 sm:h-16 rounded-full text-gray-600"
                                 style="font-size: 39px"></i>
-                            <template v-if="addressee.is_online">
+                            <template v-if="storeChats.addressee.is_online">
                                 <div
                                     class="absolute button-0 right-0 -mr-0 -mt-4 w-4 h-4 rounded-full bg-green-400 animate-ping">
                                 </div>
@@ -42,12 +38,12 @@ const deleteChat = () => {
                     </div>
                     <div class="flex flex-col leading-tight justify-center ml-2">
                         <div class="text-xl mt-1 flex items-center">
-                            <span class="text-gray-100 mr-3 break-words">{{ addressee.username }}
+                            <span class="text-gray-100 mr-3 break-words">{{ storeChats.addressee.username }}
                             </span>
                         </div>
-                        <span v-if="addressee.is_online" class="text-sm text-gray-100">online
+                        <span v-if="storeChats.addressee.is_online" class="text-sm text-gray-100">online
                         </span>
-                        <span v-if="addressee.is_typing" class="text-sm text-gray-100">typing...
+                        <span v-if="storeChats.addressee.is_typing" class="text-sm text-gray-100">typing...
                         </span>
                     </div>
                 </div>
@@ -72,13 +68,13 @@ const deleteChat = () => {
                         Mute Chat
                     </button>
 
-                    <button @click="deleteChat"
+                    <button @click="storeChats.deleteChat"
                         class="mx-auto py-2 text-sm justify-evenly w-full hover:bg-gray-600 hover:text-gray-300 block transition">
                         Delete Chat
                         <i class="bi bi-trash3 text-red-400 text-lg"></i>
                     </button>
 
-                    <button @click="blockContact"
+                    <button @click="storeChats.blockContact"
                         class="mx-auto align-baseline py-2 text-sm w-full  justify-evenly hover:bg-gray-600 hover:text-gray-300 flex transition">
                         Block
                         <i class="bi bi-slash-circle bold text-xl text-red-400 "></i>
