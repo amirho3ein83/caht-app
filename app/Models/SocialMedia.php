@@ -12,7 +12,7 @@ class SocialMedia extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'instagram', 'telegram'
+        'instagram', 'telegram','bio'
     ];
 
     public function user()

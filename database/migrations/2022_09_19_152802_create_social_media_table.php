@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class);
             $table->string('instagram');
             $table->string('telegram');
+            $table->mediumText('bio');
         });
     }
 

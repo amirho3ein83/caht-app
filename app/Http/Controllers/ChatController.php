@@ -95,7 +95,6 @@ class ChatController extends Controller
 
     public function follow(Request $request)
     {
-        Log::info($request->username);
         try {
 
             $user = User::firstWhere('username', $request->username);
@@ -151,7 +150,7 @@ class ChatController extends Controller
     public function getUser(Request $request)
     {
         return User::where('username', $request->username)
-            ->get();
+            ->first();
     }
     public function getSocialMedia(Request $request)
     {
@@ -220,9 +219,9 @@ class ChatController extends Controller
     public function sendMessage(Chat $chat, Request $request)
     {
         $sendMessage = $chat->messages()->create([
-            'from' => $request->from,
+            'from' => Auth::id(),
             'text' => $request->text,
-            'chat_id' => $request->chat_id
+            'chat_id' => $chat->id
         ]);
 
         broadcast(new NewMessage($sendMessage))->toOthers();

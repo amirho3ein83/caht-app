@@ -28,7 +28,8 @@ class AdminSeeder extends Seeder
         SocialMedia::create([
             'user_id' => 1,
             'instagram' => 'amirshafi83',
-            'telegram' => 'amirshafi83'
+            'telegram' => 'amirshafi83',
+            'bio' => 'this too shall pass ;'
         ]);
 
     }
