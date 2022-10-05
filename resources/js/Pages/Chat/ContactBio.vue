@@ -48,50 +48,33 @@ onMounted(() => {
     <Transition name="bounce">
         <img
             v-show="pageLoaded"
-            class="w-full h-2/4 object-cover rounded-t rounded-full"
+            class="w-80 mx-auto h-2/4 object-cover rounded-t rounded-full"
             :src="$page.props.user.profile"
             :alt="$page.props.user.username"
         />
     </Transition>
     <div class="mt-4">
         <div class="px-7 my-8 gap-2">
-            <div class="flex justi items-center border-b border-gray-600">
-                <input
-                    class="appearance-none bg-transparent border-none w-full text-gray-400 text-2xl py-1 px-2"
-                    type="text"
-                    v-model="$page.props.user.username"
-                    aria-label="Full name"
-                />
-            </div>
+                <h1
+                class="appearance-none bg-transparent  w-full text-gray-400 text-3xl mr-3 py-1 px-2  "
+                
+                >{{$page.props.user.username}}</h1>
+                <h4 class="resize-none  text-gray-400  appearance-none bg-transparent" cols="30" rows="2">{{socialMedia.bio}}</h4>
             <div class="mt-5 flex items-center border-b border-gray-600">
-                <!-- <input
-                    class="appearance-none bg-transparent border-none w-full text-gray-400 text-lg mr-3 py-1 px-2 leading-tight focus:outline-none"
-                    type="text"
-                    v-model="socialMedia.bio"
-                    aria-label="Full name"
-                /> -->
-                <textarea class="resize-none border-none appearance-none bg-transparent" v-model="socialMedia.bio" cols="30" rows="2"></textarea>
+                <h2
+                class="appearance-none bg-transparent  w-full text-gray-400 text-lg mr-3 py-1 px-2  "
+                
+                >{{$page.props.user.email}}</h2>
             </div>
-            <div class="mt-5 flex items-center border-b border-gray-600">
-                <input
-                    class="appearance-none bg-transparent border-none w-full text-gray-400 text-lg mr-3 py-1 px-2 leading-tight focus:outline-none"
-                    type="email"
-                    v-model="$page.props.user.email"
-                    aria-label="Full name"
-                />
-            </div>
-{{ socialMedia.bio }}
             <div
                 class="mt-5 flex items-center border-b border-gray-600 text-gray-300"
             >
                 <i class="bi bi-telegram"></i>
 
-                <input
-                    class="appearance-none bg-transparent border-none w-full text-gray-400 text-lg mr-3 py-1 px-2 leading-tight focus:outline-none"
-                    type="text"
-                    v-model="socialMedia.telegram"
-
-                />
+                <h2
+                class="appearance-none bg-transparent  w-full text-gray-400 text-lg mr-3 py-1 px-2  "
+                
+                >{{socialMedia.telegram}}</h2>
             </div>
 
             <div
@@ -99,20 +82,10 @@ onMounted(() => {
             >
                 <i class="bi bi-instagram"></i>
 
-                <input
-                    class="appearance-none bg-transparent border-none w-full text-gray-400 text-lg mr-3 py-1 px-2 leading-tight focus:outline-none"
-                    type="text"
-                    v-model="socialMedia.instagram"
-                />
-            </div>
-            <div class="mx-auto p-3 m-4 text-center">
-                <!-- <Transition> -->
-                <i
-                    v-show="pageLoaded"
-                    class="bi bi-check-lg text-c-green hover:scale-125"
-                    style="font-size: 58"
-                ></i>
-                <!-- </Transition> -->
+                <h2
+                class="appearance-none bg-transparent  w-full text-gray-400 text-lg mr-3 py-1 px-2  "
+                
+                >{{socialMedia.instagram}}</h2>
             </div>
         </div>
     </div>

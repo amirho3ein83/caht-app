@@ -65,7 +65,7 @@ class User extends Authenticatable
 
     public function getProfileAttribute()
     {
-        return "https://i.pinimg.com/736x/7b/42/4a/7b424a30b80d383ed34a40135f84a305.jpg";
+        return "https://bareillycollege.org/wp-content/uploads/2022/07/david-beckham-1024x768.webp";
     }
 
     public function socialMedia()
