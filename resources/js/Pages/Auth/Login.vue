@@ -30,19 +30,20 @@ const submit = () => {
 </script>
 
 <template>
-    <Head title="Log in" />
+    <div class="flex">
+        <img
+            class="object-cover w-full h-screen"
+            src="https://free4kwallpapers.com/uploads/originals/2022/01/20/astronaut-digital-art-wallpaper.jpg"
+            alt=""
+        />
+        <div
+            style="left: 100px; top: 110px"
+            class="w-full max-w-xl p-8 absolute m-5 backdrop-blur-sm bg-white/20"
+        >
+            <form @submit.prevent="submit" >
+                <h1 class="text-2xl font-bold mb-4">Sign in to your account</h1>
 
-    <JetAuthenticationCard>
-        <template #logo>
-            <JetAuthenticationCardLogo />
-        </template>
-
-        <!-- <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-            {{ status }}
-        </div> -->
-
-        <form @submit.prevent="submit">
-            <div>
+                <div>
                 <JetLabel for="email" value="email" />
                 <JetInput
                     id="email"
@@ -54,7 +55,7 @@ const submit = () => {
                 />
                 <JetInputError class="mt-2" :message="form.errors.email" />
             </div>
-
+    
             <div class="mt-4">
                 <JetLabel for="password" value="Password" />
                 <JetInput
@@ -67,33 +68,36 @@ const submit = () => {
                 />
                 <JetInputError class="mt-2" :message="form.errors.password" />
             </div>
+                <div class="mt-4 flex justify-between">
+                    <label class="flex items-center">
+                        <JetCheckbox
+                            v-model:checked="form.remember"
+                            class="w-6 h-6"
+                            name="remember"
+                        />
+                        <span class="ml-2 text-lg text-gray-200"
+                            >Remember me</span
+                        >
+                    </label>
 
-            <div class="block mt-4">
-                <label class="flex items-center">
-                    <JetCheckbox
-                        v-model:checked="form.remember"
-                        name="remember"
-                    />
-                    <span class="ml-2 text-sm text-gray-200">Remember me</span>
-                </label>
-            </div>
-
-            <div class="mt-4 flex-col">
-                <div class="flex justify-between mx-2 my-2">
-                    <Link
-                        :href="route('password.request')"
-                        class="underline text-sm text-gray-300 hover:text-gray-100"
-                    >
-                        Forgot your password?
-                    </Link>
-                    <Link
-                        :href="route('register')"
-                        class=" text-lg animate-pulse text-gray-300 hover:text-gray-100"
-                    >
-                        haven't registered yet?
-                    </Link>
+                    <div class="flex flex-col mt-2">
+                        <Link
+                            :href="route('password.request')"
+                            class="my-1  text-lg text-gray-300 hover:text-gray-100"
+                        >
+                            Forgot your password?
+                        </Link>
+                        <Link
+                            :href="route('register')"
+                            class="my-1 text-lg  text-gray-300 hover:text-gray-100"
+                        >
+                            haven't registered yet?
+                        </Link>
+                    </div>
                 </div>
-                <div class="flex justify-center">
+
+                <div class="flex w-full mt-8">
+
                     <JetButton
                         class="m-4"
                         :class="{ 'opacity-25': form.processing }"
@@ -102,7 +106,7 @@ const submit = () => {
                         Log in
                     </JetButton>
                 </div>
-            </div>
-        </form>
-    </JetAuthenticationCard>
+            </form>
+        </div>
+    </div>
 </template>

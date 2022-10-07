@@ -7,7 +7,7 @@ const deleteNotification = ()=>{
 
 <template>
 
-<div id="toast-notification" class="p-2 w-full text-gray-900 bg-gray-300 rounded-lg shadow dark:bg-gray-800 dark:text-gray-300" role="alert">
+<div id="toast-notification" class="w-[420px]  p-2 text-gray-900 bg-gray-300 rounded-lg shadow dark:bg-gray-800 dark:text-gray-300" role="alert">
 
     <div class="flex items-center justify-between">
             <img class="w-14 h-14 object-cover rounded-full" :src="$page.props.user.profile" alt="Jese Leos image">

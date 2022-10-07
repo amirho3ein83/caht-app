@@ -28,8 +28,14 @@
   .text-c-orange{
     color: #ffb833;
   }
+  .bg-c-orange{
+    background-color: #ffb833;
+  }
   .text-c-green{
     color: #42f554;
+  }
+  .text-c-blue{
+    color: #42ddf5;
   }
 
   textarea:focus, input:focus{

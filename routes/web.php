@@ -26,7 +26,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return redirect('dashboard');
+    return Inertia::render('Chat/Welcome');
 });
 
 Route::middleware([
@@ -40,9 +40,33 @@ Route::middleware([
         return redirect('chat');
     })->name('dashboard');
 
+    Route::get('/contact-bio', function () {
+        return Inertia::render('Chat/ContactBio');
+    })->name('ContactBio');
+
+    Route::get('/notifications', function () {
+        return Inertia::render('Chat/Notifications');
+    })->name('Notifications');
+
+    Route::get('/settings', function () {
+        return Inertia::render('Chat/Settings');
+    })->name('Settings');
+
     Route::get('/chat', function () {
-        return Inertia::render('Chat/Container', ['contact' => Auth::user()->contact]);
-    })->name('chat');
+        return Inertia::render('Chat/ChatList');
+    })->name('ChatList');
+
+    Route::get('/broadcast', function () {
+        return Inertia::render('Chat/BroadCast');
+    })->name('BroadCast');
+
+    Route::get('/explore-accounts', function () {
+        return Inertia::render('Chat/ExploreAccounts');
+    })->name('ExploreAccounts');
+
+    Route::get('/settings', function () {
+        return Inertia::render('Chat/Settings');
+    })->name('Settings');
 
 
     Route::get('/chats', [ChatController::class, 'chats'])->name('chats');

@@ -22,18 +22,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call([
-        //     AdminSeeder::class,
-        //     ChatSeeder::class,
-        //     ChatWithAdminSeeder::class,
-        // ]);
-
-        \App\Models\User::create([
-            'email' => 'saeed@saeed.com',
-            'password' => Hash::make('11111111'),
-            'username' => 'sa3eede',
-            'profile' => 'saeed.jpg',
-            'is_online' => rand(0,1)
+        $this->call([
+            AdminSeeder::class,
+            ChatSeeder::class,
+            ChatWithAdminSeeder::class,
         ]);
+
+
     }
 }
