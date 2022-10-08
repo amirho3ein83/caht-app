@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             ChatSeeder::class,
             ChatWithAdminSeeder::class,
+            NotificationSeeder::class,
         ]);
 
 

@@ -1,17 +1,13 @@
 <script setup>
-import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
-import JetAuthenticationCard from "@/Components/AuthenticationCard.vue";
-import JetAuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue";
+import { Link, useForm } from "@inertiajs/inertia-vue3";
 import JetButton from "@/Components/Button.vue";
 import JetInput from "@/Components/Input.vue";
 import JetInputError from "@/Components/InputError.vue";
 import JetCheckbox from "@/Components/Checkbox.vue";
 import JetLabel from "@/Components/Label.vue";
+import { onMounted, ref } from "vue";
 
-// defineProps({
-//     canResetPassword: Boolean,
-//     status: String,
-// });
+let showForm = ref(false)
 
 const form = useForm({
     email: "",
@@ -27,6 +23,12 @@ const submit = () => {
         onFinish: () => form.reset("password"),
     });
 };
+
+onMounted(()=>{
+    setTimeout(() => {
+    showForm.value = true
+}, 50);
+})
 </script>
 
 <template>
@@ -36,7 +38,10 @@ const submit = () => {
             src="https://free4kwallpapers.com/uploads/originals/2022/01/20/astronaut-digital-art-wallpaper.jpg"
             alt=""
         />
+<Transition  name="slide-fade">
+
         <div
+        v-if="showForm"
             style="left: 100px; top: 110px"
             class="w-full max-w-xl p-8 absolute m-5 backdrop-blur-sm bg-white/20"
         >
@@ -108,5 +113,9 @@ const submit = () => {
                 </div>
             </form>
         </div>
+</Transition>
+
     </div>
 </template>
+
+

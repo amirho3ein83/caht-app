@@ -2,6 +2,7 @@
 
 use App\Events\Message;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\UserController;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
@@ -99,5 +100,7 @@ Route::middleware([
     // Route::post('/chat/chat/{id}/last-message', [ChatController::class, 'setChatlastMessage'])->name('chat.last_messages');
     Route::delete('chats/{chat}/{id}', [ChatController::class, 'deleteChat']);
     Route::delete('messages/{message}', [ChatController::class, 'deleteMessage'])->name('delete.message');
+
+    Route::get('get/notifications', [NotificationController::class, 'getNotifications'])->name('notifications.get');
     // Route::delete('chat/chats/{chat}/{contact}', [ChatController::class, 'clearChatHistory']);
 });

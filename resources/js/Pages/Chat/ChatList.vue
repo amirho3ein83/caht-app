@@ -11,6 +11,7 @@ storeChats.getChats();
 </script>
 
 <template>
+
     <AppLayout>
         <div class="m-4 w-[420px]  ">
             <input
@@ -24,7 +25,7 @@ storeChats.getChats();
             >
                 <div
                     id="messages"
-                    class="flex flex-end h-100 flex-col-reverse space-y-4 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
+                    class="flex flex-end h-100 flex-col-reverse space-y-4 overflow-x-hidden overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
                 >
                     <div>
                         <ChatItem

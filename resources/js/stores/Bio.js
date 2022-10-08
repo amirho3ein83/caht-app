@@ -1,11 +1,19 @@
-export const useChatsStore = defineStore('counter', {
-    state: () => ({ chats: {}, name: '' }),
-    getters: {
-    //   doubleCount: (state) => state.count * 2,
-    },
+import { defineStore } from "pinia";
+
+export const useBioStore = defineStore('bio', {
+    state: () => ({ socialMedia: {} }),
+
     actions: {
-      increment() {
-        // this.count++
-      },
+      getSocialMedia() {
+        axios
+            .get(route("user.socialMedia"))
+            .then((response) => {
+                console.log(response.data);
+                this.socialMedia = response.data;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
     },
   })

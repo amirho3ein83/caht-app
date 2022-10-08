@@ -9,6 +9,7 @@ export const managePageStore = defineStore("manage-pages", {
             Inertia.get(
                 route(page),
             );
+            this.currentSidebar = page
         },
     },
 });

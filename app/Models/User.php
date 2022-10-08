@@ -94,6 +94,11 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class, 'blocked', 'created_by', 'blocked_user');
     }
 
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
 
     public function isNotTheUser(User $user)
     {

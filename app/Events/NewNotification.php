@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -9,8 +9,9 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Auth;
 
-class NewMessage
+class NewNotification
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -31,6 +32,11 @@ class NewMessage
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new PrivateChannel(Auth::id());
+    }
+
+    public function broadcastAs()
+    {
+        return 'notifications';
     }
 }

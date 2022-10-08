@@ -1,5 +1,8 @@
 <script setup>
 import {useChatsStore} from "@/stores/Chats.js" 
+import { onMounted, ref } from "vue";
+
+let showItem = ref(false)
 
 const storeChats = useChatsStore()
 const props = defineProps({
@@ -13,10 +16,18 @@ let chatTitle = (username) => {
     );
     return props.chat.name;
 };
+
+onMounted(()=>{
+    setTimeout(() => {
+      showItem.value = true
+}, 50);
+})
 </script>
 
 <template>
-      <div class="select-none cursor-pointer  flex flex-1 items-center p-4  hover:bg-gray-700 "
+    <Transition name="slide-fade">
+
+      <div v-if="showItem" class="select-none cursor-pointer  flex flex-1 items-center p-4  hover:bg-gray-700 "
       :class="{'bg-gradient-to-r from-gray-600 to-gray-700':storeChats.currentChat.id == chat.id}"
       >
         <div class="flex flex-col w-14 h-14 justify-center items-center mr-4">
@@ -33,4 +44,8 @@ let chatTitle = (username) => {
 
         </div>
       </div>
+    </Transition>
+
 </template>
+
+

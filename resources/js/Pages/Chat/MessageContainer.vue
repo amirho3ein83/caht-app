@@ -64,7 +64,7 @@ class=" sm:visible flex-1 p:2  justify-between flex flex-col h-screen my-0 bg-gr
         class="flex flex-end flex-col-reverse  space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
     >
         <div v-for="message in storeChats.messages" :key="message.id">
-            <MessageItem v-on:message-deleted="" :message="message" />
+            <MessageItem :message="message" />
         </div>
     </div>
 </div>
