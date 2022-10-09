@@ -12,11 +12,12 @@ class Notification extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['message', 'user_id', 'read_at'];
+    protected $fillable = ['message', 'user_id', 'read_at','writer'];
     protected $dates = ['read_at'];
 
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->diffForHumans();
     }
+
 }

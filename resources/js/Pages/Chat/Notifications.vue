@@ -2,12 +2,15 @@
 import NotificationItem from "./NotificationItem.vue";
 import { onMounted, ref } from "vue";
 import { notificationStore } from "@/stores/Notifications";
+import { managePageStore } from "@/stores/ManagePages";
 
+const storePages = managePageStore();
 const useNotificationStore = notificationStore();
 const currentMode = ref("light");
 
 onMounted(() => {
-    useNotificationStore.getNotifications();
+    useNotificationStore.getNotifications()
+    storePages.currentSidebar = 'Notifications'
 });
 </script>
 <script>

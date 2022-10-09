@@ -5,11 +5,18 @@ export const managePageStore = defineStore("manage-pages", {
     state: () => ({ currentSidebar: "" }),
 
     actions: {
-        async setPage(page) {
+         setPage(page) {
+            this.currentSidebar = page
+           
             Inertia.get(
                 route(page),
+                {  },
+                {
+                    preserveState: true,
+                    onSuccess: () => {
+                    },
+                }
             );
-            this.currentSidebar = page
         },
     },
 });

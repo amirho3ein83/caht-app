@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -19,7 +20,8 @@ class NotificationFactory extends Factory
     {
         return [
             'user_id'=>1,
-            'message'=>'sasan is giving a balony',
+            'writer'=> 'xaniar',
+            'message'=>' started following you',
         ];
     }
 }

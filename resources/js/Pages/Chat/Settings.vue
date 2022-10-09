@@ -1,7 +1,15 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+import { managePageStore } from "@/stores/ManagePages";
+
+const storePages = managePageStore();
 
 const currentMode = ref("light");
+
+onMounted(() => {
+    storePages.currentSidebar = 'Settings'
+});
+
 </script>
 <script>
 import AppLayout from "@/Layouts/AppLayout.vue";

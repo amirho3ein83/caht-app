@@ -3,10 +3,16 @@ import ChatItem from "./ChatItem.vue";
 import { useChatsStore } from "@/stores/Chats.js";
 import { ref } from "@vue/reactivity";
 import { storeToRefs } from "pinia";
+import { managePageStore } from "@/stores/ManagePages";
+import { onMounted } from "vue";
 
+const storePages = managePageStore();
 const storeChats = useChatsStore();
 
-storeChats.getChats();
+onMounted(() => {
+    storeChats.getChats();
+    storePages.currentSidebar = 'ChatList'
+});
 </script>
 <script>
 import AppLayout from "@/Layouts/AppLayout.vue";
@@ -23,7 +29,6 @@ export default {
                 class="rounded-2xl p-1 mb-4 w-96 text-lg text-gray-900 h-10 bg-gray-300 outline-none focus:bg-gray-200"
                 placeholder="           Search Contacts"
             />
-
             <div
                 class="flex flex-1 flex-end flex-col space-y-4 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
             >

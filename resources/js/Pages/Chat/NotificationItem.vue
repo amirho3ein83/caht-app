@@ -25,6 +25,7 @@ onMounted(()=>{
 </script>
 
 <template>
+   
     <Transition name="bounce" >
 
 <div v-if="showItem" class="w-[420px] m-1 p-2 text-gray-900 bg-gray-300 rounded-lg shadow dark:bg-gray-800 dark:text-gray-300" role="alert">
@@ -32,8 +33,7 @@ onMounted(()=>{
     <div class="flex items-center justify-between">
             <img class="w-14 h-14 object-cover rounded-full" :src="$page.props.user.profile" alt="Jese Leos image">
         <div class="ml-3 text-sm font-normal">
-            <div class="text-sm font-semibold text-gray-900 dark:text-white">Bonnie Green</div>
-            <div class="text-sm font-normal">{{notification.message}}</div> 
+            <div class="text-sm font-normal"> <span class=" text-lg "> {{notification.writer}} </span>{{notification.message}}</div> 
         </div>
         <div class="flex flex-col self-center items-end">
 

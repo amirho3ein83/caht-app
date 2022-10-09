@@ -5,7 +5,9 @@ import { storeToRefs } from "pinia";
 import { useFollowersStore } from "@/stores/Followers";
 import { useFollowingsStore } from "@/stores/Followings";
 import LoadingAnimation from "@/Components/LoadingAnimation.vue";
+import { managePageStore } from "@/stores/ManagePages";
 
+const storePages = managePageStore();
 const storeFollowers = useFollowersStore();
 storeFollowers.fill();
 
@@ -30,7 +32,9 @@ const startBroadcasting = () => {
             console.log(error);
         });
 };
-
+onMounted(() => {
+    storePages.currentSidebar = 'BroadCast'
+});
 </script>
 <script>
 import AppLayout from "@/Layouts/AppLayout.vue";
@@ -40,7 +44,7 @@ export default {
 }
 </script>
 <template>
-\        <div class="m-4 w-[420px] h-[750px] flex flex-col overflow-y-auto">
+        <div class="m-4 w-[420px] h-[750px] flex flex-col overflow-y-auto">
             <div
                 open
                 class="overflow-y-auto h-full flex flex-col flex-end align-end justify-between"
@@ -177,4 +181,4 @@ export default {
                 ></button>
             </div>
         </div>
-\</template>
+</template>

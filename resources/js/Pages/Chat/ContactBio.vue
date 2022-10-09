@@ -5,7 +5,9 @@ import { useForm } from "@inertiajs/inertia-vue3";
 import axios from "axios";
 import { onMounted, ref, toRef } from "vue";
 import { useBioStore } from "@/stores/Bio.js";
+import { managePageStore } from "@/stores/ManagePages";
 
+const storePages = managePageStore();
 let props = defineProps({
     user: Object,
 });
@@ -15,6 +17,7 @@ let bioStore = useBioStore();
 let pageLoaded = ref(false);
 
 onMounted(() => {
+    storePages.currentSidebar = 'ContactBio'
     bioStore.getSocialMedia();
     pageLoaded.value = true;
 });
