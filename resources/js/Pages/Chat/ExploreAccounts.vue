@@ -1,4 +1,4 @@
-<!-- <!-- <script setup>
+ <script setup>
 import { Inertia } from "@inertiajs/inertia";
 import axios from "axios";
 import { computed, ref, watch } from "vue";
@@ -30,9 +30,9 @@ const follow = (username) => {
         });
 }
 
-</script> -->
+</script>
 
-<script>
+<!-- <script>
 import AppLayout from "@/Layouts/AppLayout.vue";
 
 const focus = {
@@ -80,7 +80,7 @@ export default {
         },
     },
 };
-</script>
+</script> -->
 
 <template>
     <AppLayout>
@@ -125,9 +125,7 @@ export default {
                 >
                     found {{ accounts.length }} result
                 </h3>
-                <h3 v-else class="ml-3 font-mono text-gray-400">
-                    no results found
-                </h3>
+<img src="https://i.pinimg.com/originals/e9/1e/3c/e91e3cb4378975fbd92f8f884c9273ea.jpg" alt="">
 
                 <div
                     v-for="account in accounts"

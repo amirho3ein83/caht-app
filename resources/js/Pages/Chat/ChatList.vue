@@ -3,16 +3,20 @@ import ChatItem from "./ChatItem.vue";
 import { useChatsStore } from "@/stores/Chats.js";
 import { ref } from "@vue/reactivity";
 import { storeToRefs } from "pinia";
-import AppLayout from "@/Layouts/AppLayout.vue";
 
 const storeChats = useChatsStore();
 
 storeChats.getChats();
 </script>
-
+<script>
+import AppLayout from "@/Layouts/AppLayout.vue";
+ 
+export default {
+  layout: AppLayout
+}
+</script>
 <template>
 
-    <AppLayout>
         <div class="m-4 w-[420px]  ">
             <input
                 @keypress="onEnter"
@@ -38,5 +42,4 @@ storeChats.getChats();
                 </div>
             </div>
         </div>
-    </AppLayout>
 </template>

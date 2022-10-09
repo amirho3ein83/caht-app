@@ -4,7 +4,6 @@ import Spinner from "./Spinner.vue";
 import { storeToRefs } from "pinia";
 import { useFollowersStore } from "@/stores/Followers";
 import { useFollowingsStore } from "@/stores/Followings";
-import AppLayout from "@/Layouts/AppLayout.vue";
 import LoadingAnimation from "@/Components/LoadingAnimation.vue";
 
 const storeFollowers = useFollowersStore();
@@ -33,10 +32,15 @@ const startBroadcasting = () => {
 };
 
 </script>
-
+<script>
+import AppLayout from "@/Layouts/AppLayout.vue";
+ 
+export default {
+  layout: AppLayout
+}
+</script>
 <template>
-    <AppLayout>
-        <div class="m-4 w-[420px] h-[750px] flex flex-col overflow-y-auto">
+\        <div class="m-4 w-[420px] h-[750px] flex flex-col overflow-y-auto">
             <div
                 open
                 class="overflow-y-auto h-full flex flex-col flex-end align-end justify-between"
@@ -173,5 +177,4 @@ const startBroadcasting = () => {
                 ></button>
             </div>
         </div>
-    </AppLayout>
-</template>
+\</template>

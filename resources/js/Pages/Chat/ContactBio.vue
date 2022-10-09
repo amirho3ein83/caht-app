@@ -4,7 +4,6 @@ import { Inertia } from "@inertiajs/inertia";
 import { useForm } from "@inertiajs/inertia-vue3";
 import axios from "axios";
 import { onMounted, ref, toRef } from "vue";
-import AppLayout from "@/Layouts/AppLayout.vue";
 import { useBioStore } from "@/stores/Bio.js";
 
 let props = defineProps({
@@ -15,41 +14,20 @@ let bioStore = useBioStore();
 
 let pageLoaded = ref(false);
 
-// const getSocialMedia = () => {
-//     axios
-//         .get(route("user.socialMedia"))
-//         .then((response) => {
-//             console.log(response.data);
-//             socialMedia.value = response.data;
-//         })
-//         .catch((error) => {
-//             console.log(error);
-//         });
-// };
-
-// const updateInfoForm = useForm({
-//     email: "",
-//     username: "",
-//     instagram: socialMedia.instagram,
-//     telegram: socialMedia.telegram,
-//     bio: socialMedia.bio,
-// });
-
-// const updateInfo = () => {
-//     updateInfoForm.post(route("update.user.info"), {
-//         onFinish: () => form.reset("password"),
-//     });
-// };
-
 onMounted(() => {
     bioStore.getSocialMedia();
     pageLoaded.value = true;
 });
 
 </script>
-
+<script>
+import AppLayout from "@/Layouts/AppLayout.vue";
+ 
+export default {
+  layout: AppLayout
+}
+</script>
 <template>
-    <AppLayout>
         <div class="flex flex-col m-4 w-[420px] ">
             <Transition name="bounce">
                 <img
@@ -59,7 +37,7 @@ onMounted(() => {
                     :alt="$page.props.user.username"
                 />
             </Transition>
-            {{$page.props.user.profile}}
+
             <Transition name="slide-fade">
                 <div v-if="pageLoaded" class="mt-4">
                 <div class="px-7 my-8 gap-2">
@@ -114,5 +92,4 @@ onMounted(() => {
             </Transition>
 
         </div>
-    </AppLayout>
 </template>

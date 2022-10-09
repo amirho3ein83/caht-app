@@ -43,7 +43,6 @@ export const notificationStore = defineStore("notifications", {
                 "notifications/" + notification_id +'/delete',
                 {
                     preserveScroll: true,
-                    onSuccess: () => this.getNotifications(),
                 }
             );
         },

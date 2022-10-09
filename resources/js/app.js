@@ -11,7 +11,7 @@ import { createPinia } from "pinia";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 const appName =
-    window.document.getElementsByTagName("title")[0]?.innerText || "Laravel";
+    window.document.getElementsByTagName("title")[0]?.innerText || "Seekingon";
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,

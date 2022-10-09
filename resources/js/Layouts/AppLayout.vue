@@ -11,6 +11,8 @@ import JetResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import Navbar from "../Pages/Chat/Navbar.vue";
 import MessageContainer from "../Pages/Chat/MessageContainer.vue";
 
+
+
 defineProps({
     title: String,
     name: String,
@@ -36,15 +38,22 @@ const logout = () => {
 </script>
 
 <template>
+    <Head>
+  <title>Seekingon</title>
+  <link rel="icon" type="image/svg+xml" href="https://previews.123rf.com/images/phys1cx/phys1cx1605/phys1cx160500020/56618445-chat-app-icon-template-mobile-application-icon-vector-colorful-photo-icon.jpg" />
+</Head>
     <div>
         <main
 
             class=" bg-gradient-to-r from-gray-700 to-gray-900 flex mx-auto justify-center"
         >
             <Navbar />
-            <slot />
+            <div class="sticky left-0 z-40 h-screen " >
 
+                <slot />
+            </div>
             <MessageContainer />
+
         </main>
     </div>
 </template>

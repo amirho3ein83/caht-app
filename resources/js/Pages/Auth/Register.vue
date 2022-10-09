@@ -39,7 +39,7 @@ onMounted(()=>{
     >
     <img
     class="object-cover w-full h-screen"
-    src="https://free4kwallpapers.com/uploads/originals/2022/01/20/astronaut-digital-art-wallpaper.jpg"
+    src="../Chat/pics/astronat.jpg"
     alt=""
     />
     <Transition name="slide-fade">

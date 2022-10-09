@@ -1,12 +1,16 @@
 <script setup>
 import { ref } from "vue";
-import AppLayout from "@/Layouts/AppLayout.vue";
 
 const currentMode = ref("light");
 </script>
-
+<script>
+import AppLayout from "@/Layouts/AppLayout.vue";
+ 
+export default {
+  layout: AppLayout
+}
+</script>
 <template>
-    <AppLayout>
         <div class="m-4 w-[420px] ">
             <i
                 @click="currentMode == 'light'"
@@ -19,5 +23,4 @@ const currentMode = ref("light");
                 class="bi bi-moon-stars text-c-orange"
             ></i>
         </div>
-    </AppLayout>
 </template>
