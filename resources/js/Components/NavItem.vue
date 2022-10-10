@@ -8,6 +8,7 @@ const props = defineProps({
     page: String,
     icon: String,
     active: Boolean,
+    disabled: Boolean,
 });
 
 const classes = computed(() => {
@@ -19,7 +20,10 @@ const classes = computed(() => {
 
 <template>
 
-    <button @click="storePages.setPage(props.page)" :class="classes">
+    <button
+     @click="storePages.setPage(props.page)"
+     :disabled="props.disabled"
+      :class="classes">
         <i :class="[icon]"></i>
     </button>
 

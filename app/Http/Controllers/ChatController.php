@@ -180,29 +180,29 @@ class ChatController extends Controller
         }
     }
 
-    public function exploreAccounts(Request $request)
-    {
-        $user  = User::find(Auth::id());
+    // public function exploreAccounts(Request $request)
+    // {
+    //     $user  = User::find(Auth::id());
 
-        foreach ($user->chats as $key => $chat) {
+    //     foreach ($user->chats as $key => $chat) {
 
-            $users = $chat->users;
-            foreach ($users as $key => $user) {
-                $ids[] = $user->id;
-            }
-        }
-        $user_ids = User::whereIn('id', $ids)->get()->pluck('id');
+    //         $users = $chat->users;
+    //         foreach ($users as $key => $user) {
+    //             $ids[] = $user->id;
+    //         }
+    //     }
+    //     $user_ids = User::whereIn('id', $ids)->get()->pluck('id');
 
-        $users =  User::query()
-            ->when(FacadesRequest::input('search'), function ($query, $search) {
-                $query->where('username', 'like', "%{$search}%");
-            })
-            ->whereNotIn('id', $user_ids)
-            ->get();
+    //     $users =  User::query()
+    //         ->when(FacadesRequest::input('search'), function ($query, $search) {
+    //             $query->where('username', 'like', "%{$search}%");
+    //         })
+    //         ->whereNotIn('id', $user_ids)
+    //         ->get();
 
-        return $users;
-        // return Inertia::render('Chat/ExploreAccounts', ['accounts' => $users]);
-    }
+    //     return $users;
+    //     // return Inertia::render('Chat/ExploreAccounts', ['accounts' => $users]);
+    // }
 
 
     // public function setChatlastMessage(Request $request, $id)

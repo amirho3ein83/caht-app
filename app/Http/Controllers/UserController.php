@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -34,6 +36,22 @@ class UserController extends Controller
             'filters' => FacadesRequest::only('search')
         ]);
     }
+    public function exploreUsers(Request $request)
+    {
+        $users = User::when($request->search, function ($query, $search) {
+            $query->where('username', 'like', "%{$search}%");
+        })
+            ->whereNot('id', Auth::id())
+            ->simplePaginate(10)
+            ->withQueryString()
+            ->through(fn ($user) => [
+                'id' => $user->id,
+                'username' => $user->username,
+                'profile' => $user->profile
+            ]);
+
+            return Inertia::render('Chat/ExploreUsers', ['users' => $users, 'filters' => $request->only('search')]);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -56,7 +74,6 @@ class UserController extends Controller
         $newUser = $request->validate($this->_validation);
 
         User::create($newUser);
-        
     }
 
     /**
@@ -104,6 +121,5 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        
     }
 }

@@ -24,23 +24,27 @@ const storePages = managePageStore();
             />
 
             <NavItem
+                :disabled="storePages.currentSidebar == 'ChatList'"
                 :page="`ChatList`"
                 :icon="`bi bi-chat-left-dots`"
                 :active="storePages.currentSidebar == 'ChatList'"
             />
 
             <NavItem
+                :disabled="storePages.currentSidebar == 'Notifications'"
                 :page="`Notifications`"
                 :icon="`bi bi-bell`"
                 :active="storePages.currentSidebar == 'Notifications'"
             />
 
             <NavItem
-                :page="`ExploreAccounts`"
+                :disabled="storePages.currentSidebar == 'ExploreUsers'"
+                :page="`ExploreUsers`"
                 :icon="`bi bi-search`"
-                :active="storePages.currentSidebar == 'ExploreAccounts'"
+                :active="storePages.currentSidebar == 'ExploreUsers'"
             />
             <NavItem
+                :disabled="storePages.currentSidebar == 'BroadCast'"
                 :page="`BroadCast`"
                 :icon="`bi bi-broadcast-pin`"
                 :active="storePages.currentSidebar == 'BroadCast'"
@@ -50,6 +54,7 @@ const storePages = managePageStore();
         <div>
             <button
                 @click="storePages.setPage('Settings')"
+                :disabled="storePages.currentSidebar == 'Settings'"
                 :class="{
                     'text-yellow-500 scale-105':
                         storePages.currentSidebar == 'Settings',

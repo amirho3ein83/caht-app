@@ -31,7 +31,8 @@ export default {
 }
 </script>
 <template>
-        <div class="flex flex-col m-4 w-[420px] ">
+
+        <div class="flex flex-col  m-4 w-[420px] " style="height: inherit;">
             <Transition name="bounce">
                 <img
                     v-show="pageLoaded"
@@ -95,4 +96,5 @@ export default {
             </Transition>
 
         </div>
+
 </template>

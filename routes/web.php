@@ -61,9 +61,7 @@ Route::middleware([
         return Inertia::render('Chat/BroadCast');
     })->name('BroadCast');
 
-    Route::get('/explore-accounts', function () {
-        return Inertia::render('Chat/ExploreAccounts');
-    })->name('ExploreAccounts');
+    Route::get('/explore-users', [UserController::class,'exploreUsers'])->name('ExploreUsers');
 
     Route::get('/settings', function () {
         return Inertia::render('Chat/Settings');
@@ -84,8 +82,6 @@ Route::middleware([
     // Route::post('/member/{id}/offline', [ChatController::class, 'offlineContact'])->name('offlineContact');
 
     Route::get('following/{username}/get-details', [ChatController::class, 'getUser'])->name('getUser');
-
-    Route::get('accounts/explore', [ChatController::class, 'exploreAccounts'])->name('exploreAccounts');
 
     Route::get('/search-followings', [ChatController::class, 'searchFollowings'])->name('searchFollowings');
     Route::get('/search-followers', [ChatController::class, 'searchFollowers'])->name('searchFollowers');
