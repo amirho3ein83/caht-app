@@ -19,15 +19,15 @@ class MessageBroadcast implements ShouldQueue
 
 
 
-    public $ids ;
-    public $message ;
-    public $from ;
+    public $ids;
+    public $message;
+    public $from;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct( $ids , $message ,$from)
+    public function __construct($ids, $message, $from)
     {
         $this->ids = $ids;
         $this->message = $message;
@@ -42,22 +42,32 @@ class MessageBroadcast implements ShouldQueue
     public function handle()
     {
 
-        $chats = Chat::whereHas('users',function($query) {
-            return $query->whereIn('users.id',$this->ids);
+        // $alreadyـavailableـchats = Chat::whereHas('users', function ($query) {
+        //     return $query->whereIn('users.id', $this->ids);
+        // })->get();
+
+        // foreach ($alreadyـavailableـchats as $key => $chat) {
+        //     $sendMessage = $chat->messages()->create([
+        //         'from' => $this->from,
+        //         'text' => $this->message,
+        //         'chat_id' => $chat->id
+        //     ]);
+
+        //     broadcast(new NewMessage($sendMessage))->toOthers();
+        // }
+
+        $alreadyـunavailableـchats = Chat::whereHas('users', function ($query) {
+            return $query->whereNotIn('users.id', $this->ids);
         })->get();
+info($alreadyـunavailableـchats);
+        // foreach ($alreadyـunavailableـchats as $key => $chat) {
+        //     $sendMessage = $chat->messages()->create([
+        //         'from' => $this->from,
+        //         'text' => $this->message,
+        //         'chat_id' => $chat->id
+        //     ]);
 
-        $message = $this->message;
-
-
-        foreach ($chats as $key => $chat) {
-                $sendMessage = $chat->messages()->create([
-                'from' => $this->from,
-                'text' => $message,
-                'chat_id' => $chat->id
-            ]);
-
-            broadcast(new NewMessage($sendMessage))->toOthers();
-        }
-
+        //     broadcast(new NewMessage($sendMessage))->toOthers();
+        // }
     }
 }

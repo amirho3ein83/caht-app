@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Chat;
 use App\Models\Message;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -18,7 +19,8 @@ class ChatSeeder extends Seeder
      */
     public function run()
     {
-
+        Cache::forget('followings');
+        Cache::forget('followers');
         $admin = User::first();
         $num = 5;
 

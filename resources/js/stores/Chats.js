@@ -32,14 +32,16 @@ export const useChatsStore = defineStore("chats", {
             return this.chats.length != 0 ? false : true;
         },
         getMessages() {
-            axios
-                .get("/chats/" + this.currentChat.id + "/messages")
-                .then((response) => {
-                    this.messages = response.data;
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+            if (this.currentChat.id) {
+                axios
+                    .get("/chats/" + this.currentChat.id + "/messages")
+                    .then((response) => {
+                        this.messages = response.data;
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            }
         },
         getFollowingInfo() {
             axios

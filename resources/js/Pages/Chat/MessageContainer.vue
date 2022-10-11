@@ -1,11 +1,12 @@
 <script setup>
 import { Inertia } from "@inertiajs/inertia";
-import { reactive,onMounted, ref, watch } from "vue";
+import { reactive, onMounted, ref, watch } from "vue";
 import { useForm } from "@inertiajs/inertia-vue3";
 import MessageItem from "./MessageItem.vue";
 import FollowingDetails from "./FollowingDetails.vue";
 
 import { useChatsStore } from "@/stores/Chats.js";
+let showContainer = ref(false);
 
 const storeChats = useChatsStore();
 
@@ -42,7 +43,11 @@ let sendMessage = () => {
     );
 };
 
-
+onMounted(() => {
+    setTimeout(() => {
+        showContainer.value = true;
+    }, 50);
+});
 </script>
 
 <template>
@@ -63,7 +68,9 @@ let sendMessage = () => {
                 class="flex flex-end flex-col-reverse space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
             >
                 <div v-for="message in storeChats.messages" :key="message.id">
-                    <MessageItem :message="message" />
+                    <Transition>
+                        <MessageItem v-if="showContainer" :message="message" />
+                    </Transition>
                 </div>
             </div>
         </div>
@@ -108,13 +115,11 @@ let sendMessage = () => {
             </button>
         </div>
     </div>
-        <!-- <Transition name="slide-fade">
-            <img
+    <!-- <img
                 class="w-full object-cover overflow-hidden opacity-60 h-screen"
                 src="./pics/bgg.png"
                 alt=""
-            />
-        </Transition> -->
+            /> -->
 </template>
 
 <style>

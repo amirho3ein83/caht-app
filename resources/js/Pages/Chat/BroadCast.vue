@@ -2,183 +2,171 @@
 import { ref, onMounted } from "vue";
 import Spinner from "./Spinner.vue";
 import { storeToRefs } from "pinia";
-import { useFollowersStore } from "@/stores/Followers";
-import { useFollowingsStore } from "@/stores/Followings";
+import { useFFStore } from "@/stores/FF";
 import LoadingAnimation from "@/Components/LoadingAnimation.vue";
 import { managePageStore } from "@/stores/ManagePages";
+import { useChatsStore } from "@/stores/Chats.js";
 
+const storeChats = useChatsStore();
 const storePages = managePageStore();
-const storeFollowers = useFollowersStore();
-storeFollowers.fill();
-
-const storeFollowings = useFollowingsStore();
-storeFollowings.fill();
+const FFStore = useFFStore();
+FFStore.fill();
 
 const message = ref("");
+
+const current_tab = ref("followings");
+
 const checkedAccounts = ref([]);
 
 const startBroadcasting = () => {
+    
     axios
         .post("message/broadcasting", {
             chosenAccounts: checkedAccounts.value,
             message: message.value,
         })
         .then((response) => {
-            console.log("start broadcat");
-
-            this.$emit("broadcastStarted");
+            storeChats.getMessages(),
+            checkedAccounts.value = []
+            message.value = ''
         })
         .catch((error) => {
             console.log(error);
         });
 };
 onMounted(() => {
-    storePages.currentSidebar = 'BroadCast'
+    storePages.currentSidebar = "BroadCast";
+});
+
+const categories = ref({
+    followers: FFStore.followers,
+    followings: FFStore.followings,
 });
 </script>
 <script>
 import AppLayout from "@/Layouts/AppLayout.vue";
- 
+
 export default {
-  layout: AppLayout
-}
+    layout: AppLayout,
+};
 </script>
 <template>
-        <div class="m-4 w-[420px] h-[750px] flex flex-col overflow-y-auto">
-            <div
-                open
-                class="overflow-y-auto h-full flex flex-col flex-end align-end justify-between"
+    <div
+        class="m-4 w-[420px] h-[780px] flex flex-col overflow-y-auto overflow-x-hidden"
+    >
+        <nav class="mb-3 flex text-lg font-medium justify-center">
+            <p
+                class="-mb-px border-b border-transparent p-4 cursor-pointer text-gray-100"
+                :class="{
+                    '-mb-px border-b border-current p-4 text-cyan-400':
+                        current_tab == 'followers',
+                }"
+                @click="current_tab = 'followers'"
             >
-                <div class="flex-1">
-                    <legend
-                        class="block w-full px-5 py-3 text-lg font-medium bg-stone-400"
-                    >
-                        followings
-                    </legend>
+                followers
+            </p>
 
-                    <div
-                        v-if="storeFollowings.followings.length != 0"
-                        v-for="following of storeFollowings.followings"
-                        :key="following.id"
-                        class="select-none cursor-pointer flex flex-1 items-center p-2 hover:opacity-100 opacity-80 hover:bg-gray-600"
-                    >
-                        <div
-                            class="flex flex-col w-12 h-12 justify-center items-center mr-4"
-                        >
-                            <img
-                                class="w-12 h-12 object-cover rounded-full"
-                                :src="$page.props.user.profile"
-                                v-if="$page.props.user.profile"
-                            />
-                            <i
-                                v-else
-                                class="bi bi-person-circle w-12 sm:w-16 h-10 sm:h-16 rounded-full text-gray-600"
-                                style="font-size: 39px"
-                            ></i>
-                        </div>
-                        <div class="flex-1 pl-1">
-                            <div
-                                class="text-gray-300 dark:text-gray-200 text-lg"
-                            >
-                                {{ following.username }}
-                            </div>
-                        </div>
-                        <div class="flex flex-row justify-center">
-                            <input
-                                v-model="checkedAccounts"
-                                :value="following.username"
-                                type="checkbox"
-                                class="checkbox w-5 h-5 border-gray-300"
-                            />
-                        </div>
-                    </div>
-                    <LoadingAnimation v-else />
-                </div>
-                <div class="flex-1">
-                    <legend
-                        class="block w-full px-5 py-3 text-lg font-medium bg-stone-400"
-                    >
-                        followers
-                    </legend>
+            <p
+                class="-mb-px border-b border-transparent p-4 cursor-pointer hover:text-cyan-400 text-gray-100"
+                :class="{
+                    '-mb-px border-b border-current p-4 text-cyan-400':
+                        current_tab == 'followings',
+                }"
+                @click="current_tab = 'followings'"
+            >
+                followings
+            </p>
+        </nav>
 
-                    <div
-                        v-if="storeFollowers.followers.length != 0"
-                        v-for="follower of storeFollowers.followers"
-                        :key="follower.id"
-                        class="select-none cursor-pointer flex flex-1 items-center p-2 hover:opacity-100 opacity-80 hover:bg-gray-600"
-                    >
-                        <div
-                            class="flex flex-col w-12 h-12 justify-center items-center mr-4"
-                        >
-                            <img
-                                class="w-12 h-12 object-cover rounded-full"
-                                :src="$page.props.user.profile"
-                                v-if="$page.props.user.profile"
-                            />
-                            <i
-                                v-else
-                                class="bi bi-person-circle w-10 sm:w-16 h-10 sm:h-16 rounded-full text-gray-600"
-                                style="font-size: 39px"
-                            ></i>
-                        </div>
-                        <div class="flex-1 pl-1">
-                            <div
-                                class="text-gray-300 dark:text-gray-200 text-lg"
-                            >
-                                {{ follower.username }}
-                            </div>
-                        </div>
-                        <div class="flex flex-row justify-center">
-                            <input
-                                v-model="checkedAccounts"
-                                :value="follower.username"
-                                type="checkbox"
-                                class="w-5 h-5 border-gray-300"
-                            />
-                        </div>
-                    </div>
-                    <LoadingAnimation v-else />
+        <div
+            v-if="current_tab == 'followers'"
+            v-for="user in FFStore.followers"
+            :key="user.id"
+            class="flex m-1 justify-start w-80 mx-auto text-gray-700 bg-gray-200 rounded-md p-1 hover:opacity-100 opacity-90 cursor-pointer hover:bg-slate-200"
+        >
+            <img
+                class="h-14 w-14 rounded-full object-cover"
+                :src="user.profile"
+                v-if="user.profile"
+            />
+
+            <p class="flex-1 ml-3 text-center text-lg align-middle self-center">
+                {{ user.username }}
+            </p>
+            <input
+                type="checkbox"
+                class="accent-pink-500 p-3 m-2 bg-slate-200"
+                :value="user.id"
+                v-model="checkedAccounts"
+            />
+        </div>
+
+        <div
+            v-if="current_tab == 'followings'"
+            v-for="user in FFStore.followings"
+            :key="user.id"
+            class="flex m-1 justify-start w-80 mx-auto text-gray-700 bg-gray-200 rounded-md p-1 hover:opacity-100 opacity-90 cursor-pointer hover:bg-slate-200"
+        >
+            <img
+                class="h-14 w-14 rounded-full object-cover"
+                :src="user.profile"
+                v-if="user.profile"
+            />
+
+            <p class="flex-1 ml-3 text-center text-lg align-middle self-center">
+                {{ user.username }}
+            </p>
+            <input
+                type="checkbox"
+                class="accent-pink-500 p-3 m-2 bg-slate-200"
+                :value="user.id"
+                v-model="checkedAccounts"
+            />
+        </div>
+        <div class="absolute bottom-2 w-96">
+            <div class="flex mb-1 -space-x-4">
+                <div class="flex -space-x-4 bg-stone-400 rounded-full">
+                    <img
+                        v-for="account of checkedAccounts"
+                        class="w-10 h-10 rounded-full dark:border-gray-800"
+                        :src="$page.props.user.profile"
+                        alt=""
+                    />
                 </div>
             </div>
-            <div class="flex mb-5 -space-x-4 bg-stone-400 rounded-full">
-                <img 
-                v-for="account of checkedAccounts "
-                    class="w-10 h-10 rounded-full  dark:border-gray-800"
-                    :src="$page.props.user.profile"
-                    alt=""
-                />
-            </div>
-            <div class="flex border-gray-200 sticky bottom-0">
+            <div class="flex border-gray-200 items-center justify-between">
                 <div class="p-1 flex-1 -t dark:border-gray-500">
                     <input
                         v-model="message"
-                        class="block p-3 pl-10 w-full text-sm text-gray-900 bg-gray-100 outline-none"
+                        class="block p-3 pl-10 w-full h-12 text-sm text-gray-900 bg-gray-100 outline-none"
                         placeholder="message..."
                         required
                         @keyup.enter="startBroadcasting()"
                     />
                 </div>
                 <button
+                :disabled="checkedAccounts.length == 0"
                     prevent-scroll
+                    @click="startBroadcasting"
                     type="button"
-                    class="inline-flex items-center justify-center -lg px-2 py-1 transition duration-500 ease-in-out text-white hover:bg-gray-600 bg-gray-500 focus:outline-none ml-1"
+                    class="text-2xl w-12 h-12 bg-c-orange text-gray-900 transition-all duration-1 ease-out px-2 hover:bg-gray-500 hover:text-white rounded"
+                    :class="{'opacity-30 hover:bg-c-orange hover:text-gray-900 ':checkedAccounts.length == 0}"
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        class="h-6 w-6 ml-2 transform rotate-90"
-                    >
-                        <path
-                            d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"
-                        ></path>
-                    </svg>
+                <i class="bi bi-send-fill cursor-default "></i>
                 </button>
-                <button
-                    @click="startBroadcasting()"
-                    prevent-scroll
-                    type="button"
-                ></button>
+
             </div>
         </div>
+    </div>
 </template>
+<style>
+.v-enter-active,
+.v-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+    opacity: 0;
+}
+</style>

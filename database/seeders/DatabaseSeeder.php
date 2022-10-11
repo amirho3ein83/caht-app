@@ -22,13 +22,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call([
-        //     AdminSeeder::class,
-        //     ChatSeeder::class,
-        //     ChatWithAdminSeeder::class,
-        //     NotificationSeeder::class,
-        // ]);
+        $this->call([
+            // AdminSeeder::class,
+            ChatSeeder::class,
+            // ChatWithAdminSeeder::class,
+            // NotificationSeeder::class,
+        ]);
 
-User::factory(20)->create();
+// User::factory(20)->create();
     }
 }

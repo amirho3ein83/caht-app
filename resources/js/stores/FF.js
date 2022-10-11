@@ -2,18 +2,23 @@ import { Inertia } from "@inertiajs/inertia";
 import axios from "axios";
 import { defineStore } from "pinia";
 
-export const useFollowersStore = defineStore("followers", {
-    state: () => ({ followers: [] }),
+export const useFFStore = defineStore("followings-followers", {
+    state: () => ({ followings: [] ,followers: []}),
     getters: {
         //   doubleCount: (state) => state.count * 2,
     },
     actions: {
         async fill() {
             try {
-                const data = await axios.get(
+                const followings = await axios.get(
+                    route("getFollowings")
+                );
+                this.followings = followings.data;
+
+                const followers = await axios.get(
                     route("getFollowers")
                 );
-                this.followers = data.data;
+                this.followers = followers.data;
             } catch (error) {
                 alert(error);
                 console.log(error);
