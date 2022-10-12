@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Events\NewMessage;
 use App\Models\Chat;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -11,7 +12,9 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Arr;
 
 class MessageBroadcast implements ShouldQueue
 {
@@ -42,32 +45,48 @@ class MessageBroadcast implements ShouldQueue
     public function handle()
     {
 
-        // $alreadyـavailableـchats = Chat::whereHas('users', function ($query) {
-        //     return $query->whereIn('users.id', $this->ids);
-        // })->get();
+        $chats = Auth::user()->chats;
+        $users = array();
+        foreach ($chats as $key => $chat) {
+            $users[] = $chat->users->pluck('id')->toArray();
+        }
 
-        // foreach ($alreadyـavailableـchats as $key => $chat) {
-        //     $sendMessage = $chat->messages()->create([
-        //         'from' => $this->from,
-        //         'text' => $this->message,
-        //         'chat_id' => $chat->id
-        //     ]);
+        $collapsed = Arr::collapse($users);
+        $filtered_users = array_filter($collapsed, function($e)  {
+            return ($e !== Auth::id());
+        });
+        
+        foreach ($this->ids as $key => $id) {
 
-        //     broadcast(new NewMessage($sendMessage))->toOthers();
-        // }
+            if (Arr::has($filtered_users, $id)) {
 
-        $alreadyـunavailableـchats = Chat::whereHas('users', function ($query) {
-            return $query->whereNotIn('users.id', $this->ids);
-        })->get();
-info($alreadyـunavailableـchats);
-        // foreach ($alreadyـunavailableـchats as $key => $chat) {
-        //     $sendMessage = $chat->messages()->create([
-        //         'from' => $this->from,
-        //         'text' => $this->message,
-        //         'chat_id' => $chat->id
-        //     ]);
+                $chat = Chat::find($id);
+                $sendMessage = $chat->messages()->create([
+                    'from' => $this->from,
+                    'text' => $this->message,
+                    'chat_id' => $chat->id
+                ]);
 
-        //     broadcast(new NewMessage($sendMessage))->toOthers();
-        // }
+                broadcast(new NewMessage($sendMessage))->toOthers();
+            } else {
+
+                $user = User::find($id);
+
+                $chat = Chat::create([
+                    'name' => Auth::user()->username . "" . $user->username
+                ]);
+                $chat->users()->attach(Auth::id());
+                $chat->users()->attach($user->id);
+
+                $sendMessage = $chat->messages()->create([
+                    'from' => $this->from,
+                    'text' => $this->message,
+                    'chat_id' => $chat->id
+                ]);
+
+                broadcast(new NewMessage($sendMessage))->toOthers();
+            }
+        }
+
     }
 }

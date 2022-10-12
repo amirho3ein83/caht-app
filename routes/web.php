@@ -61,7 +61,7 @@ Route::middleware([
         return Inertia::render('Chat/BroadCast');
     })->name('BroadCast');
 
-    Route::get('/explore-users', [UserController::class,'exploreUsers'])->name('ExploreUsers');
+    Route::post('/explore-users', [UserController::class,'exploreUsers'])->name('ExploreUsers');
 
     Route::get('/settings', function () {
         return Inertia::render('Chat/Settings');
@@ -89,7 +89,7 @@ Route::middleware([
     Route::get('followings', [ChatController::class, 'getFollowings'])->name('getFollowings');
     Route::get('followers', [ChatController::class, 'getFollowers'])->name('getFollowers');
 
-    Route::patch('block/{username}', [ChatController::class, 'blockAccount'])->name('blocked-account');
+    Route::patch('block/{username}', [ChatController::class, 'blockAccount']);
     Route::patch('unblock/{username}', [ChatController::class, 'unblockAccount'])->name('unblocked-account');
     Route::get('blocked-accounts', [ChatController::class, 'blockedAccount'])->name('blocked-account');
 

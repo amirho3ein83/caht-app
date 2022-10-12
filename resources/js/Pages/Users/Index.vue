@@ -17,19 +17,19 @@ let props = defineProps({
 
 let search = ref(props.filters.search);
 
-watch(
-    search,
-    throttle(function (value) {
-        Inertia.get(
-            route("users.index"),
-            { search: value },
-            {
-                preserveState: true,
-                replace: true,
-            }
-        );
-    }, 300)
-);
+// watch(
+//     search,
+//     throttle(function (value) {
+//         Inertia.get(
+//             route("users.index"),
+//             { search: value },
+//             {
+//                 preserveState: true,
+//                 replace: true,
+//             }
+//         );
+//     }, 300)
+// );
 </script>
 <template>
     <AppLayout title="users">

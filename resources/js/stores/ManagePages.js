@@ -7,7 +7,17 @@ export const managePageStore = defineStore("manage-pages", {
     actions: {
         setPage(page) {
             this.currentSidebar = page;
-
+if(page == 'ExploreUsers'){
+    console.log('hhhh');
+    Inertia.post(
+        route(page),
+        {},
+        {
+            preserveState: true,
+            onSuccess: () => {},
+        }
+    );
+}
             Inertia.get(
                 route(page),
                 {},

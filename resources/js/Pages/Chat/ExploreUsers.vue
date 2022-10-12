@@ -4,21 +4,47 @@ import { computed, onMounted, ref, watch } from "vue";
 import { managePageStore } from "@/stores/ManagePages";
 import { Inertia } from "@inertiajs/inertia";
 import Pagination from "../../Components/Pagination.vue";
-import debounce from 'lodash/debounce'
+import debounce from "lodash/debounce";
 const storePages = managePageStore();
 
 let props = defineProps({
     users: Object,
-    filters: Object,
 });
 
-let search = ref(props.filters.search);
+let search = ref("");
+let categories = ref([]);
 
-watch(search, debounce(function (value)  {
-    console.log(';');
-    Inertia.get(
-        "/explore-users?search=" + value,
-        {},
+// let check = (el) => {
+//     document.getElementById(el).checked = true;
+//     // document.getElementById('deleteFilter').style.visibility = false;
+// };
+
+// let uncheck = (el) => {
+//     document.getElementById(el).checked = false;
+// };
+
+watch(
+    search,
+    debounce(function (value) {
+        Inertia.post(
+            "/explore-users?search=" + value,
+            { categories: categories.value },
+            {
+                replace: true,
+                preserveState: true,
+                onSuccess: (res) => {
+                    props.users = res.data;
+                },
+            }
+        );
+    }, 300)
+);
+
+watch(categories, (value) => {
+    console.log(value);
+    Inertia.post(
+        "/explore-users?search=" + search.value,
+        { categories: value },
         {
             replace: true,
             preserveState: true,
@@ -27,7 +53,7 @@ watch(search, debounce(function (value)  {
             },
         }
     );
-},300));
+});
 
 const follow = (username) => {
     Inertia.get("/follow/" + username);
@@ -40,10 +66,10 @@ onMounted(() => {
 </script>
 <script>
 import AppLayout from "@/Layouts/AppLayout.vue";
- 
+
 export default {
-  layout: AppLayout
-}
+    layout: AppLayout,
+};
 </script>
 <template>
     <div
@@ -72,30 +98,44 @@ export default {
                 </div>
                 <input
                     v-model="search"
-                    class="block p-3 rounded pl-10 w-full text-sm text-gray-900 bg-gray-100 outline-none"
+                    class="block p-3 rounded pl-10 w-full text-lg text-gray-900 bg-gray-100 outline-none"
                     placeholder="Search users"
                     required
                 />
             </div>
             <div class="flex justify-center gap-3">
                 <a
-                    class="group relative inline-block overflow-hidden bg-gray-200 px-8 py-3 focus:outline-none focus:ring"
-                    href="/download"
+                    class="group cursor-pointer relative inline-flex items-center overflow-hidden rounded bg-fuchsia-600 px-8 py-3 text-white focus:outline-none focus:ring active:bg-fuchsia-500"
                 >
                     <span
-                        class="absolute inset-y-0 left-0 w-[2px] bg-fuchsia-500 transition-all group-hover:w-full group-active:bg-fuchsia-600"
-                    ></span>
+                        class="absolute left-0 -translate-x-full transition-transform group-hover:translate-x-4"
+                    >
+                        <i class="text-lg bi bi-x-lg"></i>
+                    </span>
 
                     <span
-                        class="relative text-sm font-bold text-gray-900 transition-colors group-hover:text-white"
+                        class="text-lg font-medium transition-all group-hover:ml-4"
                     >
                         Followers
                     </span>
                 </a>
 
                 <a
-                    class="group relative inline-block overflow-hidden bg-gray-200  px-8 py-3 focus:outline-none focus:ring"
-                    href="/download"
+                    class="rounded bg-gray-500 px-8 py-3 text-gray-300 cursor-pointer duration-200 ease-in-out hover:text-gray-700 hover:bg-gray-400 active:bg-fuchsia-500"
+                >
+                    <span class="text-lg font-medium">Followings </span>
+                </a>
+
+                <!-- <input
+                    id="Followers"
+                    type="checkbox"
+                    class="accent-pink-500 p-3 m-2 bg-slate-200"
+                    value="Followers"
+                    v-model="categories"
+                /> -->
+                <!-- <p
+                    class="group relative inline-block overflow-hidden bg-gray-200 px-8 py-3 focus:outline-none focus:ring"
+                    @click="check('Followings')"
                 >
                     <span
                         class="absolute inset-y-0 right-0 w-[2px] bg-fuchsia-500 transition-all group-hover:w-full group-active:bg-fuchsia-600"
@@ -106,7 +146,7 @@ export default {
                     >
                         Followings
                     </span>
-                </a>
+                </p> -->
             </div>
         </div>
         <Transition name="fade" mode="out-in">

@@ -8,16 +8,16 @@ const logout = () => {
 
 let showModal = ref(false);
 
-onMounted(()=>{
+onMounted(() => {
     setTimeout(() => {
-        showModal.value = true
-}, 50);
-})
+        showModal.value = true;
+    }, 50);
+});
 </script>
 <template>
-
+    <Transition name="slide-fade">
         <div
-        v-if="showModal"
+            v-if="showModal"
             class="bg-slate-800 bg-opacity-60 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0"
         >
             <div class="bg-white px-16 py-14 reletive rounded-md text-center">
@@ -38,5 +38,11 @@ onMounted(()=>{
                 </button>
             </div>
         </div>
+    </Transition>
 </template>
 
+<style>
+.slide-fade-leave-active {
+    transition: all 0.2s cubic-bezier(1, 0.5, 0.8, 1);
+}
+</style>

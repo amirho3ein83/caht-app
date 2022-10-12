@@ -12,6 +12,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,11 +25,35 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             // AdminSeeder::class,
-            ChatSeeder::class,
+            // ChatSeeder::class,
             // ChatWithAdminSeeder::class,
             // NotificationSeeder::class,
         ]);
 
-// User::factory(20)->create();
+        $user = User::firstWhere('id',2);
+        $admin = User::firstWhere('id',3);
+
+        $chat = Chat::create([
+            'name' => $admin->username . "" . $user->username
+        ]);
+
+        $chat->users()->attach($admin->id);
+        $chat->users()->attach($user->id);
+
+        $num = 5;
+
+
+        for ($i = 1; $i <= $num; $i++) {
+            Message::create([
+                'from' => $admin->id,
+                'text' => Str::random(14),
+                'chat_id' => $chat->id,
+            ]);
+            Message::create([
+                'from' => $user->id,
+                'text' => Str::random(8),
+                'chat_id' => $chat->id,
+            ]);
+        }
     }
 }

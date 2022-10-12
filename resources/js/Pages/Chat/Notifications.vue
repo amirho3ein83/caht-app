@@ -21,7 +21,7 @@ export default {
 }
 </script>
 <template>
-        <div class="m-4 w-[420px] h-[750px] flex flex-col overflow-y-auto overflow-x-hidden">
+        <div class="main m-4 w-[420px] h-[790px] flex flex-col overflow-y-auto overflow-x-hidden">
             <NotificationItem
                 v-for="notification in useNotificationStore.notifications"
                 :key="notification.id"
