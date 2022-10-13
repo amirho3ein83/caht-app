@@ -90,7 +90,7 @@ Route::middleware([
     Route::get('followers', [ChatController::class, 'getFollowers'])->name('getFollowers');
 
     Route::patch('block/{username}', [ChatController::class, 'blockAccount']);
-    Route::patch('unblock/{username}', [ChatController::class, 'unblockAccount'])->name('unblocked-account');
+    Route::patch('unblock/{id}', [ChatController::class, 'unblockAccount'])->name('unblocked-account');
     Route::get('blocked-accounts', [ChatController::class, 'blockedAccount'])->name('blocked-account');
 
     // Route::post('/chat/chat/{id}/last-message', [ChatController::class, 'setChatlastMessage'])->name('chat.last_messages');

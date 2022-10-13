@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-  min-height: 100%
-}
 /* width */
 ::-webkit-scrollbar {
     width: 3px;
@@ -34,6 +31,12 @@ body{
   }
   .bg-c-orange{
     background-color: #ffb833;
+  }
+  .text-c-red{
+    color: #eb3a34;
+  }
+  .bg-c-red{
+    background-color: #eb3a34;
   }
   .text-c-green{
     color: #42f554;

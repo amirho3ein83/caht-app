@@ -3,7 +3,7 @@ import { Inertia } from "@inertiajs/inertia";
 import { reactive, onMounted, ref, watch } from "vue";
 import { useForm } from "@inertiajs/inertia-vue3";
 import MessageItem from "./MessageItem.vue";
-import FollowingDetails from "./FollowingDetails.vue";
+import FollowingDetails from "./AudienceDetails.vue";
 
 import { useChatsStore } from "@/stores/Chats.js";
 let showContainer = ref(false);

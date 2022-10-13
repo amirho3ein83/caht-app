@@ -21,6 +21,7 @@ export const useChatsStore = defineStore("chats", {
             axios
                 .get("chats")
                 .then((response) => {
+                    console.log(response);
                     this.chats = response.data;
                 })
                 .catch((error) => {
@@ -86,7 +87,13 @@ export const useChatsStore = defineStore("chats", {
             window.Echo.leave("chat." + chat.id);
         },
         blockContact() {
+            this.getChats()
             Inertia.patch("block/" + this.addressee.username);
+        },
+        unBlockContact() {
+            this.getChats()
+            console.log(this.addressee.id);
+            Inertia.patch("unblock/" + this.addressee.id);
         },
 
         deleteChat() {

@@ -9,7 +9,6 @@ use App\Models\Message;
 use App\Models\Chat;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -19,6 +18,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
+use Illuminate\Support\Arr;
 
 class ChatController extends Controller
 {
@@ -34,29 +34,21 @@ class ChatController extends Controller
 
     public function chats(Request $request)
     {
-        $blocked_accounts = Auth::user()->blockedAccounts->pluck('id');
-        // Log::info($blocked_accounts);
-        //         $user = Auth::user();
-        // $posts = Chat::where(function($q) use ($user){
-        //       $q)
-        // })->get();
+        $blocked_accounts = Auth::user()->blockedAccounts->pluck('id')->toArray();
 
+        $res = Auth::user()->chats->load("users")->map(function ($chat) use ($blocked_accounts) {
 
-        // $chats = Chat::whereHas('users', function ($query) {
-        //     return $query->whereIn('users.id', $this->ids);
-        // })->get();
+            $chat->users->map(function ($user, $index) use ($blocked_accounts,$chat) {
 
-        // return Auth::user()->chats->whereHas('users', function ($query)use( $blocked_accounts) {
-        //         return $query->whereNotIn('users.id',  $blocked_accounts);
-        //     })->get();
+                if (in_array($user->id, $blocked_accounts)) {
+                    $chat->is_blocked = true;
+                }
+            });
 
-        return Chat::whereHas('users', function ($query) use ($blocked_accounts) {
-            return $query->whereNotIn('users.id', $blocked_accounts)->whereIn('users.id', [Auth::id()]);
-        })->get();
+            return $chat;
+        });
 
-
-
-        // Log::info($ds);
+        return $res;
     }
 
 
@@ -242,7 +234,9 @@ class ChatController extends Controller
 
     public function unblockAccount($id)
     {
-        Blocked::where([['created_by', Auth::id()], ['blocked_user', $id]])->delete();
+        info('sss');
+        info($id);
+        // Blocked::where([['created_by', Auth::id()], ['blocked_user', $id]])->delete();
     }
 
     public function blockedAccounts($id)

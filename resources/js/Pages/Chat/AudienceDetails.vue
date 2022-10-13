@@ -17,13 +17,13 @@ const storeChats = useChatsStore()
             <div class="flex">
                 <div class="sm:hidden p-2">
                     <a>
-                        <i class="bi bi-arrow-left-circle-fill text-gray-400" style="font-size: 37px"></i>
+                        <i class="bi bi-arrow-left-circle-fill text-gray-400" ></i>
                     </a>
                 </div>
                 <div class="flex ml-3">
                     <div class="relative p-1">
                         <div class="relative">
-                            <img class="w-14 h-14 object-cover rounded-full" :src="storeChats.addressee.profile"
+                            <img class="w-16 h-16 object-cover rounded-full" :src="storeChats.addressee.profile"
                                 v-if="storeChats.addressee.profile" />
                             <i v-else class="bi bi-person-circle w-10 sm:w-16 h-10 sm:h-16 rounded-full text-gray-600"
                                 style="font-size: 39px"></i>
@@ -64,24 +64,24 @@ const storeChats = useChatsStore()
                                 </div> -->
 
                     <button
-                        class=" mx-auto py-2 text-sm text-gray-800 w-full hover:bg-gray-600 hover:text-gray-300 block transition">
+                        class=" mx-auto py-2 text-lg text-gray-800 w-full hover:bg-gray-600 hover:text-gray-300 block transition">
                         Mute Chat
                     </button>
 
                     <button @click="storeChats.deleteChat"
-                        class="mx-auto py-2 text-sm justify-evenly w-full hover:bg-gray-600 hover:text-gray-300 block transition">
+                    class="px-4 align-baseline py-2 text-lg w-full  justify-between hover:bg-gray-600 hover:text-gray-300 flex transition">
                         Delete Chat
-                        <i class="bi bi-trash3 text-red-400 text-lg"></i>
+                        <i class="bi bi-trash3 text-red-400 "></i>
                     </button>
 
                     <button @click="storeChats.blockContact"
-                        class="mx-auto align-baseline py-2 text-sm w-full  justify-evenly hover:bg-gray-600 hover:text-gray-300 flex transition">
+                        class="px-4 align-baseline py-2 text-lg w-full  justify-between hover:bg-gray-600 hover:text-gray-300 flex transition">
                         Block
-                        <i class="bi bi-slash-circle bold text-xl text-red-400 "></i>
+                        <i class="bi bi-slash-circle bold  text-red-400 "></i>
                     </button>
 
                     <button
-                        class="mx-auto py-2 text-sm text-gray-800 w-full hover:bg-gray-600 hover:text-gray-300 block transition">
+                        class="mx-auto py-2 text-lg text-gray-800 w-full hover:bg-gray-600 hover:text-gray-300 block transition">
                         Mute Chat
                     </button>
                 </template>
@@ -89,3 +89,9 @@ const storeChats = useChatsStore()
         </div>
     </div>
 </template>
+
+<style>
+i{
+    font-size: 25px
+}
+</style>
