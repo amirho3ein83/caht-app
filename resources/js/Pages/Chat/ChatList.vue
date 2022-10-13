@@ -23,7 +23,7 @@ export default {
 </script>
 <template>
 
-        <div class="m-4 w-[420px] h-[790px] overflow-y-scroll">
+        <div class="m-4 w-[420px] h-[790px] overflow-y-scroll main">
             <input
                 @keypress="onEnter"
                 class="rounded-2xl p-1 mb-4 w-96 text-lg text-gray-900 h-10 bg-gray-300 outline-none focus:bg-gray-200"
@@ -38,7 +38,6 @@ export default {
                 >
                     <div>
                         <ChatItem
-                            @click="storeChats.setChat(chat)"
                             v-for="chat in storeChats.chats"
                             :key="chat.id"
                             :chat="chat"

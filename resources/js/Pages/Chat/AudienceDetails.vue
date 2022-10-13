@@ -1,14 +1,9 @@
 <script setup>
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
-import {useChatsStore} from "@/stores/Chats.js" 
+import { useChatsStore } from "@/stores/Chats.js";
 
-const storeChats = useChatsStore()
-// const props = defineProps({
-//     storeChats.addressee: Object,
-//     currentChat: Object,
-// });
-
+const storeChats = useChatsStore();
 </script>
 
 <template>
@@ -17,71 +12,97 @@ const storeChats = useChatsStore()
             <div class="flex">
                 <div class="sm:hidden p-2">
                     <a>
-                        <i class="bi bi-arrow-left-circle-fill text-gray-400" ></i>
+                        <i
+                            class="bi bi-arrow-left-circle-fill text-gray-400"
+                        ></i>
                     </a>
                 </div>
                 <div class="flex ml-3">
                     <div class="relative p-1">
                         <div class="relative">
-                            <img class="w-16 h-16 object-cover rounded-full" :src="storeChats.addressee.profile"
-                                v-if="storeChats.addressee.profile" />
-                            <i v-else class="bi bi-person-circle w-10 sm:w-16 h-10 sm:h-16 rounded-full text-gray-600"
-                                style="font-size: 39px"></i>
+                            <img
+                                class="w-16 h-16 object-cover rounded-full"
+                                :src="storeChats.addressee.profile"
+                                v-if="storeChats.addressee.profile"
+                            />
+                            <i
+                                v-else
+                                class="bi bi-person-circle w-10 sm:w-16 h-10 sm:h-16 rounded-full text-gray-600"
+                                style="font-size: 39px"
+                            ></i>
                             <template v-if="storeChats.addressee.is_online">
                                 <div
-                                    class="absolute button-0 right-0 -mr-0 -mt-4 w-4 h-4 rounded-full bg-green-400 animate-ping">
-                                </div>
-                                <div class="absolute button-0 right-0 -mr-0 -mt-4 w-4 h-4 rounded-full bg-green-400">
-                                </div>
+                                    class="absolute button-0 right-0 -mr-0 -mt-4 w-4 h-4 rounded-full bg-green-400 animate-ping"
+                                ></div>
+                                <div
+                                    class="absolute button-0 right-0 -mr-0 -mt-4 w-4 h-4 rounded-full bg-green-400"
+                                ></div>
                             </template>
                         </div>
                     </div>
-                    <div class="flex flex-col leading-tight justify-center ml-2">
+                    <div
+                        class="flex flex-col leading-tight justify-center ml-2"
+                    >
                         <div class="text-xl mt-1 flex items-center">
-                            <span class="text-gray-100 mr-3 break-words">{{ storeChats.addressee.username }}
-                            </span>
+                            <p class="text-gray-100 text-2xl mr-3 break-words">
+                                {{ storeChats.addressee.username }}
+                            </p>
                         </div>
-                        <span v-if="storeChats.addressee.is_online" class="text-sm text-gray-100">online
+                        <span
+                            v-if="storeChats.addressee.is_online"
+                            class="text-lg text-gray-100"
+                            >online
                         </span>
-                        <span v-if="storeChats.addressee.is_typing" class="text-sm text-gray-100">typing...
+                        <span
+                            v-if="storeChats.addressee.is_typing"
+                            class="text-lg text-gray-100"
+                            >typing...
                         </span>
                     </div>
                 </div>
             </div>
 
-
             <Dropdown align="right" width="48">
                 <template #trigger>
-                    <i class="mr-4 bi bi-three-dots-vertical text-gray-200" style="font-size: 20px"></i>
+                    <i
+                        class="mr-5 bi bi-three-dots-vertical text-3xl text-gray-200"
+                    ></i>
                 </template>
 
                 <template #content>
                     <!-- Account Management -->
                     <!-- <div
-                                    class="block px-4 py-2 text-xs text-gray-400"
-                                >
-                                    Manage Account
-                                </div> -->
+                                        class="block px-4 py-2 text-xs text-gray-400"
+                                    >
+                                        Manage Account
+                                    </div> -->
 
                     <button
-                        class=" mx-auto py-2 text-lg text-gray-800 w-full hover:bg-gray-600 hover:text-gray-300 block transition">
+                        class="mx-auto py-2 text-lg text-gray-800 w-full hover:bg-gray-600 hover:text-gray-300 block transition"
+                    >
                         Mute Chat
                     </button>
 
-                    <button @click="storeChats.deleteChat"
-                    class="px-4 align-baseline py-2 text-lg w-full  justify-between hover:bg-gray-600 hover:text-gray-300 flex transition">
+                    <button
+                        @click="storeChats.deleteChat"
+                        class="px-4 align-baseline py-2 text-lg w-full justify-between hover:bg-gray-600 hover:text-gray-300 flex transition"
+                    >
                         Delete Chat
-                        <i class="bi bi-trash3 text-red-400 "></i>
-                    </button>
-
-                    <button @click="storeChats.blockContact"
-                        class="px-4 align-baseline py-2 text-lg w-full  justify-between hover:bg-gray-600 hover:text-gray-300 flex transition">
-                        Block
-                        <i class="bi bi-slash-circle bold  text-red-400 "></i>
+                        <i class="bi bi-trash3 text-red-400"></i>
                     </button>
 
                     <button
-                        class="mx-auto py-2 text-lg text-gray-800 w-full hover:bg-gray-600 hover:text-gray-300 block transition">
+                        v-if="!storeChats.currentChat.is_blocked"
+                        @click="storeChats.blockContact"
+                        class="px-4 align-baseline py-2 text-lg w-full justify-between hover:bg-gray-600 hover:text-gray-300 flex transition"
+                    >
+                        Block
+                        <i class="bi bi-slash-circle bold text-red-400"></i>
+                    </button>
+
+                    <button
+                        class="mx-auto py-2 text-lg text-gray-800 w-full hover:bg-gray-600 hover:text-gray-300 block transition"
+                    >
                         Mute Chat
                     </button>
                 </template>
@@ -89,9 +110,3 @@ const storeChats = useChatsStore()
         </div>
     </div>
 </template>
-
-<style>
-i{
-    font-size: 25px
-}
-</style>

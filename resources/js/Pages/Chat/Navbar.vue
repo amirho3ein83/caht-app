@@ -69,3 +69,8 @@ const storePages = managePageStore();
     </div>
 
 </template>
+
+<style>
+i{
+    font-size: 30px;
+}</style>

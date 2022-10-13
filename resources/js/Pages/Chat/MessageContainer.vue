@@ -52,6 +52,7 @@ onMounted(() => {
 
 <template>
     <div
+        v-if="storeChats.currentChat.id"
         class="sm:visible overflow-x-hidden flex-1 p:2 justify-between flex flex-col h-screen my-0 bg-gradient-to-b from-gray-400 via-gray-500 to-gray-600"
     >
         <FollowingDetails
@@ -80,10 +81,10 @@ onMounted(() => {
             :class="{ invisible: !storeChats.currentChat.id }"
         >
             <i
-                class="bi bi-emoji-smile text-yellow-500 mx-2 hover:scale-110 transition duration-60"
+                class="text-4xl self-center bi bi-emoji-smile text-yellow-500 mx-2 hover:scale-110 transition duration-60"
             ></i>
             <i
-                class="bi bi-file-earmark-arrow-up text-gray-200 mx-2 hover:scale-110 transition duration-60"
+                class="text-4xl self-center bi bi-file-earmark-arrow-up text-gray-200 mx-2 hover:scale-110 transition duration-60"
             ></i>
 
             <input
@@ -91,7 +92,7 @@ onMounted(() => {
                 @keyup.enter="sendMessage()"
                 type="text"
                 placeholder="type something ..."
-                class="w-72 flex-1 focus:outline-none text-gray-600 0 pl-12 bg-gray-200 focus:ring focus:ring-gray-600 rounded-md py-2"
+                class="w-72 flex-1 focus:outline-none text-lg text-gray-600 0 pl-12 bg-gray-200 focus:ring focus:ring-gray-600 rounded-md py-2"
             />
 
             <button
@@ -100,13 +101,13 @@ onMounted(() => {
                 prevent-scroll
                 type="button"
                 :class="{ 'bg-gray-600': processing }"
-                class="inline-flex items-center justify-center rounded-lg px-3 py-2 transition duration-500 ease-in-out text-white hover:bg-gray-600 bg-gray-500 focus:outline-none ml-1"
+                class="group inline-flex items-center justify-center  rounded-lg px-3 py-3 transition duration-200 ease-in-out text-white hover:bg-gray-600 bg-gray-500 focus:outline-none ml-1"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                     fill="currentColor"
-                    class="h-6 w-6 ml-2 transform rotate-90"
+                    class="h-8 w-8 ml-2 transform rotate-90 group-hover:rotate-45 group-hover:-translate-y-1 transition duration-100 ease-in"
                 >
                     <path
                         d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"
@@ -115,16 +116,19 @@ onMounted(() => {
             </button>
         </div>
     </div>
-    <!-- <img
+    <div class="w-full h-screen" v-else>
+        <Transition>
+            <img
                 class="w-full object-cover overflow-hidden opacity-60 h-screen"
                 src="./pics/bgg.png"
                 alt=""
-            /> -->
+            />
+        </Transition>
+    </div>
 </template>
 
 <style>
 i {
-    font-size: 27px;
     cursor: pointer;
 }
 </style>

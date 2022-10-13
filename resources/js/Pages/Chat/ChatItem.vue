@@ -3,6 +3,8 @@ import { useChatsStore } from "@/stores/Chats.js";
 import { onMounted, ref } from "vue";
 import { TransitionRoot } from "@headlessui/vue";
 
+
+
 const showLock = ref(true);
 let showItem = ref(false);
 
@@ -15,9 +17,9 @@ let chatTitle = (username) => {
     props.chat.name = props.chat.name.replace(username, "");
     return props.chat.name;
 };
-let unBlockContact = (username) => {
+let unBlockContact = (id) => {
     showLock.value = false;
-    storeChats.unBlockContact();
+    storeChats.unBlockContact(id);
 };
 
 onMounted(() => {
@@ -30,6 +32,8 @@ onMounted(() => {
 <template>
     <Transition name="slide-fade">
         <div
+        @click="storeChats.setChat(chat)"
+
             v-if="showItem"
             class="group select-none justify-between cursor-pointer flex flex-1 items-center p-4 hover:bg-gray-700 transition duration-110 ease-out"
             :class="{
@@ -37,7 +41,8 @@ onMounted(() => {
                     storeChats.currentChat.id == chat.id,
             }"
         >
-            <div class="flex items-center">
+            <div class="flex items-center"
+            >
                 <div class="w-14 h-14 mr-4">
                     <img
                         class="w-14 h-14 object-cover rounded-full"
@@ -68,14 +73,15 @@ onMounted(() => {
 
                 </div>
             </div> -->
-
+<!-- <p v-for="user in chat.users" v-text="user.id"></p> -->
             <template v-if="chat.is_blocked">
                 <span
-                    @click="unBlockContact(username)"
+                    @click="unBlockContact(chat.addressee.id)"
                     v-if="showLock"
                     class="text-sm font-medium text-red-500 duration-150 transition active:scale-100 hover:scale-125 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
                 >
-                    <i class="bi bi-unlock-fill"></i>
+                    <!-- <i class="bi bi-lock-fill group-hover:hidden "></i> -->
+                    <i class="bi bi-slash-circle group-hover:animate-pulse font-bold text-3xl "></i>
                 </span>
             </template>
             <p class="text-white" v-else>6:00 AM</p>

@@ -43,8 +43,11 @@ class ChatController extends Controller
                 if (in_array($user->id, $blocked_accounts)) {
                     $chat->is_blocked = true;
                 }
+                if ($user->id == Auth::id()) {
+                    unset($chat->users[$index]);
+                }
             });
-
+            $chat->addressee = $chat->users['1'];
             return $chat;
         });
 
@@ -234,9 +237,7 @@ class ChatController extends Controller
 
     public function unblockAccount($id)
     {
-        info('sss');
-        info($id);
-        // Blocked::where([['created_by', Auth::id()], ['blocked_user', $id]])->delete();
+        Blocked::where([['created_by', Auth::id()], ['blocked_user', $id]])->delete();
     }
 
     public function blockedAccounts($id)
