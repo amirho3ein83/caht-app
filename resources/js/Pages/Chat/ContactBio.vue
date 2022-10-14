@@ -32,7 +32,7 @@ export default {
 </script>
 <template>
 
-        <div class="flex flex-col  m-4 w-[420px] " style="height: inherit;">
+        <div class="flex flex-col w-[420px] overflow-y-hidden justify-between" style="height: inherit;">
             <Transition name="bounce">
                 <img
                     v-show="pageLoaded"

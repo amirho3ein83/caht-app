@@ -23,7 +23,7 @@ let chatTitle = (username) => {
 onMounted(() => {
     setTimeout(() => {
         showItem.value = true;
-    }, 50);
+    }, 1);
 });
 </script>
 

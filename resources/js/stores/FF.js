@@ -3,7 +3,7 @@ import axios from "axios";
 import { defineStore } from "pinia";
 
 export const useFFStore = defineStore("followings-followers", {
-    state: () => ({ followings: [] ,followers: []}),
+    state: () => ({ followings: [] ,followers: [],checkedAccounts:[]}),
     getters: {
         //   doubleCount: (state) => state.count * 2,
     },
@@ -24,5 +24,8 @@ export const useFFStore = defineStore("followings-followers", {
                 console.log(error);
             }
         },
+         follow (username) {
+            Inertia.get("/follow/" + username)
+        }
     },
 });

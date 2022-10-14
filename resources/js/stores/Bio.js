@@ -8,7 +8,6 @@ export const useBioStore = defineStore('bio', {
         axios
             .get(route("user.socialMedia"))
             .then((response) => {
-                console.log(response.data);
                 this.socialMedia = response.data;
             })
             .catch((error) => {

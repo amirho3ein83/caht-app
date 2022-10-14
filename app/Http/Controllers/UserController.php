@@ -38,24 +38,27 @@ class UserController extends Controller
     }
     public function exploreUsers(Request $request)
     {
-        info($request->categories);
-        info('exploreUsers method');
-        $users = User::when($request->search, function ($query, $search) {
-            $query->where('username', 'like', "%{$search}%");
-        })
-        // ->when($request->categories, function ($query, $categories) {
-        //     $query->whereIn('username', $categories);
-        // })
-            ->whereNot('id', Auth::id())
-            ->simplePaginate(10)
-            ->withQueryString()
-            ->through(fn ($user) => [
-                'id' => $user->id,
-                'username' => $user->username,
-                'profile' => $user->profile
-            ]);
 
-            return Inertia::render('Chat/ExploreUsers', ['users' => $users, 'filters' => $request->get('search','categories')]);
+        if ($request->search) {
+            $users = User::when($request->search, function ($query, $search) {
+                $query->where('username', 'like', "%{$search}%");
+            })
+                // ->when($request->categories, function ($query, $categories) {
+                //     $query->whereIn('username', $categories);
+                // })
+                ->whereNot('id', Auth::id())
+                ->simplePaginate(10)
+                ->withQueryString()
+                ->through(fn ($user) => [
+                    'id' => $user->id,
+                    'username' => $user->username,
+                    'profile' => $user->profile
+                ]);
+        }else{
+            $users = [];
+        }
+
+        return Inertia::render('Chat/ExploreUsers', ['users' => $users, 'filters' => $request->get('search', 'categories')]);
     }
 
     /**

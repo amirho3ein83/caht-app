@@ -6,6 +6,7 @@ import MessageItem from "./MessageItem.vue";
 import FollowingDetails from "./AudienceDetails.vue";
 
 import { useChatsStore } from "@/stores/Chats.js";
+import SendButton from "../../Components/SendButton.vue";
 let showContainer = ref(false);
 
 const storeChats = useChatsStore();
@@ -46,7 +47,7 @@ let sendMessage = () => {
 onMounted(() => {
     setTimeout(() => {
         showContainer.value = true;
-    }, 50);
+    }, 1);
 });
 </script>
 
@@ -95,25 +96,11 @@ onMounted(() => {
                 class="w-72 flex-1 focus:outline-none text-lg text-gray-600 0 pl-12 bg-gray-200 focus:ring focus:ring-gray-600 rounded-md py-2"
             />
 
-            <button
-                :disabled="processing"
+            <SendButton
                 @click="sendMessage()"
-                prevent-scroll
-                type="button"
+                :disabled="processing"
                 :class="{ 'bg-gray-600': processing }"
-                class="group inline-flex items-center justify-center  rounded-lg px-3 py-3 transition duration-200 ease-in-out text-white hover:bg-gray-600 bg-gray-500 focus:outline-none ml-1"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    class="h-8 w-8 ml-2 transform rotate-90 group-hover:rotate-45 group-hover:-translate-y-1 transition duration-100 ease-in"
-                >
-                    <path
-                        d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"
-                    ></path>
-                </svg>
-            </button>
+            />
         </div>
     </div>
     <div class="w-full h-screen" v-else>

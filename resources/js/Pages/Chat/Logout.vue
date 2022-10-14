@@ -3,6 +3,7 @@ import LogoutModal from "./Modals/LogoutModal.vue";
 import { ref } from "vue";
 
 let showLogoutModal = ref(false);
+
 </script>
 <template>
     <button
@@ -15,3 +16,8 @@ let showLogoutModal = ref(false);
         <LogoutModal v-if="showLogoutModal" @close="showLogoutModal = false" />
     </Teleport>
 </template>
+<style>
+.slide-fade-leave-active {
+    transition: all 0.2s cubic-bezier(1, 0.5, 0.8, 1);
+}
+</style>
