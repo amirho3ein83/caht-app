@@ -26,7 +26,7 @@ let categories = ref([]);
 watch(
     search,
     debounce(function (value) {
-        Inertia.post(
+        Inertia.get(
             "/explore-users?search=" + value,
             { categories: categories.value },
             {
@@ -42,7 +42,7 @@ watch(
 
 watch(categories, (value) => {
     console.log(value);
-    Inertia.post(
+    Inertia.get(
         "/explore-users?search=" + search.value,
         { categories: value },
         {
@@ -73,7 +73,7 @@ export default {
 </script>
 <template>
     <div
-        class="m-4 w-[420px] h-[800px] flex flex-col overflow-y-hidden overflow-x-hidden"
+    class="main h-full flex flex-col overflow-y-auto overflow-x-hidden w-full"
     >
         <div>
             <div class="relative bg-slate-600 mb-3">

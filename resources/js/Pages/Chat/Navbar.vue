@@ -3,12 +3,15 @@ import { Inertia } from "@inertiajs/inertia";
 import { managePageStore } from "@/stores/ManagePages";
 import NavItem from "../../Components/NavItem.vue";
 import Logout from "./Logout.vue";
+import { notificationStore } from "@/stores/Notifications";
+
+const useNotificationStore = notificationStore();
 
 const storePages = managePageStore();
 </script>
 
 <template>
-        <div
+    <div
         class="sticky left-0 z-50 h-screen text-center w-[65px] bg-gray-900 flex flex-col align-center items-center justify-between p-1"
     >
         <div>
@@ -35,7 +38,15 @@ const storePages = managePageStore();
                 :page="`Notifications`"
                 :icon="`bi bi-bell`"
                 :active="storePages.currentSidebar == 'Notifications'"
-            />
+            >
+                <div v-if="useNotificationStore.unreadNotifications != 0">
+                    <div
+                        class="absolute top-2 -right-2 w-6 h-6 p-0 m-0 rounded-full bg-red-500 text-white"
+                    >
+                        {{ useNotificationStore.unreadNotifications }}
+                    </div>
+                </div>
+            </NavItem>
 
             <NavItem
                 :disabled="storePages.currentSidebar == 'ExploreUsers'"
@@ -67,10 +78,10 @@ const storePages = managePageStore();
             <Logout />
         </div>
     </div>
-
 </template>
 
 <style>
-i{
+i {
     font-size: 30px;
-}</style>
+}
+</style>

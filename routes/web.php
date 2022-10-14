@@ -61,7 +61,7 @@ Route::middleware([
         return Inertia::render('Chat/BroadCast');
     })->name('BroadCast');
 
-    Route::post('/explore-users', [UserController::class,'exploreUsers'])->name('ExploreUsers');
+    Route::get('/explore-users', [UserController::class,'exploreUsers'])->name('ExploreUsers');
 
     Route::get('/settings', function () {
         return Inertia::render('Chat/Settings');
@@ -98,6 +98,7 @@ Route::middleware([
     Route::delete('messages/{message}', [ChatController::class, 'deleteMessage'])->name('delete.message');
 
     Route::get('get/notifications', [NotificationController::class, 'getNotifications'])->name('notifications.get');
+    Route::patch('read/notifications', [NotificationController::class, 'setNotificationsRead'])->name('notifications.read');
     Route::delete("notifications/{notification}/delete", [NotificationController::class, 'deleteNotification']);
     // Route::delete('chat/chats/{chat}/{contact}', [ChatController::class, 'clearChatHistory']);
 });

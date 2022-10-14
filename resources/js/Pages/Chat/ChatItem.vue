@@ -5,7 +5,6 @@ import { TransitionRoot } from "@headlessui/vue";
 
 
 
-const showLock = ref(true);
 let showItem = ref(false);
 
 const storeChats = useChatsStore();
@@ -13,14 +12,13 @@ const props = defineProps({
     chat: Object,
 });
 
+
+
 let chatTitle = (username) => {
     props.chat.name = props.chat.name.replace(username, "");
     return props.chat.name;
 };
-let unBlockContact = (id) => {
-    showLock.value = false;
-    storeChats.unBlockContact(id);
-};
+
 
 onMounted(() => {
     setTimeout(() => {
@@ -76,11 +74,9 @@ onMounted(() => {
 <!-- <p v-for="user in chat.users" v-text="user.id"></p> -->
             <template v-if="chat.is_blocked">
                 <span
-                    @click="unBlockContact(chat.addressee.id)"
-                    v-if="showLock"
+                    @click="storeChats.unBlockContact(chat.addressee.id)"
                     class="text-sm font-medium text-red-500 duration-150 transition active:scale-100 hover:scale-125 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
                 >
-                    <!-- <i class="bi bi-lock-fill group-hover:hidden "></i> -->
                     <i class="bi bi-slash-circle group-hover:animate-pulse font-bold text-3xl "></i>
                 </span>
             </template>

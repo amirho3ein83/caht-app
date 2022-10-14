@@ -9,23 +9,31 @@ const useNotificationStore = notificationStore();
 const currentMode = ref("light");
 
 onMounted(() => {
-    useNotificationStore.getNotifications()
-    storePages.currentSidebar = 'Notifications'
+    useNotificationStore.getNotifications();
+    storePages.currentSidebar = "Notifications";
 });
 </script>
 <script>
 import AppLayout from "@/Layouts/AppLayout.vue";
- 
+
 export default {
-  layout: AppLayout
-}
+    layout: AppLayout,
+};
 </script>
 <template>
-        <div class="main m-4 w-[420px] h-[790px] flex flex-col overflow-y-auto overflow-x-hidden">
-            <NotificationItem
-                v-for="notification in useNotificationStore.notifications"
-                :key="notification.id"
-                :notification="notification"
-            />
+    <div
+        class="main h-full flex flex-col overflow-y-auto overflow-x-hidden w-full"
+    >
+        <div
+            v-if="useNotificationStore.unreadNotifications != 0"
+            class="text-gray-50 text-xl animate-bounce text-center w-full p-2"
+        >
+            unraed
         </div>
+        <NotificationItem
+            v-for="notification in useNotificationStore.notifications"
+            :key="notification.id"
+            :notification="notification"
+        />
+    </div>
 </template>

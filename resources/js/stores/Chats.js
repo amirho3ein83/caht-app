@@ -1,8 +1,11 @@
 import { Inertia } from "@inertiajs/inertia";
 import axios from "axios";
 import { defineStore } from "pinia";
+import { notificationStore } from "@/stores/Notifications";
 
 export const useChatsStore = defineStore("chats", {
+
+
     state: () => ({
         chats: [],
         currentChat: [],
@@ -26,6 +29,10 @@ export const useChatsStore = defineStore("chats", {
                 .catch((error) => {
                     console.log(error);
                 });
+                const useNotificationStore = notificationStore()
+
+                useNotificationStore.connect()
+                useNotificationStore.getNotifications()
         },
 
         noChat() {
@@ -86,10 +93,11 @@ export const useChatsStore = defineStore("chats", {
             window.Echo.leave("chat." + chat.id);
         },
         blockContact() {
-            this.getChats()
             Inertia.patch("block/" + this.addressee.username);
+            this.currentChat.is_blocked = true
         },
         unBlockContact(user) {
+            this.currentChat.is_blocked = false
             Inertia.patch("unblock/" + user);
             this.getChats()
         },

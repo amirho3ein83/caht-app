@@ -19,12 +19,14 @@ const classes = computed(() => {
 </script>
 
 <template>
-
+<div class="relative">
     <button
      @click="storePages.setPage(props.page)"
      :disabled="props.disabled"
       :class="classes">
         <i :class="[icon]"></i>
     </button>
+    <slot />
+</div>
 
 </template>

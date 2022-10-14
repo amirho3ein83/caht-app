@@ -52,7 +52,7 @@ export default {
 </script>
 <template>
     <div
-        class="main mx-4 mb-5 mt-3  w-[420px] h-[750px] flex flex-col overflow-y-scroll  overflow-x-hidden"
+    class="main h-full flex flex-col overflow-y-auto overflow-x-hidden w-full"
     >
         <nav class="mb-3 rounded bg-slate-400 z-20 flex text-lg font-medium justify-center sticky top-0 ">
             <p

@@ -32,11 +32,11 @@ class NewNotification
      */
     public function broadcastOn()
     {
-        return new PrivateChannel(Auth::id());
+        return new PrivateChannel(Auth::id().'-notifications');
     }
 
     public function broadcastAs()
     {
-        return 'notifications';
+        return 'notification';
     }
 }
