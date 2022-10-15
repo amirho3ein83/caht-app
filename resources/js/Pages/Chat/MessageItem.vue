@@ -1,9 +1,10 @@
 <script setup>
 import Dropdown from "@/Components/Dropdown.vue";
 import { useForm } from "@inertiajs/inertia-vue3";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 defineEmits(["message-deleted"]);
+
 
 let props = defineProps({
     message: Object,
@@ -23,9 +24,18 @@ const deleteMessage = () => {
     );
 };
 
+let showMessage = ref(false);
+onMounted(() => {
+    setTimeout(() => {
+        showMessage.value = true;
+    }, 1);
+});
 </script>
 
 <template>
+    <Transition >
+<template v-if="showMessage">
+
     <div
         v-if="message.from != $page.props.user.id"
         class="flex items-end justify-start my-1"
@@ -103,4 +113,7 @@ const deleteMessage = () => {
             </ul>
         </div>
     </div>
+</template>
+</Transition >
+
 </template>

@@ -22,9 +22,9 @@ class NotificationFactory extends Factory
         // Arr::random([Carbon::now()->addMinutes(4) ,null], 1)[0]
         return [
             'user_id'=>1,
-            'writer'=> 'xaniar',
+            'writer'=> $this->faker->name,
             'read_at'=> null,
-            'message'=>' started following you',
+            'message'=> $this->faker->sentence(2),
         ];
     }
 }

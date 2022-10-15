@@ -99,6 +99,11 @@ class User extends Authenticatable
         return $this->hasMany(Notification::class)->latest('created_at')->limit(25);
     }
 
+    public function mutedChats()
+    {
+        return $this->belongsToMany(MutedChat::class, 'chat_id', 'for', 'muted_chats');
+    }
+
 
     public function isNotTheUser(User $user)
     {

@@ -11,7 +11,7 @@ const props = defineProps({
 
 <template>
     <div class="flex justify-center items-center p-3">
-        <a :href="previousPage">
+        <a :href="previousPage" rel="no-refresh">
             <i
             v-if="currentPage != 1"
                 class="bi bi-chevron-left text-xl bg-c-orange text-gray-900 hover:bg-gray-500 transition-all duration-1 ease-out hover:text-white px-2 py-1 rounded"
@@ -24,7 +24,7 @@ const props = defineProps({
             ></div
         ></Transition>
 
-        <a :href="nextPage">
+        <a :href="nextPage" rel="no-refresh">
             <i
             v-if="nextPage != null"
                 class="bi bi-chevron-right text-xl bg-c-orange text-gray-900 hover:bg-gray-500 transition-all duration-1 ease-out hover:text-white px-2 py-1 rounded"

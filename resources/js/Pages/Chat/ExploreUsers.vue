@@ -36,7 +36,7 @@ watch(
                 replace: true,
                 preserveState: true,
                 onSuccess: (res) => {
-                    props.users = res.data;
+                    users.value = res.data;
                 },
             }
         );
@@ -52,7 +52,7 @@ watch(categories, (value) => {
             replace: true,
             preserveState: true,
             onSuccess: (res) => {
-                props.users = res.data;
+                users.value = res.data;
             },
         }
     );
@@ -104,7 +104,7 @@ export default {
                     required
                 />
             </div>
-            <div class="flex justify-center gap-3">
+            <!-- <div class="flex justify-center gap-3">
                 <a
                     class="group cursor-pointer relative inline-flex items-center overflow-hidden rounded bg-fuchsia-600 px-8 py-3 text-white focus:outline-none focus:ring active:bg-fuchsia-500"
                 >
@@ -126,7 +126,7 @@ export default {
                 >
                     <span class="text-lg font-medium">Followings </span>
                 </a>
-            </div>
+            </div> -->
         </div>
         <div class="h-full mt-4" v-if="users.data != []">
             <div

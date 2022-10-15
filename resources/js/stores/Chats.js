@@ -96,6 +96,10 @@ export const useChatsStore = defineStore("chats", {
             Inertia.patch("block/" + this.addressee.username);
             this.currentChat.is_blocked = true
         },
+        muteChat() {
+            Inertia.patch("chats/" + this.currentChat.id +'/mute');
+            this.currentChat.is_muted = true
+        },
         unBlockContact(user) {
             this.currentChat.is_blocked = false
             Inertia.patch("unblock/" + user);

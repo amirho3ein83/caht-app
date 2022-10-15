@@ -15,8 +15,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('create:notification')->everyMinute()->runInBackground();
         // $schedule->command('inspire')->hourly();
         $schedule->command('telescope:prune')->daily();
+        
     }
 
     /**

@@ -39,6 +39,29 @@ class ChatSeeder extends Seeder
             $chat->users()->attach($user->id);
         }
 
+        //  mute chat
+        $user = User::factory()->create();
+
+        $chat = Chat::create([
+            'name' => $admin->username . "" . $user->username
+        ]);
+
+        $chat->whoMutedThisChat()->attach($admin->id);
+        $chat->users()->attach($admin->id);
+        $chat->users()->attach($user->id);
+
+
+        //  block user
+        $user = User::factory()->create();
+
+        $chat = Chat::create([
+            'name' => $admin->username . "" . $user->username
+        ]);
+
+        $chat->whoMutedThisChat()->attach($admin->id);
+        $chat->users()->attach($admin->id);
+        $chat->users()->attach($user->id);
+
 
 
 

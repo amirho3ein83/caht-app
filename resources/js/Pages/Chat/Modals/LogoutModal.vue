@@ -41,7 +41,7 @@ onMounted(() => {
     </Transition>
 </template>
 
-<style>
+<style scoped>
 .slide-fade-leave-active {
     transition: all 0.2s cubic-bezier(1, 0.5, 0.8, 1);
 }

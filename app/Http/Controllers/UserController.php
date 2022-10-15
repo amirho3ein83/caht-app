@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blocked;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 use Illuminate\Support\Facades\Route;
@@ -48,13 +50,17 @@ class UserController extends Controller
                 // })
                 ->whereNot('id', Auth::id())
                 ->simplePaginate(10)
-                ->withQueryString()
-                ->through(fn ($user) => [
-                    'id' => $user->id,
-                    'username' => $user->username,
-                    'profile' => $user->profile
-                ]);
-        }else{
+                ->withQueryString();
+            $followers = Auth::user()->followers->pluck('id')->toArray();
+
+            foreach ($users as $key => $user) {
+
+                if (in_array($user['id'], $followers)) {
+                    info($user);
+                    $user['is_follower'] = true;
+                }
+            }
+        } else {
             $users = [];
         }
 
@@ -130,4 +136,95 @@ class UserController extends Controller
     {
         $user->delete();
     }
+
+
+    public function blockAccount($username)
+    {
+
+        $user = User::where('username', $username)->first();
+
+        Blocked::create([
+            'created_by' => Auth::id(),
+            'blocked_user' => $user->id
+        ]);
+    }
+
+    public function unblockAccount($id)
+    {
+        Blocked::where([['created_by', Auth::id()], ['blocked_user', $id]])->delete();
+    }
+
+    public function blockedAccounts($id)
+    {
+        $ids = Blocked::where([['created_by', Auth::id()], ['blocked_user', $id]])->pluck('blocked_user')->toArray();
+
+        $blocked_accounts = User::whereIn('id', $ids)->get();
+
+        return $blocked_accounts;
+    }
+
+    public function getUser(Request $request)
+    {
+        return User::where('username', $request->username)
+            ->first();
+    }
+    public function getSocialMedia(Request $request)
+    {
+        return  Cache::remember('socialMedia', 60 * 60, function () {
+            return Auth::user()->socialMedia;
+        });
+    }
+
+
+
+    public function getFollowings()
+    {
+        return  Cache::remember('followings', 60 * 60, function () {
+            return Auth::user()->followings;
+        });
+    }
+    public function getFollowers()
+    {
+        return  Cache::remember('followers', 60 * 60, function () {
+            return Auth::user()->followers;
+        });
+    }
+
+    public function follow(Request $request)
+    {
+        try {
+
+            $user = User::firstWhere('username', $request->username);
+            $me = User::firstWhere('id', Auth::id());
+
+            $me->followings()->attach($user);
+        } catch (\Throwable $e) {
+            Log::info($e);
+            return back()->withError($e->getMessage());
+        }
+
+        Cache::forget('followings');
+    }
+
+        // public function onlineUser(Request $request, $id)
+    // {
+    //     // broadcast(new UserWentOnline($userId))->toOthers();
+
+    //     // here should use redis
+
+    //     User::where('id', $id)->update([
+    //         'is_online' => 1
+    //     ]);
+    // }
+    // public function offlineUser(Request $request, $id)
+    // {
+    //     // broadcast(new UserWentOffline($userId))->toOthers();
+    //     // here should use redis
+
+    //     User::where('id', $id)->update([
+    //         'is_online' => 0
+    //     ]);
+    // }
+
+
 }

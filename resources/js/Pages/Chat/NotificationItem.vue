@@ -13,7 +13,13 @@ const deleteNotification = (id) => {
     setTimeout(() => {
         useNotificationStore.deleteNotification(id);
     }, 500);
-    useNotificationStore.unreadNotifications = --useNotificationStore.unreadNotifications;
+    useNotificationStore.unreadNotifications =
+        --useNotificationStore.unreadNotifications;
+};
+const playSound = () => {
+    // var audio = new Audio("./sounds/1.mp3");
+    // audio.play();
+    document.getElementById("sound").play();
 };
 
 const useNotificationStore = notificationStore();
@@ -26,23 +32,33 @@ onMounted(() => {
 </script>
 
 <template>
-    <Transition >
+    <Transition>
         <div
             v-if="showItem && typeof notification != `number`"
-            class="w-full m-1 p-2 text-gray-900 bg-gray-300 rounded-lg shadow dark:bg-gray-800 dark:text-gray-300"
+            class="w-full m-1 px-2 text-gray-900 bg-gray-300 rounded-lg shadow dark:bg-gray-800 dark:text-gray-300"
             role="alert"
-            :class="{ 'bg-green-300':  notification.read_at == 0}"
+            :class="{ 'bg-green-300': notification.read_at == 0 }"
+            @click="playSound()"
         >
+            <audio id="sound" class="hidden">
+                <source src="./sounds/3.mp3" type="audio/mpeg" />
+                oops
+            </audio>
             <div class="flex items-center justify-between">
-                <img
-                    class="w-14 h-14 object-cover rounded-full"
-                    :src="$page.props.user.profile"
-                    alt="Jese Leos image"
-                />
-                <div class="ml-3 text-sm font-normal">
-                    <div class="text-sm font-normal">
-                        <span class="text-lg"> {{ notification.writer }} </span
-                        >{{ notification.message }}
+                <div class="flex items-center justify-between pt-1">
+                    <img
+                        class="w-14 h-14 object-cover rounded-full"
+                        :src="$page.props.user.profile"
+                        alt="Jese Leos image"
+                    />
+                    <div class="ml-3  font-normal px-4 text-left">
+                        <p class="text-lg text-amber-900">
+                            {{ notification.writer }}
+                        </p>
+                        <div class="text-sm font-normal">
+                            <p class=" break-words">{{ notification.message }}</p>
+                            
+                        </div>
                     </div>
                 </div>
                 <div class="flex flex-col self-center items-end">
@@ -60,12 +76,12 @@ onMounted(() => {
                             clip-rule="evenodd"
                         ></path>
                     </svg>
-                    <span
-                        class="text-sm justify-end font-medium text-blue-600 dark:text-blue-500"
-                        >{{ notification.created_at }}</span
-                    >
                 </div>
             </div>
+            <span
+                class="text-sm justify-end flex font-medium text-blue-600 dark:text-blue-500"
+                >{{ notification.created_at }}</span
+            >
         </div>
     </Transition>
 </template>

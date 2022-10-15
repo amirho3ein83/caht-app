@@ -28,17 +28,14 @@ class ChatController extends Controller
     ];
 
 
-
-
-
-
     public function chats(Request $request)
     {
         $blocked_accounts = Auth::user()->blockedAccounts->pluck('id')->toArray();
+        $muted_chats = Auth::user()->mutedChats->pluck('chat_id')->toArray();
 
-        $res = Auth::user()->chats->load("users")->map(function ($chat) use ($blocked_accounts) {
+        $res = Auth::user()->chats->load("users")->map(function ($chat) use ($blocked_accounts,$muted_chats) {
 
-            $chat->users->map(function ($user, $index) use ($blocked_accounts,$chat) {
+            $chat->users->map(function ($user, $index) use ($blocked_accounts, $chat) {
 
                 if (in_array($user->id, $blocked_accounts)) {
                     $chat->is_blocked = true;
@@ -47,6 +44,10 @@ class ChatController extends Controller
                     unset($chat->users[$index]);
                 }
             });
+            
+            if (in_array($chat->id, $muted_chats)) {
+                $chat->is_muted = true;
+            }
             $chat->addressee = $chat->users['1'];
             return $chat;
         });
@@ -54,105 +55,6 @@ class ChatController extends Controller
         return $res;
     }
 
-
-    public function messages(Chat $chat)
-    {
-        return $chat->messages()
-            ->latest('sent_datetime')
-            ->get();
-    }
-    public function deleteMessage(Message $message)
-    {
-        $message->delete();
-    }
-
-
-    public function broadcastMessage(Request $request)
-    {
-        MessageBroadcast::dispatch($request->chosenAccounts, $request->message, Auth::id());
-    }
-
-
-
-
-    public function getFollowings()
-    {
-        return  Cache::remember('followings', 60 * 60, function () {
-            return Auth::user()->followings;
-        });
-    }
-    public function getFollowers()
-    {
-        return  Cache::remember('followers', 60 * 60, function () {
-            return Auth::user()->followers;
-        });
-    }
-
-    public function follow(Request $request)
-    {
-        try {
-
-            $user = User::firstWhere('username', $request->username);
-            $me = User::firstWhere('id', Auth::id());
-
-            $me->followings()->attach($user);
-        } catch (\Throwable $e) {
-            Log::info($e);
-            return back()->withError($e->getMessage());
-        }
-
-        Cache::forget('followings');
-    }
-    public function startMessaging(Request $request)
-    {
-        try {
-
-            $user = User::firstWhere('username', $request->username);
-
-            $chat = Chat::create([
-                'name' => $user->id . "-" . Auth::id()
-            ]);
-
-            $chat->users()->attach($user->id);
-            $chat->users()->attach(Auth::id());
-        } catch (\Throwable $e) {
-            Log::info($e);
-            return back()->withError($e->getMessage());
-        }
-    }
-
-
-    // public function onlineUser(Request $request, $id)
-    // {
-    //     // broadcast(new UserWentOnline($userId))->toOthers();
-
-    //     // here should use redis
-
-    //     User::where('id', $id)->update([
-    //         'is_online' => 1
-    //     ]);
-    // }
-    // public function offlineUser(Request $request, $id)
-    // {
-    //     // broadcast(new UserWentOffline($userId))->toOthers();
-    //     // here should use redis
-
-    //     User::where('id', $id)->update([
-    //         'is_online' => 0
-    //     ]);
-    // }
-
-    public function getUser(Request $request)
-    {
-        return User::where('username', $request->username)
-            ->first();
-    }
-    public function getSocialMedia(Request $request)
-    {
-        return  Cache::remember('socialMedia', 60 * 60, function () {
-            return Auth::user()->socialMedia;
-        });
-    }
 
     public function deleteChat(Chat $chat, $id)
     {
@@ -175,31 +77,6 @@ class ChatController extends Controller
         }
     }
 
-    // public function exploreAccounts(Request $request)
-    // {
-    //     $user  = User::find(Auth::id());
-
-    //     foreach ($user->chats as $key => $chat) {
-
-    //         $users = $chat->users;
-    //         foreach ($users as $key => $user) {
-    //             $ids[] = $user->id;
-    //         }
-    //     }
-    //     $user_ids = User::whereIn('id', $ids)->get()->pluck('id');
-
-    //     $users =  User::query()
-    //         ->when(FacadesRequest::input('search'), function ($query, $search) {
-    //             $query->where('username', 'like', "%{$search}%");
-    //         })
-    //         ->whereNotIn('id', $user_ids)
-    //         ->get();
-
-    //     return $users;
-    //     // return Inertia::render('Chat/ExploreAccounts', ['accounts' => $users]);
-    // }
-
-
     // public function setChatlastMessage(Request $request, $id)
     // {
 
@@ -211,41 +88,8 @@ class ChatController extends Controller
     //     // }
     // }
 
-    public function sendMessage(Chat $chat, Request $request)
-    {
-        $sendMessage = $chat->messages()->create([
-            'from' => Auth::id(),
-            'text' => $request->text,
-            'chat_id' => $chat->id
-        ]);
-
-        broadcast(new NewMessage($sendMessage))->toOthers();
-    }
 
 
 
-    public function blockAccount($username)
-    {
 
-        $user = User::where('username', $username)->first();
-
-        Blocked::create([
-            'created_by' => Auth::id(),
-            'blocked_user' => $user->id
-        ]);
-    }
-
-    public function unblockAccount($id)
-    {
-        Blocked::where([['created_by', Auth::id()], ['blocked_user', $id]])->delete();
-    }
-
-    public function blockedAccounts($id)
-    {
-        $ids = Blocked::where([['created_by', Auth::id()], ['blocked_user', $id]])->pluck('blocked_user')->toArray();
-
-        $blocked_accounts = User::whereIn('id', $ids)->get();
-
-        return $blocked_accounts;
-    }
 }

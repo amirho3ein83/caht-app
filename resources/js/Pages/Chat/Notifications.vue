@@ -24,12 +24,12 @@ export default {
     <div
         class="main h-full flex flex-col overflow-y-auto overflow-x-hidden w-full"
     >
-        <div
+        <!-- <div
             v-if="useNotificationStore.unreadNotifications != 0"
             class="text-gray-50 text-xl animate-bounce text-center w-full p-2"
         >
-            unraed
-        </div>
+            new
+        </div> -->
         <NotificationItem
             v-for="notification in useNotificationStore.notifications"
             :key="notification.id"

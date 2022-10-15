@@ -11,7 +11,6 @@ const props = defineProps({
 
 const FFStore = useFFStore();
 
-
 onMounted(() => {
     setTimeout(() => {
         showItem.value = true;
@@ -20,7 +19,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <Transition >
+    <Transition>
         <div
             v-if="showItem"
             class="flex justify-start w-80 mx-auto text-gray-700 bg-gray-200 rounded-md p-1 hover:opacity-100 opacity-90 cursor-pointer hover:bg-slate-200"
@@ -35,14 +34,20 @@ onMounted(() => {
                 {{ user.username }}
             </p>
             <button
-            v-if="props.buttonType == `follow`"
+                v-if="user.is_follower"
+                class="text-lg w-1/3 font-normal px-4 rounded text-yellow-800 tracking-wide"
+            >
+                Followed
+            </button>
+            <button
+                v-else-if="props.buttonType == `follow`"
                 @click="FFStore.follow(user.username)"
-                class="text-sm font-normal px-4 hover:bg-indigo-600 bg-indigo-500 rounded text-gray-100 tracking-wide cursor-pointer hover:text-gray-50 transition hover:scale-105"
+                class="text-lg w-1/3 font-normal px-2 hover:bg-indigo-600 bg-indigo-500 rounded text-gray-100 tracking-wide cursor-pointer hover:text-gray-50 transition hover:scale-105"
             >
                 Follow
             </button>
             <input
-            v-if="props.buttonType == `checkbox`"
+                v-if="props.buttonType == `checkbox`"
                 type="checkbox"
                 class="accent-pink-500 p-3 m-2 bg-slate-200"
                 :value="user.id"

@@ -2,6 +2,7 @@
 
 use App\Events\Message;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\UserController;
 use App\Http\Resources\UserCollection;
@@ -69,33 +70,34 @@ Route::middleware([
 
 
     Route::get('/chats', [ChatController::class, 'chats'])->name('chats');
-
-    Route::get('/chats/{chat}/messages', [ChatController::class, 'messages'])->name('chat.messages');
-
-    Route::post('chats/{chat}/send-message', [ChatController::class, 'sendMessage'])->name('sendMessage');
-    Route::post('message/broadcasting', [ChatController::class, 'broadcastMessage'])->name('broadcastMessage');
-
-    Route::get('/follow/{username}', [ChatController::class, 'follow'])->name('follow');
-    Route::get('/social-media', [ChatController::class, 'getSocialMedia'])->name('user.socialMedia');
-
-    // Route::post('/member/{id}/online', [ChatController::class, 'onlineContact'])->name('onlineContact');
-    // Route::post('/member/{id}/offline', [ChatController::class, 'offlineContact'])->name('offlineContact');
-
-    Route::get('following/{username}/get-details', [ChatController::class, 'getUser'])->name('getUser');
-
-    Route::get('/search-followings', [ChatController::class, 'searchFollowings'])->name('searchFollowings');
-    Route::get('/search-followers', [ChatController::class, 'searchFollowers'])->name('searchFollowers');
-
-    Route::get('followings', [ChatController::class, 'getFollowings'])->name('getFollowings');
-    Route::get('followers', [ChatController::class, 'getFollowers'])->name('getFollowers');
-
-    Route::patch('block/{username}', [ChatController::class, 'blockAccount']);
-    Route::patch('unblock/{id}', [ChatController::class, 'unblockAccount'])->name('unblocked-account');
-    Route::get('blocked-accounts', [ChatController::class, 'blockedAccount'])->name('blocked-account');
-
-    // Route::post('/chat/chat/{id}/last-message', [ChatController::class, 'setChatlastMessage'])->name('chat.last_messages');
     Route::delete('chats/{chat}/{id}', [ChatController::class, 'deleteChat']);
-    Route::delete('messages/{message}', [ChatController::class, 'deleteMessage'])->name('delete.message');
+    Route::patch('chats/{id}/mute', [ChatController::class, 'muteChat']);
+    Route::patch('chats/{id}/unmute', [ChatController::class, 'unmuteChat']);
+
+    
+    Route::get('/chats/{chat}/messages', [MessageController::class, 'messages'])->name('chat.messages');
+    Route::post('chats/{chat}/send-message', [MessageController::class, 'sendMessage'])->name('sendMessage');
+    Route::post('message/broadcasting', [MessageController::class, 'broadcastMessage'])->name('broadcastMessage');
+    Route::delete('messages/{message}', [MessageController::class, 'deleteMessage'])->name('delete.message');
+    // Route::post('/chat/chat/{id}/last-message', [MessageController::class, 'setChatlastMessage'])->name('chat.last_messages');
+
+    Route::get('/social-media', [UserController::class, 'getSocialMedia'])->name('user.socialMedia');
+    
+    // Route::post('{user}/online', [ChatController::class, 'onlineContact'])->name('onlineContact');
+    // Route::post('{user}/offline', [ChatController::class, 'offlineContact'])->name('offlineContact');
+    
+    Route::get('/follow/{username}', [UserController::class, 'follow'])->name('follow');
+    Route::get('following/{username}/get-details', [UserController::class, 'getUser'])->name('getUser');
+    // Route::get('/search-followings', [ChatController::class, 'searchFollowings'])->name('searchFollowings');
+    // Route::get('/search-followers', [ChatController::class, 'searchFollowers'])->name('searchFollowers');
+    Route::get('followings', [UserController::class, 'getFollowings'])->name('getFollowings');
+    Route::get('followers', [UserController::class, 'getFollowers'])->name('getFollowers');
+
+
+    Route::patch('block/{username}', [UserController::class, 'blockAccount']);
+    Route::patch('unblock/{id}', [UserController::class, 'unblockAccount'])->name('unblocked-account');
+    Route::get('blocked-accounts', [UserController::class, 'blockedAccount'])->name('blocked-account');
+
 
     Route::get('get/notifications', [NotificationController::class, 'getNotifications'])->name('notifications.get');
     Route::patch('read/notifications', [NotificationController::class, 'setNotificationsRead'])->name('notifications.read');

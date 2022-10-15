@@ -39,12 +39,14 @@ const storePages = managePageStore();
                 :icon="`bi bi-bell`"
                 :active="storePages.currentSidebar == 'Notifications'"
             >
-                <div v-if="useNotificationStore.unreadNotifications != 0">
-                    <div
-                        class="absolute top-2 -right-2 w-6 h-6 p-0 m-0 rounded-full bg-red-500 text-white"
-                    >
-                        {{ useNotificationStore.unreadNotifications }}
-                    </div>
+                <div v-if="storePages.currentSidebar != 'Notifications'">
+                    <span v-if="useNotificationStore.unreadNotifications != 0">
+                        <div
+                            class="absolute top-2 -right-2 w-6 h-6 p-0 m-0 rounded-full bg-red-500 text-white"
+                        >
+                            {{ useNotificationStore.unreadNotifications }}
+                        </div>
+                    </span>
                 </div>
             </NavItem>
 
