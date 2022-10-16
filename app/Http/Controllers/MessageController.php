@@ -14,6 +14,12 @@ class MessageController extends Controller
 {
     public function messages(Chat $chat)
     {
+        Message::where([['chat_id', $chat->id], ['from', '!=', Auth::id()]])->update([
+            'seen' => 1
+        ]);
+
+        // broadcast message seen
+
         return $chat->messages()
             ->latest('sent_datetime')
             ->get();

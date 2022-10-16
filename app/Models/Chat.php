@@ -21,8 +21,8 @@ class Chat extends Model
         return $this->belongsToMany(User::class, 'chats_users');
     }
 
-    public function whoMutedThisChat()
+    public function mutedBy()
     {
-        return $this->belongsToMany(User::class, 'for', 'chat_id', 'muted_chats');
+        return $this->belongsToMany(Chat::class, 'muted_chats', 'chat_id',  'for');
     }
 }

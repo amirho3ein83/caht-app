@@ -14,11 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('muted_chats', function (Blueprint $table) {
-            $table->id();
             $table->foreignId('chat_id')->constrained();
-
-            $table->integer('for')->unsigned();
-            $table->foreign('for')->refrences('id')->on('users');
+            $table->foreignId('for')->constrained('users');
         });
     }
 

@@ -10,7 +10,7 @@ class MutedChat extends Model
     use HasFactory;
 
     protected $fillable = ['chat_id', 'for'];
+    protected $table = 'muted_chats';
     public $timestamps = false;
 
-    protected $primaryKey = false;
 }

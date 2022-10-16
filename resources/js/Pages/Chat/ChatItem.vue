@@ -70,14 +70,15 @@ onMounted(() => {
                         class="text-sm font-medium text-red-500 duration-150 transition active:scale-100 hover:scale-125 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
                     >
                         <i
-                            class="bi bi-slash-circle group-hover:animate-pulse font-bold text-3xl"
+                            class="bi bi-slash-circle group-hover:animate-pulse font-bold text-3xl px-4"
                         ></i>
                     </span>
                 </template>
                 <template v-else-if="chat.is_muted">
                     <span
-                        class="text-sm font-medium text-red-500 duration-150 transition active:scale-100 hover:scale-125 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
+                        class="text-center "
                     >
+                    <p class="text-white" >6:00 AM</p>
                         <i
                             class="bi bi-volume-mute-fill text-cyan-500 text-center"
                         ></i>

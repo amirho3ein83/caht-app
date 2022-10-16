@@ -71,8 +71,9 @@ Route::middleware([
 
     Route::get('/chats', [ChatController::class, 'chats'])->name('chats');
     Route::delete('chats/{chat}/{id}', [ChatController::class, 'deleteChat']);
-    Route::patch('chats/{id}/mute', [ChatController::class, 'muteChat']);
-    Route::patch('chats/{id}/unmute', [ChatController::class, 'unmuteChat']);
+
+    Route::patch('chats/{chat}/mute', [ChatController::class, 'muteChat']);
+    Route::patch('chats/{chat}/unmute', [ChatController::class, 'unmuteChat']);
 
     
     Route::get('/chats/{chat}/messages', [MessageController::class, 'messages'])->name('chat.messages');

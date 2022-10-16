@@ -7,6 +7,7 @@ use App\Jobs\MessageBroadcast;
 use App\Models\Blocked;
 use App\Models\Message;
 use App\Models\Chat;
+use App\Models\MutedChat;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,9 +32,9 @@ class ChatController extends Controller
     public function chats(Request $request)
     {
         $blocked_accounts = Auth::user()->blockedAccounts->pluck('id')->toArray();
-        $muted_chats = Auth::user()->mutedChats->pluck('chat_id')->toArray();
+        $muted_chats = Auth::user()->mutedChats->pluck('id')->toArray();
 
-        $res = Auth::user()->chats->load("users")->map(function ($chat) use ($blocked_accounts,$muted_chats) {
+        $res = Auth::user()->chats->load("users")->map(function ($chat) use ($blocked_accounts, $muted_chats) {
 
             $chat->users->map(function ($user, $index) use ($blocked_accounts, $chat) {
 
@@ -44,8 +45,9 @@ class ChatController extends Controller
                     unset($chat->users[$index]);
                 }
             });
-            
+
             if (in_array($chat->id, $muted_chats)) {
+                info($chat->id);
                 $chat->is_muted = true;
             }
             $chat->addressee = $chat->users['1'];
@@ -87,9 +89,13 @@ class ChatController extends Controller
     //     //     Log::info('done');
     //     // }
     // }
-
-
-
-
-
+    public function muteChat(Chat $chat)
+    {
+        $chat->mutedBy()->attach(Auth::id());
+    }
+    
+    public function unmuteChat(Chat $chat)
+    {
+        $chat->mutedBy()->detach(Auth::id());
+    }
 }

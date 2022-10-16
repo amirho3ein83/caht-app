@@ -4,7 +4,9 @@ namespace Database\Seeders;
 
 use App\Models\Chat;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class ChatWithAdminSeeder extends Seeder
@@ -16,20 +18,26 @@ class ChatWithAdminSeeder extends Seeder
      */
     public function run()
     {
-        $num = 5;
+        User::first()->chats->load("users")->map(function ($chat) {
 
+            $chat->users->map(function ($user) use ($chat) {
 
-        for ($i = 1; $i <= $num; $i++) {
-            Message::create([
-                'from' => 1,
-                'text' => Str::random(14),
-                'chat_id' => $i,
-            ]);
-            Message::create([
-                'from' => $i,
-                'text' => Str::random(8),
-                'chat_id' => $i,
-            ]);
-        }
+                for ($i = 0; $i < 5; $i++) {
+                    Message::create([
+                        'from' => $user->id,
+                        'text' => Str::random(rand(15, 20)),
+                        'chat_id' => $chat->id,
+                        'seen' => 0,
+                    ]);
+
+                    Message::create([
+                        'from' => 1,
+                        'text' => Str::random(rand(15, 20)),
+                        'chat_id' => $chat->id,
+                        'seen' => 0,
+                    ]);
+                }
+            });
+        });
     }
 }

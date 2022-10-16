@@ -101,9 +101,8 @@ class User extends Authenticatable
 
     public function mutedChats()
     {
-        return $this->belongsToMany(MutedChat::class, 'chat_id', 'for', 'muted_chats');
+        return $this->belongsToMany(Chat::class, 'muted_chats', 'for',  'chat_id');
     }
-
 
     public function isNotTheUser(User $user)
     {
