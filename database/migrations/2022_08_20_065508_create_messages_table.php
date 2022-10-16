@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('from');
             $table->mediumText('text');
             $table->foreignId('chat_id')->nullable()->constrained();
-            $table->boolean('seen');
+            $table->boolean('seen')->default(0);
             $table->timestamp('sent_datetime')->useCurrent();
         });
     }

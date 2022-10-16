@@ -12,12 +12,12 @@ const storePages = managePageStore();
 
 <template>
     <div
-        class="sticky left-0 z-50 h-screen text-center w-[65px] bg-gray-900 flex flex-col align-center items-center justify-between p-1"
+        class="sticky left-0 z-50 h-screen text-center w-[48px] bg-gray-900 flex flex-col align-center items-center justify-between p-1"
     >
         <div>
             <img
                 @click="storePages.setPage('ContactBio')"
-                class="object-cover h-16 w-16 rounded-full"
+                class="object-cover h-12 w-12 rounded-full"
                 :class="{
                     'border-4 border-green-400':
                         storePages.currentSidebar == 'ContactBio',
@@ -31,7 +31,19 @@ const storePages = managePageStore();
                 :page="`ChatList`"
                 :icon="`bi bi-chat-left-dots`"
                 :active="storePages.currentSidebar == 'ChatList'"
-            />
+            >
+                <!-- v-if="storePages.currentSidebar != 'ChatList'" -->
+                <!-- v-if="useNotificationStore.unreadNotifications != 0" -->
+                <!-- <div >
+                    <span >
+                        <div
+                            class="absolute top-2 -right-2 w-6 h-6 p-0 m-0 rounded-full bg-amber-500 text-gray-900"
+                        >
+                            22
+                        </div>
+                    </span>
+                </div> -->
+            </NavItem>
 
             <NavItem
                 :disabled="storePages.currentSidebar == 'Notifications'"
@@ -84,6 +96,6 @@ const storePages = managePageStore();
 
 <style scoped>
 i {
-    font-size: 30px;
+    font-size: 24px;
 }
 </style>

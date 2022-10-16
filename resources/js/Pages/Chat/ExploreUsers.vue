@@ -83,7 +83,7 @@ export default {
                 >
                     <svg
                         aria-hidden="true"
-                        class="w-7 h-7 text-gray-500 dark:text-gray-400"
+                        class="w-5 h-5 text-gray-500 dark:text-gray-400"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -99,7 +99,7 @@ export default {
                 </div>
                 <input
                     v-model="search"
-                    class="block p-3 rounded-lg pl-10 w-full text-lg text-gray-900 bg-gray-100 outline-none"
+                    class="block p-2 rounded-lg pl-10 w-full text-sm text-gray-900 bg-gray-100 outline-none"
                     placeholder="Search users"
                     required
                 />

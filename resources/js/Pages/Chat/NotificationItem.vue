@@ -34,8 +34,8 @@ onMounted(() => {
 <template>
     <Transition>
         <div
+            class="relative px-2 py-1 group text-gray-900 bg-gray-300 rounded shadow dark:bg-gray-800 dark:text-gray-300"
             v-if="showItem && typeof notification != `number`"
-            class="w-full m-1 px-2 text-gray-900 bg-gray-300 rounded-lg shadow dark:bg-gray-800 dark:text-gray-300"
             role="alert"
             :class="{ 'bg-green-300': notification.read_at == 0 }"
             @click="playSound()"
@@ -47,25 +47,28 @@ onMounted(() => {
             <div class="flex items-center justify-between">
                 <div class="flex items-center justify-between pt-1">
                     <img
-                        class="w-14 h-14 object-cover rounded-full"
+                        class="w-12 h-12 object-cover rounded-full"
                         :src="$page.props.user.profile"
                         alt="Jese Leos image"
                     />
-                    <div class="ml-3  font-normal px-4 text-left">
-                        <p class="text-lg text-amber-900">
+                    <div class="ml-3 font-normal px-4 text-left">
+                        <p class="text-sm text-amber-900">
                             {{ notification.writer }}
                         </p>
                         <div class="text-sm font-normal">
-                            <p class=" break-words">{{ notification.message }}</p>
-                            
+                            <p class="break-words">
+                                {{ notification.message }}
+                            </p>
                         </div>
                     </div>
                 </div>
-                <div class="flex flex-col self-center items-end">
+                <div
+                    class=" absolute right-2 top-2  group-hover:block hidden mb-3 self-center items-end"
+                >
                     <svg
                         @click="deleteNotification(notification.id)"
                         aria-hidden="true"
-                        class="w-6 h-6 m-2 text-red-500 hover:scale-110 transition-all duration-150 ease-linear"
+                        class="w-5 h-5  text-red-500 hover:scale-110 transition-all duration-150 ease-linear"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +82,7 @@ onMounted(() => {
                 </div>
             </div>
             <span
-                class="text-sm justify-end flex font-medium text-blue-600 dark:text-blue-500"
+                class="text-xs absolute right-2 bottom-0 font-medium text-blue-600 dark:text-blue-500"
                 >{{ notification.created_at }}</span
             >
         </div>

@@ -27,14 +27,12 @@ class ChatWithAdminSeeder extends Seeder
                         'from' => $user->id,
                         'text' => Str::random(rand(15, 20)),
                         'chat_id' => $chat->id,
-                        'seen' => 0,
                     ]);
 
                     Message::create([
                         'from' => 1,
                         'text' => Str::random(rand(15, 20)),
                         'chat_id' => $chat->id,
-                        'seen' => 0,
                     ]);
                 }
             });

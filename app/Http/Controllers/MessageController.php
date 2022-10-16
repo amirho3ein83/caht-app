@@ -60,9 +60,18 @@ class MessageController extends Controller
         $sendMessage = $chat->messages()->create([
             'from' => Auth::id(),
             'text' => $request->text,
-            'chat_id' => $chat->id
+            'chat_id' => $chat->id,
         ]);
 
         broadcast(new NewMessage($sendMessage))->toOthers();
+    }
+
+    public function seedMessage(Chat $chat)
+    {
+        $sendMessage = $chat->messages()->update([
+            'seen' => true,
+        ]);
+
+        // broadcast(new NewMessage($sendMessage))->toOthers();
     }
 }

@@ -78,6 +78,7 @@ Route::middleware([
     
     Route::get('/chats/{chat}/messages', [MessageController::class, 'messages'])->name('chat.messages');
     Route::post('chats/{chat}/send-message', [MessageController::class, 'sendMessage'])->name('sendMessage');
+    Route::patch('chats/{chat}/seen-messages', [MessageController::class, 'seedMessage']);
     Route::post('message/broadcasting', [MessageController::class, 'broadcastMessage'])->name('broadcastMessage');
     Route::delete('messages/{message}', [MessageController::class, 'deleteMessage'])->name('delete.message');
     // Route::post('/chat/chat/{id}/last-message', [MessageController::class, 'setChatlastMessage'])->name('chat.last_messages');

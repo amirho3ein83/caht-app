@@ -36,6 +36,8 @@ class ChatController extends Controller
 
         $res = Auth::user()->chats->load("users")->map(function ($chat) use ($blocked_accounts, $muted_chats) {
 
+
+            // find blocked users (chats)
             $chat->users->map(function ($user, $index) use ($blocked_accounts, $chat) {
 
                 if (in_array($user->id, $blocked_accounts)) {
@@ -45,11 +47,22 @@ class ChatController extends Controller
                     unset($chat->users[$index]);
                 }
             });
+            // get number of unread messages
 
+            $chat->messages->map(function ($message) use ($chat) {
+
+                if ($message->seen == false) {
+                    $chat->unread_messages_count++;
+                    $chat->has_new_message = true;
+                }
+            });
+
+            // find muted (chats)
             if (in_array($chat->id, $muted_chats)) {
-                info($chat->id);
                 $chat->is_muted = true;
             }
+
+
             $chat->addressee = $chat->users['1'];
             return $chat;
         });
@@ -93,7 +106,7 @@ class ChatController extends Controller
     {
         $chat->mutedBy()->attach(Auth::id());
     }
-    
+
     public function unmuteChat(Chat $chat)
     {
         $chat->mutedBy()->detach(Auth::id());

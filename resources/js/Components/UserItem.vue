@@ -30,26 +30,26 @@ onMounted(() => {
                 v-if="user.profile"
             />
 
-            <p class="flex-1 ml-3 text-center text-lg align-middle self-center">
+            <p class="flex-1 ml-3 text-center text-sm align-middle self-center">
                 {{ user.username }}
             </p>
             <button
                 v-if="user.is_follower"
-                class="text-lg w-1/3 font-normal px-4 rounded text-yellow-800 tracking-wide"
+                class="text-sm w-1/4 font-normal px-1 rounded text-yellow-800 tracking-wide"
             >
                 Followed
             </button>
             <button
                 v-else-if="props.buttonType == `follow`"
                 @click="FFStore.follow(user.username)"
-                class="text-lg w-1/3 font-normal px-2 hover:bg-indigo-600 bg-indigo-500 rounded text-gray-100 tracking-wide cursor-pointer hover:text-gray-50 transition hover:scale-105"
+                class="text-sm w-1/4 font-normal px-1 hover:bg-indigo-600 bg-indigo-500 rounded text-gray-100 tracking-wide cursor-pointer hover:text-gray-50 transition hover:scale-105"
             >
                 Follow
             </button>
             <input
                 v-if="props.buttonType == `checkbox`"
                 type="checkbox"
-                class="accent-pink-500 p-3 m-2 bg-slate-200"
+                class="accent-pink-500 rounded-lg p-3 m-2 bg-slate-200"
                 :value="user.id"
                 v-model="FFStore.checkedAccounts"
             />

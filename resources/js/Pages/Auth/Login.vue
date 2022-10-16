@@ -43,11 +43,10 @@ onMounted(() => {
         <Transition name="slide-fade">
             <div
                 v-if="showForm"
-                style="left: 100px; top: 110px"
-                class="w-full max-w-xl p-8 absolute m-5 backdrop-blur-sm bg-white/20"
+                class="w-[400px]  p-4 absolute  top-20 left-24 m-5 backdrop-blur-sm bg-white/20"
             >
                 <form @submit.prevent="submit">
-                    <h1 class="text-2xl font-bold mb-4">
+                    <h1 class="text-xl font-bold mb-4">
                         Sign in to your account
                     </h1>
 
@@ -89,7 +88,7 @@ onMounted(() => {
                                 class="w-6 h-6"
                                 name="remember"
                             />
-                            <span class="ml-2 text-lg text-gray-200"
+                            <span class="ml-2 text-sm text-gray-200"
                                 >Remember me</span
                             >
                         </label>
@@ -97,13 +96,13 @@ onMounted(() => {
                         <div class="flex flex-col mt-2">
                             <Link
                                 :href="route('password.request')"
-                                class="my-1 text-lg text-gray-300 hover:text-gray-100"
+                                class="my-1 text-sm text-gray-300 hover:text-gray-100"
                             >
                                 Forgot your password?
                             </Link>
                             <Link
                                 :href="route('register')"
-                                class="my-1 text-lg text-gray-300 hover:text-gray-100"
+                                class="my-1 text-sm text-gray-300 hover:text-gray-100"
                             >
                                 haven't registered yet?
                             </Link>

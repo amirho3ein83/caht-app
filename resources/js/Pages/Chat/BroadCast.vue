@@ -53,10 +53,10 @@ export default {
         class="main h-full flex flex-col overflow-y-auto overflow-x-hidden w-full"
     >
         <nav
-            class="mb-3 rounded bg-slate-400 z-20 flex text-lg font-medium justify-center sticky top-0"
+            class="mb-3 rounded bg-slate-400 z-20 flex  font-medium justify-center sticky top-0"
         >
             <p
-                class="-mb-px border-b border-transparent p-4 cursor-pointer text-gray-900"
+                class="-mb-px border-b border-transparent p-2 cursor-pointer text-gray-900"
                 :class="{
                     'bg-gray-600 text-gray-100': current_tab == 'followers',
                 }"
@@ -66,7 +66,7 @@ export default {
             </p>
 
             <p
-                class="-mb-px border-b border-transparent p-4 cursor-pointer text-gray-900"
+                class="-mb-px border-b border-transparent p-2 cursor-pointer text-gray-900"
                 :class="{
                     'bg-gray-600 text-gray-100': current_tab == 'followings',
                 }"
@@ -93,12 +93,12 @@ export default {
             class="flex mt-1 justify-start w-80 mx-auto text-gray-700 bg-gray-200 rounded-md p-1 hover:opacity-100 opacity-90 cursor-pointer hover:bg-slate-200"
         />
     </div>
-    <div class="sticky bottom-0 w-full px-3">
+    <div class="sticky bottom-0 w-full ">
         <div class="flex mb-1 -space-x-4">
             <div class="flex -space-x-4 bg-stone-400 rounded-full">
                 <img
                     v-for="account of FFStore.checkedAccounts"
-                    class="w-10 h-10 rounded-full dark:border-gray-800"
+                    class="w-8 h-8 rounded-full dark:border-gray-800"
                     :src="$page.props.user.profile"
                     alt=""
                 />
@@ -109,7 +109,7 @@ export default {
             <div class="p-1 flex-1 -t dark:border-gray-500">
                 <input
                     v-model="message"
-                    class="block p-3 pl-10 w-full h-14 text-lg rounded-lg text-gray-900 bg-gray-100 outline-none"
+                    class="block p-1 pl-10 w-full h-10 text-lg rounded-lg text-gray-900 bg-gray-100 outline-none"
                     placeholder="message..."
                     required
                     @keyup.enter="startBroadcasting()"

@@ -22,7 +22,7 @@ export default {
 </script>
 <template>
     <div
-        class="main h-full flex flex-col overflow-y-auto overflow-x-hidden w-full"
+        class="gap-1 main h-full flex flex-col overflow-y-auto overflow-x-hidden w-full"
     >
         <!-- <div
             v-if="useNotificationStore.unreadNotifications != 0"

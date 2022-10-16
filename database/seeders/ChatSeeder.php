@@ -38,25 +38,16 @@ class ChatSeeder extends Seeder
         }
 
 
+        $user = User::firstWhere('email', 'dan@ee.com');
+dd($user);
+        $admin->followings()->attach($user);
+        $user->followings()->attach($admin);
 
+        $chat = Chat::create([
+            'name' => $admin->username . "" . $user->username
+        ]);
 
-
-        // other chats excepct admin
-        for ($i = 1; $i <= 5; $i++) {
-
-            $user1 = User::factory()->create();
-            $user2 = User::factory()->create();
-
-
-            $user1->followings()->attach($user2);
-            $user2->followings()->attach($user1);
-
-            $chat = Chat::create([
-                'name' => $user1->username . "" . $user2->username
-            ]);
-
-            $chat->users()->attach($user1->id);
-            $chat->users()->attach($user2->id);
-        }
+        $chat->users()->attach($admin->id);
+        $chat->users()->attach($user->id);
     }
 }

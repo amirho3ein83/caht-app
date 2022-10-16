@@ -26,11 +26,11 @@ export default {
         <div 
         class="main h-full flex flex-col overflow-y-auto overflow-x-hidden w-full"
         >
-            <input
+            <!-- <input
                 @keypress="onEnter"
                 class="rounded-2xl p-1 mb-4 w-96 text-lg text-gray-900 h-10 bg-gray-300 outline-none focus:bg-gray-200"
                 placeholder="           Search Contacts"
-            />
+            /> -->
             <div
                 class="flex flex-1 flex-end flex-col space-y-4 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
             >

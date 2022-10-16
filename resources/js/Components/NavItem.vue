@@ -13,8 +13,8 @@ const props = defineProps({
 
 const classes = computed(() => {
     return props.active
-    ? "bg-gray-600 rounded-xl  py-2 px-3 text-c-orange mt-3"
-    : "bg-gray-600 rounded-3xl hover:rounded-xl transition-all duration-100 ease-linear py-2 px-3 text-gray-400 mt-3 hover:text-yellow-500"
+    ? "bg-gray-600 rounded-lg  py-1 px-2 text-c-orange mt-3"
+    : "bg-gray-600 rounded-3xl hover:rounded-xl transition-all duration-100 ease-linear py-1 px-2 text-gray-400 mt-3 hover:text-yellow-500"
 });
 </script>
 
@@ -30,3 +30,8 @@ const classes = computed(() => {
 </div>
 
 </template>
+<style scoped>
+i {
+    font-size: 22px;
+}
+</style>

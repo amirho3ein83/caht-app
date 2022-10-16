@@ -34,6 +34,9 @@ class DatabaseSeeder extends Seeder
             MuteChatSeeder::class,
         ]);
 
-        User::factory(20)->create();
+
+        User::factory(15)->create();
+        
+
     }
 }

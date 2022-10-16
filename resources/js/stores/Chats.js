@@ -4,8 +4,6 @@ import { defineStore } from "pinia";
 import { notificationStore } from "@/stores/Notifications";
 
 export const useChatsStore = defineStore("chats", {
-
-
     state: () => ({
         chats: [],
         currentChat: [],
@@ -29,10 +27,10 @@ export const useChatsStore = defineStore("chats", {
                 .catch((error) => {
                     console.log(error);
                 });
-                const useNotificationStore = notificationStore()
+            const useNotificationStore = notificationStore();
 
-                useNotificationStore.connect()
-                useNotificationStore.getNotifications()
+            useNotificationStore.connect();
+            useNotificationStore.getNotifications();
         },
 
         noChat() {
@@ -61,20 +59,12 @@ export const useChatsStore = defineStore("chats", {
                 });
         },
         setChat(chat) {
-            // get second contact details
-            axios
-                .get("following/" + chat.following + "/get-details")
-                .then((response) => {
-                    this.following = response.data[0];
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-
+            
             this.currentChat = chat;
             this.connect();
             this.getMessages();
-            this.getFollowingInfo();
+            this.currentChat.unread_messages_count = 0;
+            Inertia.patch("/chats/" + chat.id + "/seen-messages");
         },
 
         connect() {
@@ -94,20 +84,20 @@ export const useChatsStore = defineStore("chats", {
         },
         blockContact() {
             Inertia.patch("block/" + this.addressee.username);
-            this.currentChat.is_blocked = true
+            this.currentChat.is_blocked = true;
         },
         muteChat() {
-            Inertia.patch("chats/" + this.currentChat.id +'/mute');
-            this.currentChat.is_muted = true
+            Inertia.patch("chats/" + this.currentChat.id + "/mute");
+            this.currentChat.is_muted = true;
         },
         unmuteChat() {
-            Inertia.patch("chats/" + this.currentChat.id +'/unmute');
-            this.currentChat.is_muted = false
+            Inertia.patch("chats/" + this.currentChat.id + "/unmute");
+            this.currentChat.is_muted = false;
         },
         unBlockContact(user) {
-            this.currentChat.is_blocked = false
+            this.currentChat.is_blocked = false;
             Inertia.patch("unblock/" + user);
-            this.getChats()
+            this.getChats();
         },
 
         deleteChat() {
