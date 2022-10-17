@@ -96,7 +96,7 @@ Route::middleware([
     Route::get('followers', [UserController::class, 'getFollowers'])->name('getFollowers');
 
 
-    Route::patch('block/{username}', [UserController::class, 'blockAccount']);
+    Route::patch('block/{id}', [UserController::class, 'blockAccount']);
     Route::patch('unblock/{id}', [UserController::class, 'unblockAccount'])->name('unblocked-account');
     Route::get('blocked-accounts', [UserController::class, 'blockedAccount'])->name('blocked-account');
 

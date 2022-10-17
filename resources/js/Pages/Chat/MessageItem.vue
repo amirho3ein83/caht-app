@@ -38,7 +38,7 @@ onMounted(() => {
 
     <div
         v-if="message.from != $page.props.user.id"
-        class="flex items-end justify-start my-1"
+        class="flex items-end justify-start mt-1"
     >
         <div class="flex flex-col text-sm max-w-lg mx-2 order-1 items-end">
             <div class="flex flex-col rounded-lg rounded-bl-none bg-gray-200">
@@ -58,7 +58,7 @@ onMounted(() => {
         </div>
     </div>
     <!-- another style for contract -->
-    <div v-else class="flex items-end justify-end my-1">
+    <div v-else class="flex items-end justify-end mt-1">
         <div
             @click="showDetails = !showDetails"
             class="flex flex-col text-sm max-w-lg mx-2 order-1 items-end"

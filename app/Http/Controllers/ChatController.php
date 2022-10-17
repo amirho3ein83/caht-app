@@ -2,24 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\NewMessage;
-use App\Jobs\MessageBroadcast;
-use App\Models\Blocked;
-use App\Models\Message;
+
 use App\Models\Chat;
-use App\Models\MutedChat;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Request as FacadesRequest;
-use Illuminate\Support\Facades\Validator;
-use Inertia\Inertia;
-use Illuminate\Support\Arr;
 
 class ChatController extends Controller
 {
@@ -49,19 +35,21 @@ class ChatController extends Controller
             });
             // get number of unread messages
 
-            $chat->messages->map(function ($message) use ($chat) {
+            if (count($chat->messages) != 0) {
 
-                if ($message->seen == false) {
-                    $chat->unread_messages_count++;
-                    $chat->has_new_message = true;
-                }
-            });
+                $chat->messages->map(function ($message) use ($chat) {
+                    if ($message->seen == false && $message->from != Auth::id()) {
+                        $chat->unread_messages_count++;
+                        $chat->has_new_message = true;
+                    }
+                });
+                $chat->last_message = $chat->messages[0]->text;
+            }
 
             // find muted (chats)
             if (in_array($chat->id, $muted_chats)) {
                 $chat->is_muted = true;
             }
-
 
             $chat->addressee = $chat->users['1'];
             return $chat;
@@ -73,23 +61,7 @@ class ChatController extends Controller
 
     public function deleteChat(Chat $chat, $id)
     {
-        DB::beginTransaction();
-
-        try {
-
-            $chat->users()->detach([Auth::id(), $id]);
-
-            Message::where('chat_id', $chat->id)->delete();
-
-            $chat->delete();
-
-
-
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollback();
-            Log::info($e);
-        }
+        $chat->delete();
     }
 
     // public function setChatlastMessage(Request $request, $id)

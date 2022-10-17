@@ -14,11 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('followers', function (Blueprint $table) {
-
-            $table->integer('follower_id')->unsigned();
-            $table->integer('following_id')->unsigned();
-            
-        });    }
+            $table->integer('follower_id')->cascadeOnDelete();
+            $table->integer('following_id')->cascadeOnDelete();
+        });
+    }
 
     /**
      * Reverse the migrations.

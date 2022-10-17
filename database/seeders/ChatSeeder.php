@@ -37,17 +37,5 @@ class ChatSeeder extends Seeder
             $chat->users()->attach($user->id);
         }
 
-
-        $user = User::firstWhere('email', 'dan@ee.com');
-dd($user);
-        $admin->followings()->attach($user);
-        $user->followings()->attach($admin);
-
-        $chat = Chat::create([
-            'name' => $admin->username . "" . $user->username
-        ]);
-
-        $chat->users()->attach($admin->id);
-        $chat->users()->attach($user->id);
     }
 }

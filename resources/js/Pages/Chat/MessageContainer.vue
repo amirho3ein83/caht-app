@@ -1,30 +1,30 @@
 <script setup>
-import { Inertia } from "@inertiajs/inertia";
-import { reactive, onMounted, ref, watch } from "vue";
-import { useForm } from "@inertiajs/inertia-vue3";
-import MessageItem from "./MessageItem.vue";
-import FollowingDetails from "./AudienceDetails.vue";
+import { Inertia } from "@inertiajs/inertia"
+import { reactive, onMounted, ref, watch } from "vue"
+import { useForm } from "@inertiajs/inertia-vue3"
+import MessageItem from "./MessageItem.vue"
+import FollowingDetails from "./AudienceDetails.vue"
 
-import { useChatsStore } from "@/stores/Chats.js";
-import SendButton from "../../Components/SendButton.vue";
-let showContainer = ref(false);
+import { useChatsStore } from "@/stores/Chats.js"
+import SendButton from "../../Components/SendButton.vue"
+let showContainer = ref(false)
 
-const storeChats = useChatsStore();
+const storeChats = useChatsStore()
 
 watch(storeChats.currentChat, (newValue, oldValue) => {
     if (oldValue.id) {
-        this.disconenct(oldValue);
+        this.disconenct(oldValue)
     }
-    this.connect();
-});
+    this.connect()
+})
 
 let form = reactive({
     text: "",
-});
-const processing = ref(false);
+})
+const processing = ref(false)
 
 let sendMessage = () => {
-    processing.value = true;
+    processing.value = true
 
     Inertia.post(
         "/chats/" + storeChats.currentChat.id + "/send-message",
@@ -35,20 +35,19 @@ let sendMessage = () => {
                     storeChats.getMessages(),
                     (form.text = ""),
                     (processing.value = false),
-                    console.log("message sent"),
                 ]),
             onFinish: () => {
-                (processing.value = false), console.log("finish message sent");
+                (processing.value = false)
             },
         }
-    );
-};
+    )
+}
 
 onMounted(() => {
     setTimeout(() => {
-        showContainer.value = true;
-    }, 1);
-});
+        showContainer.value = true
+    }, 1)
+})
 </script>
 
 <template>
@@ -63,11 +62,11 @@ onMounted(() => {
         />
 
         <div
-            class="flex flex-1 flex-end justify-end flex-col space-y-4 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
+            class="flex flex-1 flex-end justify-end flex-col space-y-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
         >
             <div
                 id="messages"
-                class="flex flex-end flex-col-reverse space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
+                class="flex flex-end flex-col-reverse space-y-2 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
             >
                 <div v-for="message in storeChats.messages" :key="message.id">
                     <Transition>
@@ -82,10 +81,10 @@ onMounted(() => {
             :class="{ invisible: !storeChats.currentChat.id }"
         >
             <i
-                class="text-4xl self-center bi bi-emoji-smile text-yellow-500 mx-2 hover:scale-110 transition duration-60"
+                class="text-2xl self-center bi bi-emoji-smile text-yellow-500 mx-2 hover:scale-110 transition duration-60"
             ></i>
             <i
-                class="text-4xl self-center bi bi-file-earmark-arrow-up text-gray-200 mx-2 hover:scale-110 transition duration-60"
+                class="text-2xl self-center bi bi-file-earmark-arrow-up text-gray-200 mx-2 hover:scale-110 transition duration-60"
             ></i>
 
             <input
@@ -116,6 +115,6 @@ onMounted(() => {
 
 <style>
 i {
-    cursor: pointer;
+    cursor: pointer
 }
 </style>

@@ -138,14 +138,11 @@ class UserController extends Controller
     }
 
 
-    public function blockAccount($username)
+    public function blockAccount($id)
     {
-
-        $user = User::where('username', $username)->first();
-
         Blocked::create([
             'created_by' => Auth::id(),
-            'blocked_user' => $user->id
+            'blocked_user' => $id
         ]);
     }
 
@@ -174,8 +171,6 @@ class UserController extends Controller
             return Auth::user()->socialMedia;
         });
     }
-
-
 
     public function getFollowings()
     {

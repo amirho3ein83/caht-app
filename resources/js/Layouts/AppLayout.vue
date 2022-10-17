@@ -52,7 +52,7 @@ const logout = () => {
             <!-- <div class="sticky left-0 z-40 h-screen " >
 
             </div> -->
-            <aside class="main mx-4 my-0 py-3 w-[320px] h-screen sticky overflow-y-auto overflow-x-hidden top-0">
+            <aside class="main mx-2 my-0 py-3 w-[320px] h-screen sticky overflow-y-auto overflow-x-hidden top-0">
                 <slot />
             </aside>
             <MessageContainer class="flex-1"/>

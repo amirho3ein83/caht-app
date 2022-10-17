@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('blocked', function (Blueprint $table) {
-            $table->string('created_by');
-            $table->string('blocked_user');
+            $table->string('created_by')->cascadeOnDelete();
+            $table->string('blocked_user')->cascadeOnDelete();
         });
     }
 

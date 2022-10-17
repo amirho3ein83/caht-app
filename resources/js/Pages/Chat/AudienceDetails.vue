@@ -18,7 +18,7 @@ onMounted(() => {
     <Transition>
         <div
             v-if="showUser"
-            class="sm:items-center justify-around bg-gray-600 py-1"
+            class="sm:items-center justify-around bg-gray-600"
         >
             <div class="relative flex items-center space-x-4 justify-between">
                 <div class="flex">
@@ -33,7 +33,7 @@ onMounted(() => {
                         <div class="relative p-1">
                             <div class="relative">
                                 <img
-                                    class="w-16 h-16 object-cover rounded-full"
+                                    class="w-14 h-14 object-cover rounded-full"
                                     :src="storeChats.currentChat.addressee.profile"
                                     v-if="storeChats.currentChat.addressee.profile"
                                 />
@@ -58,7 +58,7 @@ onMounted(() => {
                         >
                             <div class="text-xl mt-1 flex items-center">
                                 <p
-                                    class="text-gray-100 text-2xl mr-3 break-words"
+                                    class="text-gray-100 text-xl mr-3 break-words"
                                 >
                                     {{ storeChats.currentChat.addressee.username }}
                                 </p>
@@ -80,7 +80,7 @@ onMounted(() => {
                 <Dropdown align="right" width="48">
                     <template #trigger>
                         <i
-                            class="mr-5 bi bi-three-dots-vertical text-3xl text-gray-200"
+                            class="mr-5 bi bi-three-dots-vertical text-2xl text-gray-200"
                         ></i>
                     </template>
 

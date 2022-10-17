@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('from');
             $table->mediumText('text');
-            $table->foreignId('chat_id')->nullable()->constrained();
+            $table->foreignId('chat_id')->constrained()->cascadeOnDelete();
             $table->boolean('seen')->default(0);
             $table->timestamp('sent_datetime')->useCurrent();
         });

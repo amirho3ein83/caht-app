@@ -2,6 +2,7 @@ import { Inertia } from "@inertiajs/inertia";
 import axios from "axios";
 import { defineStore } from "pinia";
 import { notificationStore } from "@/stores/Notifications";
+// import sound from "./sounds/1.mp3";
 
 export const useChatsStore = defineStore("chats", {
     state: () => ({
@@ -75,6 +76,8 @@ export const useChatsStore = defineStore("chats", {
                     ".message",
                     (e) => {
                         vm.getMessages();
+                        const audio = new Audio(sound);
+                          audio.play()
                     }
                 );
             }
@@ -83,7 +86,7 @@ export const useChatsStore = defineStore("chats", {
             window.Echo.leave("chat." + chat.id);
         },
         blockContact() {
-            Inertia.patch("block/" + this.addressee.username);
+            Inertia.patch("block/" + this.addressee.id);
             this.currentChat.is_blocked = true;
         },
         muteChat() {

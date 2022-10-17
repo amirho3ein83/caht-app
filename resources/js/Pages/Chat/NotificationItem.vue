@@ -34,7 +34,7 @@ onMounted(() => {
 <template>
     <Transition>
         <div
-            class="relative px-2 py-1 group text-gray-900 bg-gray-300 rounded shadow dark:bg-gray-800 dark:text-gray-300"
+            class="w-full relative px-0 py-1 group text-gray-900 bg-gray-300 rounded shadow dark:bg-gray-800 dark:text-gray-300"
             v-if="showItem && typeof notification != `number`"
             role="alert"
             :class="{ 'bg-green-300': notification.read_at == 0 }"

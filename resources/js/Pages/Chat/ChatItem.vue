@@ -48,7 +48,7 @@ onMounted(() => {
                         </div>
                     </div>
                     <p class="text-white text-xs">
-                        Lorem ipsum dolor sit amet.
+                        {{chat.last_message}}
                     </p>
                 </div>
             </div>

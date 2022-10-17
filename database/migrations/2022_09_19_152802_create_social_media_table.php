@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('social_media', function (Blueprint $table) {
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(User::class)->cascadeOnDelete();
             $table->string('instagram');
             $table->string('telegram');
             $table->mediumText('bio');
