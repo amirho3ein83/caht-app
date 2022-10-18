@@ -23,17 +23,6 @@ export const managePageStore = defineStore("manage-pages", {
                     );
 
                     break;
-                // case "ExploreUsers":
-                //     Inertia.post(
-                //         route(page),
-                //         {},
-                //         {
-                //             preserveState: true,
-                //             onSuccess: () => {},
-                //         }
-                //     );
-
-                //     break;
                 default:
                     Inertia.get(
                         route(page),

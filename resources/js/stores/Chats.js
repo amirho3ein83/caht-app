@@ -71,11 +71,23 @@ export const useChatsStore = defineStore("chats", {
         connect() {
             if (this.currentChat.id) {
                 let vm = this;
-                this.getMessages();
+                // this.getMessages();
+
+                // var pusher = new Pusher('f34545b3437b823f4b8c', {
+                //     cluster: 'mt1'
+                //   });
+
+                // var channel = pusher.subscribe("chat." + this.currentChat.id);
+                // channel.bind('.message', function(data) {
+                //   this.messages.push(JSON.stringify(data));
+                // });
                 window.Echo.private("chat." + this.currentChat.id).listen(
                     ".message",
                     (e) => {
-                        vm.getMessages();
+                        console.log(e);
+                  this.messages.push(JSON.stringify(e));
+
+                        // vm.getMessages();
                         const audio = new Audio(sound);
                           audio.play()
                     }

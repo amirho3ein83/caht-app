@@ -1,53 +1,54 @@
 <script setup>
-import { Inertia } from "@inertiajs/inertia"
-import { reactive, onMounted, ref, watch } from "vue"
-import { useForm } from "@inertiajs/inertia-vue3"
-import MessageItem from "./MessageItem.vue"
-import FollowingDetails from "./AudienceDetails.vue"
+import { Inertia } from "@inertiajs/inertia";
+import { reactive, onMounted, ref, watch } from "vue";
+import { useForm } from "@inertiajs/inertia-vue3";
+import MessageItem from "./MessageItem.vue";
+import FollowingDetails from "./AudienceDetails.vue";
 
-import { useChatsStore } from "@/stores/Chats.js"
-import SendButton from "../../Components/SendButton.vue"
-let showContainer = ref(false)
+import { useChatsStore } from "@/stores/Chats.js";
+import SendButton from "../../Components/SendButton.vue";
+let showContainer = ref(false);
 
-const storeChats = useChatsStore()
+const storeChats = useChatsStore();
 
 watch(storeChats.currentChat, (newValue, oldValue) => {
     if (oldValue.id) {
-        this.disconenct(oldValue)
+        this.disconenct(oldValue);
     }
-    this.connect()
-})
+    this.connect();
+});
 
 let form = reactive({
     text: "",
-})
-const processing = ref(false)
+});
+const processing = ref(false);
 
 let sendMessage = () => {
-    processing.value = true
+    processing.value = true;
 
-    Inertia.post(
-        "/chats/" + storeChats.currentChat.id + "/send-message",
-        form,
-        {
-            onSuccess: () =>
-                Promise.all([
-                    storeChats.getMessages(),
-                    (form.text = ""),
-                    (processing.value = false),
-                ]),
-            onFinish: () => {
-                (processing.value = false)
-            },
-        }
-    )
-}
+    if (form.text != "") {
+        Inertia.post(
+            "/chats/" + storeChats.currentChat.id + "/send-message",
+            form,
+            {
+                onSuccess: () =>
+                    Promise.all([
+                        storeChats.getMessages(),
+                        (form.text = ""),
+                    ]),
+                onFinish: () => {
+                    processing.value = false;
+                },
+            }
+        );
+    }
+};
 
 onMounted(() => {
     setTimeout(() => {
-        showContainer.value = true
-    }, 1)
-})
+        showContainer.value = true;
+    }, 1);
+});
 </script>
 
 <template>
@@ -115,6 +116,6 @@ onMounted(() => {
 
 <style>
 i {
-    cursor: pointer
+    cursor: pointer;
 }
 </style>

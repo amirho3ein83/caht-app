@@ -31,3 +31,8 @@ createInertiaApp({
 });
 
 InertiaProgress.init({ color: "#4B5563" });
+
+// Echo.private(`orders.${orderId}`)
+//     .listen('OrderShipmentStatusUpdated', (e) => {
+//         console.log(e.order);
+//     });

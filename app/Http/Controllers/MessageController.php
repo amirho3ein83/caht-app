@@ -68,7 +68,7 @@ class MessageController extends Controller
 
     public function seedMessage(Chat $chat)
     {
-        $sendMessage = $chat->messages()->update([
+        $sendMessage = $chat->messages()->whereNot('from',AUth::id())->update([
             'seen' => true,
         ]);
 

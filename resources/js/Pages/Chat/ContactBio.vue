@@ -32,11 +32,13 @@ export default {
 </script>
 <template>
 
-        <div class="flex flex-col w-[420px] overflow-y-hidden justify-between" style="height: inherit;">
+        <div 
+        class="main h-full flex flex-col overflow-y-auto overflow-x-hidden w-full"
+        >
             <Transition name="bounce">
                 <img
                     v-show="pageLoaded"
-                    class="w-80 mx-auto h-2/4 object-cover rounded-t rounded-full"
+                    class="w-60 mx-auto mt-4 h-3/4 object-cover rounded-t rounded-full"
                     :src="$page.props.user.profile"
                     :alt="$page.props.user.username"
                 />
