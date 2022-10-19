@@ -24,8 +24,8 @@ Broadcast::channel('chat.{id}', function ($user, $id) {
     }
 });
 
-Broadcast::channel(Auth::check() . '-notifications', function ($user, $id) {
-    if (Auth::check()) {
-        return ['id' => $user->id, 'username' => $user->username];
-    }
-});
+// Broadcast::channel(Auth::id() . '-notifications', function ($user, $id) {
+//     if (Auth::check()) {
+//         return ['id' => $user->id, 'username' => $user->username];
+//     }
+// });

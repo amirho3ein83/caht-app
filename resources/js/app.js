@@ -32,7 +32,7 @@ createInertiaApp({
 
 InertiaProgress.init({ color: "#4B5563" });
 
-// Echo.private(`orders.${orderId}`)
+// Echo.private(`'App.Models.User.{id}'`)
 //     .listen('OrderShipmentStatusUpdated', (e) => {
 //         console.log(e.order);
 //     });

@@ -85,11 +85,11 @@ export const useChatsStore = defineStore("chats", {
                     ".message",
                     (e) => {
                         console.log(e);
-                  this.messages.push(JSON.stringify(e));
+                //   this.messages.push(JSON.stringify(e));
 
                         // vm.getMessages();
-                        const audio = new Audio(sound);
-                          audio.play()
+                        // const audio = new Audio(sound);
+                        //   audio.play()
                     }
                 );
             }

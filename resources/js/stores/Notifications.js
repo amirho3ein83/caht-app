@@ -24,10 +24,12 @@ export const notificationStore = defineStore("notifications", {
             const attrs = useAttrs();
             let vm = this;
             this.getNotifications();
-            window.Echo.private(attrs.user_id + "-notifications").listen(
+            window.Echo.channel(attrs.user_id + "-notifications").listen(
                 ".notification",
                 (e) => {
-                    vm.getNotifications();
+                    // vm.getNotifications();
+                  this.notifications.push(JSON.stringify(e));
+
                 }
             );
         },
