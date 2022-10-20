@@ -11,12 +11,12 @@ export const useFFStore = defineStore("followings-followers", {
         async fill() {
             try {
                 const followings = await axios.get(
-                    route("getFollowings")
+                    route("followers.get",1)
                 );
                 this.followings = followings.data;
 
                 const followers = await axios.get(
-                    route("getFollowers")
+                    route("followers.get",1)
                 );
                 this.followers = followers.data;
             } catch (error) {
@@ -24,8 +24,17 @@ export const useFFStore = defineStore("followings-followers", {
                 console.log(error);
             }
         },
-         follow (username) {
+         follow (id) {
+            Inertia.get(route('follow',{id:id}))
+        },
+         unFollow (id) {
+            Inertia.delete(route('unFollow',{id:id}))
+        },
+         countFollowers () {
             Inertia.get("/follow/" + username)
-        }
+        },
+        countFollowings () {
+            Inertia.get("/follow/" + username)
+        },
     },
 });

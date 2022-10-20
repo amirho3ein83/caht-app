@@ -4,7 +4,9 @@ import { managePageStore } from "@/stores/ManagePages";
 import NavItem from "../../Components/NavItem.vue";
 import Logout from "./Logout.vue";
 import { notificationStore } from "@/stores/Notifications";
+import { useProfileStore } from "@/stores/Profile.js";
 
+let profileStore = useProfileStore();
 const useNotificationStore = notificationStore();
 
 const storePages = managePageStore();
@@ -15,17 +17,12 @@ const storePages = managePageStore();
         class="sticky left-0 z-50 h-screen text-center w-[48px] bg-gray-900 flex flex-col align-center items-center justify-between p-1"
     >
         <div>
-            <img
-                @click="storePages.setPage('ContactBio')"
-                class="object-cover h-12 w-12 rounded-full"
-                :class="{
-                    'border-4 border-green-400':
-                        storePages.currentSidebar == 'ContactBio',
-                }"
-                :src="$page.props.user.profile"
-                :alt="$page.props.user.username"
+            <NavItem
+                :disabled="storePages.currentSidebar == 'Dashboard'"
+                :page="`Dashboard`"
+                :icon="`bi bi-person`"
+                :active="storePages.currentSidebar == 'Dashboard'"
             />
-
             <NavItem
                 :disabled="storePages.currentSidebar == 'ChatList'"
                 :page="`ChatList`"

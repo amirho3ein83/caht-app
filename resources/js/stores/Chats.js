@@ -2,6 +2,7 @@ import { Inertia } from "@inertiajs/inertia";
 import axios from "axios";
 import { defineStore } from "pinia";
 import { notificationStore } from "@/stores/Notifications";
+import { toRaw } from "vue";
 // import sound from "./sounds/1.mp3";
 
 export const useChatsStore = defineStore("chats", {
@@ -66,6 +67,18 @@ export const useChatsStore = defineStore("chats", {
             this.getMessages();
             this.currentChat.unread_messages_count = 0;
             Inertia.patch("/chats/" + chat.id + "/seen-messages");
+        },
+        createChat(username) {
+            // loop in chats audience
+// console.log(username);
+// console.log(toRaw(this.chats));
+//             this.chats.forEach(chat => {
+//                 console.log(toRaw(chat) );
+//                 if (chat.addressee.username == username) {
+//                     this.currentChat = chat
+//                 }
+//             });
+            // Inertia.patch(username+"/start-chating");
         },
 
         connect() {

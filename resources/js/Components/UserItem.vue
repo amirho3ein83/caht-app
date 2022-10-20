@@ -1,7 +1,9 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { useFFStore } from "@/stores/FF";
+import { useProfileStore } from "@/stores/Profile.js";
 
+let profileStore = useProfileStore();
 let showItem = ref(false);
 
 const props = defineProps({
@@ -21,6 +23,7 @@ onMounted(() => {
 <template>
     <Transition>
         <div
+            @click="profileStore.showUserProfile(user.id)"
             v-if="showItem"
             class="flex justify-start w-80 mx-auto text-gray-700 bg-gray-200 rounded-md p-1 hover:opacity-100 opacity-90 cursor-pointer hover:bg-slate-200"
         >
@@ -34,25 +37,31 @@ onMounted(() => {
                 {{ user.username }}
             </p>
             <button
-                v-if="user.is_follower"
-                class="text-sm w-1/4 font-normal px-1 rounded text-yellow-800 tracking-wide"
+                v-if="user.follow_back_suggest"
+                class="text-sm w-1/4 font-normal px-1 hover:bg-pink-700 bg-pink-600 rounded text-gray-100 tracking-wide cursor-pointer hover:text-gray-50 transition hover:scale-105"
             >
-                Followed
+                Follow back
             </button>
             <button
-                v-else-if="props.buttonType == `follow`"
-                @click="FFStore.follow(user.username)"
-                class="text-sm w-1/4 font-normal px-1 hover:bg-indigo-600 bg-indigo-500 rounded text-gray-100 tracking-wide cursor-pointer hover:text-gray-50 transition hover:scale-105"
+                v-else-if="user.following"
+                class="text-sm w-1/4 font-normal px-1 rounded text-yellow-800 tracking-wide"
             >
-                Follow
+                Following
             </button>
             <input
-                v-if="props.buttonType == `checkbox`"
+                v-else-if="props.buttonType == `checkbox`"
                 type="checkbox"
                 class="accent-pink-500 rounded-lg p-3 m-2 bg-slate-200"
                 :value="user.id"
                 v-model="FFStore.checkedAccounts"
             />
+            <button
+                v-else
+                @click="FFStore.follow(user.username)"
+                class="text-sm w-1/4 font-normal px-1 hover:bg-indigo-600 bg-indigo-500 rounded text-gray-100 tracking-wide cursor-pointer hover:text-gray-50 transition hover:scale-105"
+            >
+                Follow
+            </button>
         </div>
     </Transition>
 </template>

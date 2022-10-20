@@ -36,7 +36,9 @@ watch(
                 replace: true,
                 preserveState: true,
                 onSuccess: (res) => {
-                    users.value = res.data;
+                    if (res.data) {
+                        users.value = res.data;
+                    }
                 },
             }
         );
@@ -140,14 +142,12 @@ export default {
                 />
             </div>
         </div>
-        <div
-        v-show="users.data != undefined && users.data != {}"
-        >
-        <Pagination
-            :nextPage="users.next_page_url"
-            :previousPage="users.prev_page_url"
-            :currentPage="users.current_page"
-        />
+        <div v-show="users.data != undefined && users.data != {}">
+            <Pagination
+                :nextPage="users.next_page_url"
+                :previousPage="users.prev_page_url"
+                :currentPage="users.current_page"
+            />
         </div>
     </div>
 </template>

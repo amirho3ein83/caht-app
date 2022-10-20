@@ -36,10 +36,6 @@ onMounted(() => {
     storePages.currentSidebar = "BroadCast";
 });
 
-const categories = ref({
-    followers: FFStore.followers,
-    followings: FFStore.followings,
-});
 </script>
 <script>
 import AppLayout from "@/Layouts/AppLayout.vue";
@@ -93,7 +89,7 @@ export default {
             class="flex mt-1 justify-start w-80 mx-auto text-gray-700 bg-gray-200 rounded-md p-1 hover:opacity-100 opacity-90 cursor-pointer hover:bg-slate-200"
         />
     </div>
-    <div class="sticky bottom-0 w-full ">
+    <div class="sticky bottom-0 w-full bg-gray-700">
         <div class="flex mb-1 -space-x-4">
             <div class="flex -space-x-4 bg-stone-400 rounded-full">
                 <img

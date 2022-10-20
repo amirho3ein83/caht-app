@@ -51,13 +51,18 @@ class UserController extends Controller
                 ->whereNot('id', Auth::id())
                 ->simplePaginate(10)
                 ->withQueryString();
+
+            $followings = Auth::user()->followings->pluck('id')->toArray();
             $followers = Auth::user()->followers->pluck('id')->toArray();
 
             foreach ($users as $key => $user) {
 
-                if (in_array($user['id'], $followers)) {
+
+                if (in_array($user['id'], $followings)) {
+                    $user['following'] = true;
+                } else if (in_array($user['id'], $followers)) {
                     info($user);
-                    $user['is_follower'] = true;
+                    $user['follow_back_suggest'] = true;
                 }
             }
         } else {
@@ -90,26 +95,38 @@ class UserController extends Controller
         User::create($newUser);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
+
+    public function profile($id)
     {
-        //
+
+        $person = User::with('socialMedia')->withCount('followers', 'followings')->find($id);
+
+        if (User::find(Auth::id())->isFollowing($id)) {
+
+            $person->following = true;
+        } else if (User::find($id)->isFollowing(Auth::id())) {
+            info($person->id);
+            $person->follow_back_suggest = true;
+        }
+
+        return Inertia::render('Chat/Profile', ['person' => $person]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Request $request, User $user)
+    public function dashboard()
     {
-        return Inertia::render('Users/Edit');
+        $user = User::with('socialMedia')->withCount('followers', 'followings')->find(Auth::id());
+        return Inertia::render('Chat/Dashboard', ['user' => $user]);
+    }
+
+
+    public function getFollowers(User $user)
+    {
+        return $user->followers;
+    }
+
+    public function getFollowings(User $user)
+    {
+        return $user->followings;
     }
 
     /**
@@ -165,43 +182,41 @@ class UserController extends Controller
         return User::where('username', $request->username)
             ->first();
     }
-    public function getSocialMedia(Request $request)
+    public function getUserInfo(Request $request)
     {
         return  Cache::remember('socialMedia', 60 * 60, function () {
             return Auth::user()->socialMedia;
         });
     }
 
-    public function getFollowings()
+    // public function getFollowings()
+    // {
+    //     return  Cache::remember('followings', 60 * 60, function () {
+    //         return Auth::user()->followings;
+    //     });
+    // }
+    // public function getFollowers()
+    // {
+    //     return  Cache::remember('followers', 60 * 60, function () {
+    //         return Auth::user()->followers;
+    //     });
+    // }
+
+    public function follow(User $user)
     {
-        return  Cache::remember('followings', 60 * 60, function () {
-            return Auth::user()->followings;
-        });
-    }
-    public function getFollowers()
-    {
-        return  Cache::remember('followers', 60 * 60, function () {
-            return Auth::user()->followers;
-        });
-    }
+        User::firstWhere('id', Auth::id())->followings()->attach($user);
 
-    public function follow(Request $request)
-    {
-        try {
-
-            $user = User::firstWhere('username', $request->username);
-            $me = User::firstWhere('id', Auth::id());
-
-            $me->followings()->attach($user);
-        } catch (\Throwable $e) {
-            Log::info($e);
-            return back()->withError($e->getMessage());
-        }
-
-        Cache::forget('followings');
+        Cache::flush();
     }
 
-        // public function onlineUser(Request $request, $id)
+    public function unFollow(User $user)
+    {
+        User::firstWhere('id', Auth::id())->followings()->detach($user);
+
+        Cache::flush();
+    }
+
+    // public function onlineUser(Request $request, $id)
     // {
     //     // broadcast(new UserWentOnline($userId))->toOthers();
 

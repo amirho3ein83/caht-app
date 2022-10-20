@@ -42,10 +42,6 @@ Route::middleware([
         return redirect('chat');
     })->name('dashboard');
 
-    Route::get('/contact-bio', function () {
-        return Inertia::render('Chat/ContactBio');
-    })->name('ContactBio');
-
     Route::get('/notifications', function () {
         return Inertia::render('Chat/Notifications');
     })->name('Notifications');
@@ -62,7 +58,15 @@ Route::middleware([
         return Inertia::render('Chat/BroadCast');
     })->name('BroadCast');
 
-    Route::get('/explore-users', [UserController::class,'exploreUsers'])->name('ExploreUsers');
+    Route::get('users/{user}/followings', [UserController::class, 'getFollowers'])->name('followers.get');
+
+    Route::get('users/{user}/followers', [UserController::class, 'getFollowings'])->name('followings.get');
+
+    Route::get('/explore-users', [UserController::class, 'exploreUsers'])->name('ExploreUsers');
+
+    Route::get('users/{id}/profile', [UserController::class, 'profile'])->name('profile');
+
+    Route::get('dashboard', [UserController::class, 'dashboard'])->name('Dashboard');
 
     Route::get('/settings', function () {
         return Inertia::render('Chat/Settings');
@@ -75,7 +79,9 @@ Route::middleware([
     Route::patch('chats/{chat}/mute', [ChatController::class, 'muteChat']);
     Route::patch('chats/{chat}/unmute', [ChatController::class, 'unmuteChat']);
 
-    
+    Route::patch('{user:username}/start-chating', [ChatController::class, 'createChat']);
+
+
     Route::get('/chats/{chat}/messages', [MessageController::class, 'messages'])->name('chat.messages');
     Route::post('chats/{chat}/send-message', [MessageController::class, 'sendMessage'])->name('sendMessage');
     Route::patch('chats/{chat}/seen-messages', [MessageController::class, 'seedMessage']);
@@ -84,11 +90,12 @@ Route::middleware([
     // Route::post('/chat/chat/{id}/last-message', [MessageController::class, 'setChatlastMessage'])->name('chat.last_messages');
 
     Route::get('/social-media', [UserController::class, 'getSocialMedia'])->name('user.socialMedia');
-    
+
     // Route::post('{user}/online', [ChatController::class, 'onlineContact'])->name('onlineContact');
     // Route::post('{user}/offline', [ChatController::class, 'offlineContact'])->name('offlineContact');
-    
-    Route::get('/follow/{username}', [UserController::class, 'follow'])->name('follow');
+
+    Route::get('/follow/{user}', [UserController::class, 'follow'])->name('follow');
+    Route::delete('/unfollow/{user}', [UserController::class, 'unFollow'])->name('unFollow');
     Route::get('following/{username}/get-details', [UserController::class, 'getUser'])->name('getUser');
     // Route::get('/search-followings', [ChatController::class, 'searchFollowings'])->name('searchFollowings');
     // Route::get('/search-followers', [ChatController::class, 'searchFollowers'])->name('searchFollowers');

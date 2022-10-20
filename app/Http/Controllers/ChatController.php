@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Chat;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -62,6 +63,22 @@ class ChatController extends Controller
     public function deleteChat(Chat $chat, $id)
     {
         $chat->delete();
+    }
+
+    public function createChat(User $user)
+    {
+        $auth_user = User::find(Auth::id());
+
+        $auth_user->followings()->attach($user);
+
+        // $user->followings()->attach($auth_user);
+
+        $chat = Chat::create([
+            'name' => $auth_user->username . "" . $user->username
+        ]);
+
+        $chat->users()->attach($auth_user->id);
+        $chat->users()->attach($user->id);
     }
 
     // public function setChatlastMessage(Request $request, $id)
