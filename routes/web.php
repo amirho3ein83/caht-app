@@ -79,7 +79,7 @@ Route::middleware([
     Route::patch('chats/{chat}/mute', [ChatController::class, 'muteChat']);
     Route::patch('chats/{chat}/unmute', [ChatController::class, 'unmuteChat']);
 
-    Route::patch('{user:username}/start-chating', [ChatController::class, 'createChat']);
+    Route::patch('{id}/start-chating', [ChatController::class, 'startChat'])->name('startChat');
 
 
     Route::get('/chats/{chat}/messages', [MessageController::class, 'messages'])->name('chat.messages');

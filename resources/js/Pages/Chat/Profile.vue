@@ -2,6 +2,9 @@
 import { onMounted, ref } from "vue";
 import FollowOnSocial from "@/Components/FollowOnSocial.vue";
 import { useFFStore } from "@/stores/FF";
+import { useChatsStore } from "@/stores/Chats.js";
+
+const storeChats = useChatsStore();
 
 let props = defineProps({
     person: Object,
@@ -98,7 +101,7 @@ export default {
                             </button>
 
                             <button
-                                @click="storeChats.createChat(person.username)"
+                                @click="storeChats.startChat(person.id)"
                                 class="text-sm w-1/2 p-2 font-normal px-1 hover:bg-amber-600 bg-amber-700 rounded text-gray-100 tracking-wide cursor-pointer hover:text-gray-50 transition hover:scale-105"
                             >
                                 Message

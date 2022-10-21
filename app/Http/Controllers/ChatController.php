@@ -65,20 +65,31 @@ class ChatController extends Controller
         $chat->delete();
     }
 
-    public function createChat(User $user)
+    public function startChat($id)
     {
-        $auth_user = User::find(Auth::id());
-
-        $auth_user->followings()->attach($user);
-
-        // $user->followings()->attach($auth_user);
-
-        $chat = Chat::create([
-            'name' => $auth_user->username . "" . $user->username
-        ]);
-
-        $chat->users()->attach($auth_user->id);
-        $chat->users()->attach($user->id);
+        {
+            $blocked_accounts = Auth::user()->blockedAccounts->pluck('id')->toArray();
+    
+            $res = Auth::user()->chats->load("users")->filter(function ($chat) use ($blocked_accounts) {
+    
+    
+                // find blocked users (chats)
+                $chat->users->map(function ($user, $index) use ($blocked_accounts, $chat) {
+    
+                    if (in_array($user->id, $blocked_accounts)) {
+                        $chat->is_blocked = true;
+                    }
+                    if ($user->id == Auth::id()) {
+                        unset($chat->users[$index]);
+                    }
+                });
+    
+                $chat->addressee = $chat->users['1'];
+                return $chat;
+            });
+    
+            return $res;
+        }
     }
 
     // public function setChatlastMessage(Request $request, $id)

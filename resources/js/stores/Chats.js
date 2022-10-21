@@ -68,17 +68,9 @@ export const useChatsStore = defineStore("chats", {
             this.currentChat.unread_messages_count = 0;
             Inertia.patch("/chats/" + chat.id + "/seen-messages");
         },
-        createChat(username) {
-            // loop in chats audience
-// console.log(username);
-// console.log(toRaw(this.chats));
-//             this.chats.forEach(chat => {
-//                 console.log(toRaw(chat) );
-//                 if (chat.addressee.username == username) {
-//                     this.currentChat = chat
-//                 }
-//             });
-            // Inertia.patch(username+"/start-chating");
+        startChat(id) {
+
+            Inertia.patch(route('startChat',{id:id}));
         },
 
         connect() {
