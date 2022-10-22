@@ -25,28 +25,28 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([
-            AdminSeeder::class,
-            ChatSeeder::class,
-            ChatWithAdminSeeder::class,
-            NotificationSeeder::class,
-            BlockUserSeeder::class,
-            MuteChatSeeder::class,
-        ]);
+        // $this->call([
+        //     AdminSeeder::class,
+        //     ChatSeeder::class,
+        //     ChatWithAdminSeeder::class,
+        //     NotificationSeeder::class,
+        //     BlockUserSeeder::class,
+        //     MuteChatSeeder::class,
+        // ]);
 
 
         User::factory(15)->create();
 
 
-        // $admin = User::first();
+        $admin = User::first();
 
-        // $user = User::firstWhere('email', 'lara@laraa.com');
+        $user = User::firstWhere('username', 'vsdfv');
 
-        // $chat = Chat::create([
-        //     'name' => $admin->username . "" . $user->username
-        // ]);
+        $chat = Chat::create([
+            'name' => $admin->username . "" . $user->username
+        ]);
 
-        // $chat->users()->attach($admin->id);
-        // $chat->users()->attach($user->id);
+        $chat->users()->attach($admin->id);
+        $chat->users()->attach($user->id);
     }
 }

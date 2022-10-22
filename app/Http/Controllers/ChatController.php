@@ -7,6 +7,7 @@ use App\Models\Chat;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Exists;
 
 class ChatController extends Controller
 {
@@ -52,7 +53,13 @@ class ChatController extends Controller
                 $chat->is_muted = true;
             }
 
-            $chat->addressee = $chat->users['1'];
+            if (is_a($chat->users, 'Illuminate\Database\Eloquent\Collection')) {
+                if (isset($chat->users[0])) {
+                    $chat->addressee = $chat->users[0];
+                } else {
+                    $chat->addressee = $chat->users['1'];
+                }
+            }
             return $chat;
         });
 
@@ -66,16 +73,15 @@ class ChatController extends Controller
     }
 
     public function startChat($id)
-    {
-        {
+    { {
             $blocked_accounts = Auth::user()->blockedAccounts->pluck('id')->toArray();
-    
+
             $res = Auth::user()->chats->load("users")->filter(function ($chat) use ($blocked_accounts) {
-    
-    
+
+
                 // find blocked users (chats)
                 $chat->users->map(function ($user, $index) use ($blocked_accounts, $chat) {
-    
+
                     if (in_array($user->id, $blocked_accounts)) {
                         $chat->is_blocked = true;
                     }
@@ -83,11 +89,11 @@ class ChatController extends Controller
                         unset($chat->users[$index]);
                     }
                 });
-    
+
                 $chat->addressee = $chat->users['1'];
                 return $chat;
             });
-    
+
             return $res;
         }
     }
